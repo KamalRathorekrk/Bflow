@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>4280524_outlined_tick_done_icon (1)</title>
+    <desc>Created with Sketch.</desc>
+    <g id="final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Today's_Route" transform="translate(-324.000000, -220.000000)" fill="#55CECA" fill-rule="nonzero">
+            <g id="4280524_outlined_tick_done_icon-(1)" transform="translate(324.000000, 220.000000)">
+                <path d="M14,0 C6.2680135,-4.4408921e-16 8.8817842e-16,6.2680135 0,14 C-8.8817842e-16,21.7319865 6.2680135,28 14,28 C21.7319865,28 28,21.7319865 28,14 C28,10.2869691 26.5250042,6.72601436 23.8994949,4.10050506 C21.2739856,1.47499577 17.7130309,4.4408921e-16 14,0 Z M14,26 C7.372583,26 2,20.627417 2,14 C2,7.372583 7.372583,2 14,2 C20.627417,2 26,7.372583 26,14 C26,17.1825979 24.7357179,20.2348448 22.4852814,22.4852814 C20.2348448,24.7357179 17.1825979,26 14,26 Z" id="Shape"></path>
+                <path d="M11.38,17.59 L8.09,14.29 L6.67,15.71 L10,19 C10.3774377,19.374373 10.888394,19.5830735 11.42,19.58 C11.9342584,19.570026 12.4249046,19.3623072 12.79,19 L21.33,10.46 L19.91,9.05 L11.38,17.59 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>

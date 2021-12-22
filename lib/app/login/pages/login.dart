@@ -22,14 +22,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   LoginBlock? loginblock;
-
-  // @override
-
-  void initState() {
-    super.initState();
-    loginblock = LoginBlock();
-  }
-
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
   final corporateIdController = TextEditingController();
@@ -37,6 +29,14 @@ class _LoginPageState extends State<LoginPage> {
   final passwordFocusNode = FocusNode();
   final corporateIdFocusNode = FocusNode();
   double? height;
+  // @override
+
+  void initState() {
+    super.initState();
+    loginblock = LoginBlock();
+  }
+
+
 
   @override
   void dispose() {
@@ -52,36 +52,62 @@ class _LoginPageState extends State<LoginPage> {
     return Stack(
       children: [
         Scaffold(
-          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           backgroundColor: AppColor.backgroundColor,
           body: Container(
             padding: EdgeInsets.only(
                 left: Dimens.twenty,
                 right: Dimens.twenty,
                 top: height! * 0.08,
-                bottom: height! * 0.03),
+               // bottom: height! * 0.03
+            ),
             color: AppColor.backgroundColor,
             child: Stack(
               children: [
-                Column(
-                  children: [
-                    Image.asset(AppImages.bflow_white),
-                    SizedBox(
-                      height: Dimens.seventy,
-                    ),
-                    loginInContainer(context),
-                  ],
+                SingleChildScrollView(
+                  controller: ScrollController(),
+                  child: Column(
+                    children: [
+                      Image.asset(AppImages.bflow_white),
+                      SizedBox(
+                        height: Dimens.seventy,
+                      ),
+                      loginInContainer(context),
+                      SizedBox(
+                        height: height!*0.05,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => ForgetPassword()));
+                        },
+                        child: Padding(
+                          padding:  EdgeInsets.only( bottom: height! * 0.03 ),
+                          child: CommonTextUnderLineWidget(
+                            textDecoration: TextDecoration.underline,
+                            text: AppStrings.forget_password,
+                            fontSize: Dimens.fifteen,
+                            fontWeight: FontWeight.w500,
+                            fontColor: AppColor.whiteColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Positioned(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => ForgetPassword()));
-                      },
+               /* Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => ForgetPassword()));
+                    },
+                    child: Padding(
+                      padding:  EdgeInsets.only( bottom: height! * 0.03 ),
                       child: CommonTextUnderLineWidget(
                         textDecoration: TextDecoration.underline,
                         text: AppStrings.forget_password,
@@ -91,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                )
+                )*/
               ],
             ),
           ),
@@ -125,6 +151,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
           SizedBox(height: Dimens.twentyFive),
           CommonTextField(
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.text,
             textEditingController: userNameController,
             hintText: AppStrings.username,
             labelText: AppStrings.username,
@@ -135,6 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                 FocusScope.of(context).requestFocus(passwordFocusNode),
           ),
           CommonPasswordField(
+            textInputAction: TextInputAction.next,
             textEditingController: passwordController,
             hintText: AppStrings.password,
             labelText: AppStrings.password,
@@ -145,6 +174,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           SizedBox(height: Dimens.ten),
           CommonTextField(
+            textInputAction: TextInputAction.done,
             textEditingController: corporateIdController,
             hintText: AppStrings.corporate_id,
             labelText: AppStrings.corporate_id,

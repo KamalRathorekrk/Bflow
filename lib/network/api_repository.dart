@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bflow/app/common/common_response.dart';
 import 'package:bflow/app/login/model/login_model.dart';
 import 'package:bflow/app/login/model/validate_response.dart';
 import 'package:bflow/app/pre_delivery/model/claim_id_response.dart';
@@ -27,34 +28,34 @@ class ApiRepository {
 
   /*................... login api ..........*/
 
-  Future<LoginResponse> loginApi(
+  Future<CommonResponse> loginApi(
       {required BuildContext context,
-      required String userName,
-      required String password,
-      required String corporateId}) async {
+        required String userName,
+        required String password,
+        required String corporateId}) async {
     print(
         'usernameEmail ${userName}  password ${password}  corporateId ${corporateId}');
     var response =
-        await _dio!.post(ApiEndPoints.base_url + ApiEndPoints.login, data: {
+    await _dio!.post(ApiEndPoints.base_url + ApiEndPoints.login, data: {
       'userName': userName,
       'password': password,
       'corporateId': corporateId,
     });
     print("LoginResponse" + response.toString());
     Map<String, dynamic> data = jsonDecode(response.toString());
-    return LoginResponse.fromJson(data);
+    return CommonResponse.fromJson(data);
   }
 
   Future<ValidateResponse> validateApi(
       {required BuildContext context,
-      required String userName,
-      required String password,
-      required String corporateId,
-      required String authCode}) async {
+        required String userName,
+        required String password,
+        required String corporateId,
+        required String authCode}) async {
     print(
         'usernameEmail ${userName}  password ${password}  corporateId ${corporateId} authCOde $authCode');
     var response =
-        await _dio!.post(ApiEndPoints.base_url + ApiEndPoints.validate, data: {
+    await _dio!.post(ApiEndPoints.base_url + ApiEndPoints.validate, data: {
       'userName': userName,
       'password': password,
       'corporateId': corporateId,
@@ -70,9 +71,9 @@ class ApiRepository {
         options: Options(
           headers: {
             "Authorization":
-                AppStrings.token != null || AppStrings.token.isNotEmpty
-                    ? "Bearer " + AppStrings.token.toString()
-                    : ""
+            AppStrings.token != null || AppStrings.token.isNotEmpty
+                ? "Bearer " + AppStrings.token.toString()
+                : ""
           },
         ));
     print("ClaimsResponse" + response.toString());
@@ -81,16 +82,15 @@ class ApiRepository {
   }
 
   Future<ClaimIdResponse> claimIdDetailsApi({required String claimId}) async {
-    var response = await _dio!
-        .post(ApiEndPoints.base_url + ApiEndPoints.claims + "/$claimId",
-            options: Options(
-              headers: {
-                "Authorization":
-                    AppStrings.token != null || AppStrings.token.isNotEmpty
-                        ? "Bearer " + AppStrings.token.toString()
-                        : ""
-              },
-            ));
+    var response = await _dio!.post(ApiEndPoints.base_url + ApiEndPoints.claims + "/$claimId",
+        options: Options(
+          headers: {
+            "Authorization":
+            AppStrings.token != null || AppStrings.token.isNotEmpty
+                ? "Bearer " + AppStrings.token.toString()
+                : ""
+          },
+        ));
     print("ClaimsResponse" + response.toString());
     Map<String, dynamic> data = jsonDecode(response.toString());
     return ClaimIdResponse.fromJson(data);

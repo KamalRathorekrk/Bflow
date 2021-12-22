@@ -41,12 +41,14 @@ class LoginBlock {
       loginModel = LoginModel(
           userName: userName, corporateId: corporateId, password: password);
       print("onResponse $onResponse");
-      if (onResponse.authCode != null) {
+      if (onResponse.responseMessage != null) {
+        SnackBarUtils.showSuccessSnackBar(
+            onResponse.responseMessage??"", context);
         Navigator.push(
             context,
             CupertinoPageRoute(
                 builder: (context) => Verification(
-                      authCode: onResponse.authCode.toString(),
+                      //authCode: onResponse.authCode.toString(),
                       loginModel: loginModel,
                     )));
       } else {

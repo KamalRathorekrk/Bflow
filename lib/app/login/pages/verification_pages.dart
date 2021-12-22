@@ -17,9 +17,9 @@ import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class Verification extends StatefulWidget {
   LoginModel loginModel;
-  String authCode;
 
-  Verification({required this.loginModel, required this.authCode});
+
+  Verification({required this.loginModel});
 
   @override
   _VerificationState createState() => _VerificationState();
@@ -36,7 +36,6 @@ class _VerificationState extends State<Verification> {
     print(widget.loginModel.userName.toString());
     print(widget.loginModel.password.toString());
     print(widget.loginModel.corporateId.toString());
-    print(widget.authCode.toString());
 
     super.initState();
   }
@@ -62,8 +61,8 @@ class _VerificationState extends State<Verification> {
 
   @override
   Widget build(BuildContext context) {
-    String authcode = widget.authCode.toString();
-    authCodeController.text = authcode;
+    //String authcode = widget.authCode.toString();
+   // authCodeController.text = authcode;
     return Stack(
       children: [
         Scaffold(
@@ -153,13 +152,13 @@ class _VerificationState extends State<Verification> {
                     onDone: (text) {
                       print("DONE $text");
                     },
-                    pinBoxWidth: MediaQuery.of(context).size.width * 0.089,
+                    pinBoxWidth: MediaQuery.of(context).size.width * 0.085,
                     pinBoxHeight: 50,
                     hasUnderline: false,
                     wrapAlignment: WrapAlignment.spaceAround,
                     pinBoxDecoration: pinBoxDecoration,
                     pinTextStyle:
-                        TextStyle(fontSize: 20.0, color: AppColor.whiteColor),
+                        TextStyle(fontSize: Dimens.sixteen, color: AppColor.whiteColor),
                     pinTextAnimatedSwitcherTransition:
                         ProvidedPinBoxTextAnimation.scalingTransition,
                     pinTextAnimatedSwitcherDuration: Duration(milliseconds: 200),
@@ -216,8 +215,7 @@ class _VerificationState extends State<Verification> {
 
   bool formValidation(BuildContext context) {
     if (Utils.checkNullOrEmpty(authCodeController.text)) {
-      SnackBarUtils.showErrorSnackBar(
-          AppStrings.please_enter_valid_OTP, context);
+      SnackBarUtils.showErrorSnackBar(AppStrings.please_enter_valid_OTP, context);
       return false;
     } else if (authCodeController.text.length != 8) {
       SnackBarUtils.showErrorSnackBar(

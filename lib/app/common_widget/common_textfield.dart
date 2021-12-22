@@ -21,8 +21,10 @@ class CommonTextField extends StatefulWidget {
   final ValueChanged<String>? onChange;
   final ValueChanged<String>? onSubmit;
   final TextInputType? keyboardType;
+  TextInputAction? textInputAction;
 
-  CommonTextField(
+
+      CommonTextField(
       {required this.textEditingController,
       this.prefixIcon = "",
       this.color,
@@ -46,7 +48,8 @@ class CommonTextField extends StatefulWidget {
       this.contentpadding =
           const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
       this.spacebetween = 5.0,
-      this.onChange});
+      this.onChange,
+      this.textInputAction});
 
   InputBorder aa = new OutlineInputBorder(
       borderSide: BorderSide(color: Colors.grey),
@@ -61,6 +64,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
   Widget build(BuildContext context) {
     return Column(children: [
       TextFormField(
+        textInputAction:widget.textInputAction??TextInputAction.done,
         keyboardType: widget.keyboardType,
         focusNode: widget.focusNode,
         controller: widget.textEditingController,

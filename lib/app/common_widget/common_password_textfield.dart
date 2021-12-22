@@ -25,7 +25,7 @@ class CommonPasswordField extends StatefulWidget {
   final Color unselectedColor;
   final ValueChanged<String>? onChange;
   final ValueChanged<String>? onSubmit;
-
+  TextInputAction? textInputAction;
 
   CommonPasswordField(
       {required this.textEditingController,
@@ -80,7 +80,8 @@ class CommonPasswordField extends StatefulWidget {
           ]),
       this.fillColor = Colors.red,
       this.unselectedColor = const Color(0xFFD6D6D6),
-      this.onChange});
+      this.onChange,
+      this.textInputAction});
 
   InputBorder aa = new OutlineInputBorder(
       borderSide: BorderSide(color: Colors.grey),
@@ -104,6 +105,7 @@ class _CommonPasswordFieldState extends State<CommonPasswordField> {
     }
     return Column(children: [
       TextFormField(
+        textInputAction: widget.textInputAction??TextInputAction.done,
           focusNode: widget.focusNode,
           controller: widget.textEditingController,
           obscureText: passwordfield,

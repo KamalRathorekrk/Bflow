@@ -44,3 +44,10 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+/ios/Podfile
+/ios/Pods/Manifest
+/ios/Pods/Pods.xcodeproj
+/ios/Pods/
+ios/.lock
+/ios/.symlinks/

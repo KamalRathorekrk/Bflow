@@ -45,72 +45,64 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: AppColor.offWhiteColor));
     return Stack(
       children: [
-                Scaffold(
-                  // backgroundColor: AppColor.offWhiteColor,
-                  appBar: CommonAppBar(
-                    text: "Claim:#5655",
-                  ),
-                  body: SingleChildScrollView(
-                    controller: ScrollController(),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.9,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Dimens.twenty, vertical: Dimens.ten),
-                      color: AppColor.offWhiteColor,
+        Scaffold(
+          // backgroundColor: AppColor.offWhiteColor,
+          appBar: CommonAppBar(
+            text: "Claim:#5655",
+          ),
+          body: SingleChildScrollView(
+            controller: ScrollController(),
+            child: Container(
+              // height: MediaQuery.of(context).size.height * 0.9,
+              padding: EdgeInsets.symmetric(
+                  horizontal: Dimens.twenty, vertical: Dimens.ten),
+              color: AppColor.offWhiteColor,
 
-                      // width: double.infinity,
-                      child: Stack(
-                        children: [
-                          CenterContainer(zipCode:"" ,
-                            phone:"",
-                            deliveryAddress: "",
-                            description:"",
-                            patient_name:"",),
-                          Positioned(
-                            right: 0,
-                            left: 0,
-                            bottom: Dimens.thirty,
-                            child: Column(
-                              children: [
-                                CommonActionButton(
-                                  fontWeight: FontWeight.w600,
-                                  title: AppStrings.cancelled,
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                            builder: (context) =>
-                                                ReasonforCancellation()));
-                                  },
-                                  borderRadius: Dimens.seven,
-                                  backgroundColor: AppColor.redColor,
-                                  width: double.maxFinite,
-                                ),
-                                SizedBox(
-                                  height: Dimens.fifteen,
-                                ),
-                                CommonActionButton(
-                                  fontWeight: FontWeight.w600,
-                                  title: AppStrings.continue_,
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                            builder: (context) =>
-                                                ClaimAssementStepOne()));
-                                  },
-                                  borderRadius: Dimens.seven,
-                                  backgroundColor: AppColor.primaryColor,
-                                  width: double.maxFinite,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+              // width: double.infinity,
+              child: Column(
+                children: [
+                  CenterContainer(zipCode:"" ,
+                    phone:"",
+                    deliveryAddress: "",
+                    description:"",
+                    patient_name:"",),
+                  SizedBox(height: Dimens.thirty,),
+                  CommonActionButton(
+                    fontWeight: FontWeight.w600,
+                    title: AppStrings.cancelled,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) =>
+                                  ReasonforCancellation()));
+                    },
+                    borderRadius: Dimens.seven,
+                    backgroundColor: AppColor.redColor,
+                    width: double.maxFinite,
                   ),
-                ),
+                  SizedBox(
+                    height: Dimens.fifteen,
+                  ),
+                  CommonActionButton(
+                    fontWeight: FontWeight.w600,
+                    title: AppStrings.continue_,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) =>
+                                  ClaimAssementStepOne()));
+                    },
+                    borderRadius: Dimens.seven,
+                    backgroundColor: AppColor.primaryColor,
+                    width: double.maxFinite,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
         StreamBuilder<bool>(
             stream: todaysRouteBloc!.progressStream,
             builder: (context, snapshot) {
@@ -124,7 +116,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
 
   Widget CenterContainer({description,patient_name,deliveryAddress,zipCode,phone}) {
     return Container(
-     // margin: EdgeInsets.only(bottom: Dimens.twenty),
+      // margin: EdgeInsets.only(bottom: Dimens.hundred),
       padding: EdgeInsets.symmetric(horizontal: Dimens.fifteen,vertical: Dimens.ten),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Dimens.ten),
@@ -134,7 +126,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
         color: AppColor.whiteColor,
       ),
       child: Column(
-       mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
             height: Dimens.fifteen,

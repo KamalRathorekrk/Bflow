@@ -182,7 +182,7 @@ class _PreDeliveryState extends State<PreDelivery> {
             child: CommonItemWidget(
               index: position + 1,
               id: obj[position].claimId.toString(),
-              location: obj[position].deliveryAddress.toString(),
+              location: "${obj[position].deliveryAddress!.address},${obj[position].deliveryAddress!.city},${obj[position].deliveryAddress!.state},${obj[position].deliveryAddress!.zipCode}",
               name: obj[position].patientFullName.toString(),
             ),
           );

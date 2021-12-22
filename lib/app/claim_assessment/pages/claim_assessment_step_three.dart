@@ -118,6 +118,7 @@ class _ClaimAssementStepThreeState extends State<ClaimAssementStepThree> {
               title: AppStrings.next,
               onPressed: () {
                 // _handleSaveButtonPressed();
+
                 Navigator.push(
                     context,
                     CupertinoPageRoute(

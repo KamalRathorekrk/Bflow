@@ -70,7 +70,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               CommonActionButton(
                 title: AppStrings.submit,
                 onPressed: () {
-                  Navigator.pop(context);
+                  if(validate(context)){
+                    Navigator.pop(context);
+                  }
                 },
                 borderRadius: Dimens.seven,
                 backgroundColor: AppColor.primaryColor,
@@ -96,7 +98,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       SnackBarUtils.showErrorSnackBar('Please enter confirm password', context);
       FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
       return false;
-    }else if(newPasswordController.text==confirmPasswordController.text){
+    }else if(newPasswordController.text!=confirmPasswordController.text){
       SnackBarUtils.showErrorSnackBar('Confirm password does not match', context);
       return false;
     }

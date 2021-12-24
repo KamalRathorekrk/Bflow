@@ -16,20 +16,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ClaimAssementStepOne extends StatefulWidget {
+  PatientDetailsModel? patientDetailsModel;
+
+  ClaimAssementStepOne({this.patientDetailsModel});
+
   @override
   _ClaimAssementStepOneState createState() => _ClaimAssementStepOneState();
 }
 
 class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
   String icon = AppImages.check;
-  PatientDetailsModel? patientDetailsModel;
 
   @override
   void initState() {
-    patientDetailsModel = PatientDetailsModel(
-        claimId: "5655",
-        patientAddress: "1700 Cheddar Ln, Tullahoma, TN",
-        patientName: "Mary Beth");
     super.initState();
   }
 
@@ -44,7 +43,7 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
           child: Container(
             child: Column(children: [
               CommonHeader(
-                patientDetailsModel: patientDetailsModel,
+                patientDetailsModel: widget.patientDetailsModel,
                 step: 1,
               ),
               Container(
@@ -114,7 +113,7 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
                               context,
                               CupertinoPageRoute(
                                   builder: (context) => ClaimAssementStepTwo(
-                                      patientDetailsModel)));
+                                      widget.patientDetailsModel)));
                         },
                         borderRadius: Dimens.seven,
                         backgroundColor: AppColor.primaryColor,

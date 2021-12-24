@@ -66,11 +66,38 @@ class SharedPreferenceData {
 
     return prefs.setString(corporateId, value);
   }
+  static Future<String> getUserId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString(userId) ?? '';
+  }
+
+  static Future<bool> setUserId(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.setString(userId, value);
+  }
+  static Future<String> getEmailAddress() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString(emailAddress) ?? '';
+  }
+
+  static Future<bool> setEmailAddress(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.setString(emailAddress, value);
+  }
 
   static Future<bool?> clearAllPreferncesData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove(login);
     preferences.remove(token);
+    preferences.remove(userName);
+    preferences.remove(fullName);
+    preferences.remove(corporateId);
+    preferences.remove(userId);
+    preferences.remove(emailAddress);
     preferences.clear();
     preferences.commit();
   }

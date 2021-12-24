@@ -5,7 +5,7 @@ import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/app/common_widget/common_textfield.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/common_widget/snackbar/utils.dart';
-import 'package:bflow/app/forget_password/pages/forget_password.dart';
+import 'package:bflow/app/login/pages/forget_password.dart';
 import 'package:bflow/app/login/bloc/login_bloc.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 left: Dimens.twenty,
                 right: Dimens.twenty,
                 top: height! * 0.08,
-               // bottom: height! * 0.03
+
             ),
             color: AppColor.backgroundColor,
             child: Stack(
@@ -68,6 +68,9 @@ class _LoginPageState extends State<LoginPage> {
                   controller: ScrollController(),
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: Dimens.twenty,
+                      ),
                       Image.asset(AppImages.bflow_white),
                       SizedBox(
                         height: Dimens.seventy,
@@ -97,27 +100,6 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-               /* Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => ForgetPassword()));
-                    },
-                    child: Padding(
-                      padding:  EdgeInsets.only( bottom: height! * 0.03 ),
-                      child: CommonTextUnderLineWidget(
-                        textDecoration: TextDecoration.underline,
-                        text: AppStrings.forget_password,
-                        fontSize: Dimens.fifteen,
-                        fontWeight: FontWeight.w500,
-                        fontColor: AppColor.whiteColor,
-                      ),
-                    ),
-                  ),
-                )*/
               ],
             ),
           ),
@@ -175,6 +157,7 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(height: Dimens.ten),
           CommonTextField(
             textInputAction: TextInputAction.done,
+            keyboardType: TextInputType.text,
             textEditingController: corporateIdController,
             hintText: AppStrings.corporate_id,
             labelText: AppStrings.corporate_id,

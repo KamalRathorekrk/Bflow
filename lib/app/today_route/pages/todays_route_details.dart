@@ -1,13 +1,11 @@
+import 'package:bflow/app/claim_assessment/models/patient_detail_model.dart';
 import 'package:bflow/app/claim_assessment/pages/claim_assessment_step_one.dart';
-import 'package:bflow/app/claim_assessment/pages/details_page_cancelation.dart';
 import 'package:bflow/app/claim_assessment/pages/reason_for_cancellation.dart';
+import 'package:bflow/app/common/claims_details.dart';
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_app_bar.dart';
-import 'package:bflow/app/common_widget/common_password_textfield.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
-import 'package:bflow/app/common_widget/common_textfield.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
-import 'package:bflow/app/pre_delivery/model/claim_id_response.dart';
 import 'package:bflow/app/today_route/bloc/todays_route_bloc.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
@@ -30,79 +28,108 @@ class TodaysRouteDetails extends StatefulWidget {
 
 class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
   TodaysRouteBloc? todaysRouteBloc;
+  PatientDetailsModel? patientDetailsModel;
+
   @override
   void initState() {
-    todaysRouteBloc=TodaysRouteBloc();
+    todaysRouteBloc = TodaysRouteBloc();
     callApi();
     super.initState();
   }
-  callApi()async {
-    // todaysRouteBloc!.getClaimDetails(
-    //     context: context, claimID: widget.claimId);
+
+  callApi() async {
+    todaysRouteBloc!.getClaimDetails(context: context, claimID: widget.claimId);
   }
+
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: AppColor.offWhiteColor));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: AppColor.offWhiteColor));
     return Stack(
       children: [
-        Scaffold(
-          // backgroundColor: AppColor.offWhiteColor,
-          appBar: CommonAppBar(
-            text: "Claim:#5655",
-          ),
-          body: SingleChildScrollView(
-            controller: ScrollController(),
-            child: Container(
-              // height: MediaQuery.of(context).size.height * 0.9,
-              padding: EdgeInsets.symmetric(
-                  horizontal: Dimens.twenty, vertical: Dimens.ten),
-              color: AppColor.offWhiteColor,
+        StreamBuilder<ClaimDetailData>(
+            stream: todaysRouteBloc!.claimDetailStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data != null) {
+                patientDetailsModel = PatientDetailsModel(
+                    claimId: snapshot.data!.claimId.toString(),
+                    patientName: snapshot.data!.patientFullName.toString(),
+                    patientAddress:
+                        "${snapshot.data!.deliveryAddress!.address.toString()}, ${snapshot.data!.deliveryAddress!.city.toString()}, ${snapshot.data!.deliveryAddress!.state.toString()}");
+                return Scaffold(
+                  // backgroundColor: AppColor.offWhiteColor,
+                  appBar: CommonAppBar(
+                    text: "Claim:#${snapshot.data!.claimId}",
+                  ),
+                  body: SingleChildScrollView(
+                    controller: ScrollController(),
+                    child: Container(
+                      // height: MediaQuery.of(context).size.height * 0.9,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: Dimens.twenty, vertical: Dimens.ten),
+                      color: AppColor.offWhiteColor,
 
-              // width: double.infinity,
-              child: Column(
-                children: [
-                  CenterContainer(zipCode:"" ,
-                    phone:"",
-                    deliveryAddress: "",
-                    description:"",
-                    patient_name:"",),
-                  SizedBox(height: Dimens.thirty,),
-                  CommonActionButton(
-                    fontWeight: FontWeight.w600,
-                    title: AppStrings.cancelled,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) =>
-                                  ReasonforCancellation()));
-                    },
-                    borderRadius: Dimens.seven,
-                    backgroundColor: AppColor.redColor,
-                    width: double.maxFinite,
+                      // width: double.infinity,
+                      child: Column(
+                        children: [
+                          centerContainer(
+                            zipCode: snapshot.data!.deliveryAddress!.zipCode
+                                .toString(),
+                            phone: snapshot.data!.phoneNumber.toString(),
+                            deliveryAddress:
+                                "${snapshot.data!.deliveryAddress!.address.toString()}, ${snapshot.data!.deliveryAddress!.city.toString()}, ${snapshot.data!.deliveryAddress!.state.toString()}",
+                            description: snapshot.data!.items!.name.toString(),
+                            patientName:
+                                snapshot.data!.patientFullName.toString(),
+                          ),
+                          SizedBox(
+                            height: Dimens.thirty,
+                          ),
+                          CommonActionButton(
+                            fontWeight: FontWeight.w600,
+                            title: AppStrings.cancelled,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          ReasonforCancellation()));
+                            },
+                            borderRadius: Dimens.seven,
+                            backgroundColor: AppColor.redColor,
+                            width: double.maxFinite,
+                          ),
+                          SizedBox(
+                            height: Dimens.fifteen,
+                          ),
+                          CommonActionButton(
+                            fontWeight: FontWeight.w600,
+                            title: AppStrings.continue_,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          ClaimAssementStepOne(
+                                            patientDetailsModel:
+                                                patientDetailsModel,
+                                          )));
+                            },
+                            borderRadius: Dimens.seven,
+                            backgroundColor: AppColor.primaryColor,
+                            width: double.maxFinite,
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                  SizedBox(
-                    height: Dimens.fifteen,
-                  ),
-                  CommonActionButton(
-                    fontWeight: FontWeight.w600,
-                    title: AppStrings.continue_,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) =>
-                                  ClaimAssementStepOne()));
-                    },
-                    borderRadius: Dimens.seven,
-                    backgroundColor: AppColor.primaryColor,
-                    width: double.maxFinite,
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
+                );
+              } else {
+                return Container(
+                  child: Center(child: SvgPicture.asset(AppImages.list)),
+                );
+              }
+            }),
         StreamBuilder<bool>(
             stream: todaysRouteBloc!.progressStream,
             builder: (context, snapshot) {
@@ -114,10 +141,12 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
     );
   }
 
-  Widget CenterContainer({description,patient_name,deliveryAddress,zipCode,phone}) {
+  Widget centerContainer(
+      {description, patientName, deliveryAddress, zipCode, phone}) {
     return Container(
       // margin: EdgeInsets.only(bottom: Dimens.hundred),
-      padding: EdgeInsets.symmetric(horizontal: Dimens.fifteen,vertical: Dimens.ten),
+      padding: EdgeInsets.symmetric(
+          horizontal: Dimens.fifteen, vertical: Dimens.ten),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Dimens.ten),
         boxShadow: [
@@ -134,7 +163,8 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           RowElement(
               title: AppStrings.description,
               value: description,
-              show: true),
+              show: true,
+              address: deliveryAddress),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -146,7 +176,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           SizedBox(
             height: Dimens.twenty,
           ),
-          RowElement(title: AppStrings.patient_name, value: patient_name),
+          RowElement(title: AppStrings.patient_name, value: patientName),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -190,7 +220,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
     );
   }
 
-  Widget RowElement({title, value, show, icon}) {
+  Widget RowElement({title, value, show, icon, address}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -227,8 +257,9 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
               child: InkWell(
                 onTap: () async {
                   print("----");
-                  await MapsLauncher.launchCoordinates(
-                      37.4220041, -122.0862462, 'Google Headquarters are here');
+                  // await MapsLauncher.launchCoordinates(
+                  //     37.4220041, -122.0862462, 'Google Headquarters are here');
+                  await MapsLauncher.launchQuery(address);
                 },
                 child: Text(AppStrings.view_on_map,
                     style: TextStyle(

@@ -105,6 +105,7 @@ class _CommonPasswordFieldState extends State<CommonPasswordField> {
     }
     return Column(children: [
       TextFormField(
+          cursorColor: AppColor.primaryColor,
         textInputAction: widget.textInputAction??TextInputAction.done,
           focusNode: widget.focusNode,
           controller: widget.textEditingController,
@@ -112,7 +113,7 @@ class _CommonPasswordFieldState extends State<CommonPasswordField> {
           decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimens.twelve),
-              borderSide: BorderSide(color: AppColor.primaryColor, width: 1.0),
+              borderSide: BorderSide(color: AppColor.hintColor, width: 1.0),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimens.twelve),
@@ -126,9 +127,7 @@ class _CommonPasswordFieldState extends State<CommonPasswordField> {
                 fontFamily: AppStrings.fontFamily,
                 fontWeight: FontWeight.w400,
                 fontSize: Dimens.sixteen,
-                color: widget.focusNode.hasFocus
-                    ? AppColor.primaryColor
-                    : AppColor.hintColor),
+                color:AppColor.hintColor),
             prefixIcon: Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(

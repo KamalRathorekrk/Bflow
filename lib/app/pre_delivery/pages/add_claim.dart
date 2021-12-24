@@ -5,6 +5,7 @@ import 'package:bflow/app/common_widget/common_textfiled_multiline.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/pre_delivery/bloc/pre_delivery_block.dart';
 import 'package:bflow/app/pre_delivery/model/claim_id_response.dart';
+import 'package:bflow/app/common/claims_details.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
 import 'package:bflow/utils/AppStrings.dart';
@@ -55,7 +56,7 @@ class _AddClaimState extends State<AddClaim> {
         SystemUiOverlayStyle(statusBarColor: AppColor.offWhiteColor));
     return Stack(
       children: [
-        StreamBuilder<ResponseObject>(
+        StreamBuilder<ClaimDetailData>(
           stream: preDeliveryBloc!.claimDetailsStream,
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
@@ -82,7 +83,7 @@ class _AddClaimState extends State<AddClaim> {
                                   "${snapshot.data!.deliveryAddress!.address
                                       .toString()} ,${snapshot.data!
                                       .deliveryAddress!.state.toString()}",
-                                  name: snapshot.data!.patientName.toString(),
+                                  name: snapshot.data!.patientFullName.toString(),
                                   phone: snapshot.data!.phoneNumber.toString(),
                                   zipCode: snapshot
                                       .data!.deliveryAddress!.zipCode

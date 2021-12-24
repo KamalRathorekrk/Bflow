@@ -106,7 +106,7 @@ class _ClaimAssementStepThreeState extends State<ClaimAssementStepThree> {
               strokeColor: AppColor.blackColor,
               backgroundColor: AppColor.whiteColor,
             ),
-            height: MediaQuery.of(context).size.height*0.5,
+            height: MediaQuery.of(context).size.height * 0.5,
             width: double.maxFinite,
           ),
           SizedBox(

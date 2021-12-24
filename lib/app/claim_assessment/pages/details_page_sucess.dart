@@ -1,11 +1,6 @@
-import 'package:bflow/app/claim_assessment/pages/claim_assessment_step_one.dart';
-import 'package:bflow/app/claim_assessment/pages/details_page_cancelation.dart';
-import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_app_bar.dart';
-import 'package:bflow/app/common_widget/common_password_textfield.dart';
 import 'package:bflow/app/common_widget/common_text_field_simple.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
-import 'package:bflow/app/common_widget/common_textfield.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
 import 'package:bflow/utils/AppStrings.dart';
@@ -407,28 +402,41 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
             fontWeight: FontWeight.w600,
             fontColor: AppColor.blackColor,
           ),
-          SizedBox(height: Dimens.ten,),
+          SizedBox(
+            height: Dimens.ten,
+          ),
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(right:Dimens.ten,top:Dimens.ten,bottom: Dimens.ten),
-                height: 105,width: 105,color: AppColor.offWhite17Color,
-              ),Container(
+                margin: EdgeInsets.only(
+                    right: Dimens.ten, top: Dimens.ten, bottom: Dimens.ten),
+                height: 105,
+                width: 105,
+                color: AppColor.offWhite17Color,
+              ),
+              Container(
                 margin: EdgeInsets.all(Dimens.ten),
-                height: 105,width: 105,color: AppColor.offWhite17Color,
+                height: 105,
+                width: 105,
+                color: AppColor.offWhite17Color,
               )
             ],
-
-          ),SizedBox(height: Dimens.twenty,),
+          ),
+          SizedBox(
+            height: Dimens.twenty,
+          ),
           CommonTextWidget(
             text: AppStrings.claim_notes,
             fontSize: Dimens.forteen,
             fontWeight: FontWeight.w600,
             fontColor: AppColor.blackColor,
           ),
-          SizedBox(height: Dimens.ten,),
+          SizedBox(
+            height: Dimens.ten,
+          ),
           CommonTextWidget(
-            text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            text:
+                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
             fontSize: Dimens.forteen,
             fontWeight: FontWeight.w400,
             fontColor: AppColor.blackColor,
@@ -444,13 +452,22 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
             fontWeight: FontWeight.w600,
             fontColor: AppColor.blackColor,
           ),
-          SizedBox(height: Dimens.ten,),
-          Row(mainAxisAlignment: MainAxisAlignment.center,
+          SizedBox(
+            height: Dimens.ten,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(width: 305,height: 120,
-              color: AppColor.offWhite17Color,
+              Container(
+                width: 305,
+                height: 120,
+                color: AppColor.offWhite17Color,
                 child: Center(
-                   child: Image(image: AssetImage(AppImages.signature),width: 166,height: 103,),
+                  child: Image(
+                    image: AssetImage(AppImages.signature),
+                    width: 166,
+                    height: 103,
+                  ),
                 ),
               ),
             ],

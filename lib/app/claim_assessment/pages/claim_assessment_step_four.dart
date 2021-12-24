@@ -30,10 +30,10 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
   final _cardNumberController = TextEditingController();
   final _cvcController = TextEditingController();
   final _expController = TextEditingController();
-  final _cardHolderFocusNode=FocusNode();
-  final _cardNumberFocusNode=FocusNode();
-  final _cvcFocusNode=FocusNode();
-  final _expFocusNode=FocusNode();
+  final _cardHolderFocusNode = FocusNode();
+  final _cardNumberFocusNode = FocusNode();
+  final _cvcFocusNode = FocusNode();
+  final _expFocusNode = FocusNode();
   int? month, year;
 
   @override
@@ -76,7 +76,8 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
                           hintText: AppStrings.cardholder_name,
                           color: AppColor.hintTextColor,
                           focusNode: _cardHolderFocusNode,
-                          onSubmit: (val)=>FocusScope.of(context).requestFocus(_cardNumberFocusNode),
+                          onSubmit: (val) => FocusScope.of(context)
+                              .requestFocus(_cardNumberFocusNode),
                         ),
                         CommonTextFieldSimple(
                           keyboardType: TextInputType.number,
@@ -85,7 +86,8 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
                           hintText: AppStrings.card_number,
                           color: AppColor.hintTextColor,
                           focusNode: _cardNumberFocusNode,
-                          onSubmit: (val)=>FocusScope.of(context).requestFocus(_cvcFocusNode) ,
+                          onSubmit: (val) => FocusScope.of(context)
+                              .requestFocus(_cvcFocusNode),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(16),
@@ -102,7 +104,8 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
                                 hintText: AppStrings.cvc,
                                 color: AppColor.hintTextColor,
                                 focusNode: _cvcFocusNode,
-                                onSubmit: (val)=>FocusScope.of(context).requestFocus(_expFocusNode),
+                                onSubmit: (val) => FocusScope.of(context)
+                                    .requestFocus(_expFocusNode),
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly,
                                   LengthLimitingTextInputFormatter(3),
@@ -310,7 +313,7 @@ class CardNumberInputFormatter extends TextInputFormatter {
       return newValue;
     }
 
-    var buffer =  StringBuffer();
+    var buffer = StringBuffer();
     for (int i = 0; i < text.length; i++) {
       buffer.write(text[i]);
       var nonZeroIndex = i + 1;

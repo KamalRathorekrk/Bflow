@@ -38,6 +38,7 @@ class CommonTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Text(text,
+
         textScaleFactor: Platform.isIOS
             ? Utils.getIPhoneTextScaleFactor(context).toDouble()
             : Utils.getAndroidPhoneTextScaleFactor(context).toDouble(),

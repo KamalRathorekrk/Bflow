@@ -1,9 +1,5 @@
-import 'package:bflow/app/claim_assessment/pages/claim_assessment_step_one.dart';
-import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_app_bar.dart';
-import 'package:bflow/app/common_widget/common_password_textfield.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
-import 'package:bflow/app/common_widget/common_textfield.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
 import 'package:bflow/utils/AppStrings.dart';
@@ -14,10 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DetailsCancelation extends StatefulWidget {
-  String reasonOfCancealation;
-
-  DetailsCancelation({required this.reasonOfCancealation});
-
   @override
   _DetailsCancelationState createState() => _DetailsCancelationState();
 }
@@ -58,7 +50,8 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
               ),
               Expanded(
                 child: CommonTextWidget(
-                  text: widget.reasonOfCancealation,
+                  text:
+                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                   fontSize: Dimens.forteen,
                   fontColor: AppColor.blackColor,
                   fontWeight: FontWeight.w400,

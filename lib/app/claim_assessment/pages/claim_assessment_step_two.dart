@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:bflow/app/claim_assessment/bloc/claims_assessment_bloc.dart';
 import 'package:bflow/app/claim_assessment/models/patient_detail_model.dart';
+import 'package:bflow/app/claim_assessment/models/who_received_model.dart';
 import 'package:bflow/app/claim_assessment/pages/claim_assessment_step_three.dart';
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_app_bar.dart';
@@ -16,6 +18,8 @@ import 'package:bflow/utils/CommonUtils.dart';
 import 'package:bflow/utils/Dimens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -43,9 +47,12 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
   final _reasonSignedFocusNode = FocusNode();
   final _signedPhoneFocusNode = FocusNode();
   final _addClaimNotesFocusNode = FocusNode();
+  ClaimAssementsBloc? _claimAssementsBloc;
 
   @override
   void initState() {
+    _claimAssementsBloc = ClaimAssementsBloc();
+    _claimAssementsBloc!.whoReceived(context: context);
     permissionAccess();
     super.initState();
   }
@@ -94,7 +101,17 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          dropDownWidget(),
+          StreamBuilder<List<ReceiverData>>(
+              stream: _claimAssementsBloc!.whoReceviedStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.data != null &&
+                    snapshot.data!.length > 0) {
+                  return dropDownWidget(data: snapshot.data);
+                } else {
+                  return Container();
+                }
+              }),
           SizedBox(
             height: Dimens.thirty,
           ),
@@ -141,6 +158,10 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
             color: AppColor.hintTextColor,
             focusNode: _signedPhoneFocusNode,
             keyboardType: TextInputType.phone,
+            inputFormatters: [
+              // MaskedInputFormatter('+# (###) ### ####')
+              PhoneInputFormatter(allowEndlessPhone: false)
+            ],
           ),
           SizedBox(
             height: Dimens.ten,
@@ -185,7 +206,12 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
     );
   }
 
-  Widget dropDownWidget() {
+  Widget dropDownWidget({List<ReceiverData>? data}) {
+    List<String> datalist = [];
+    for (int i = 0; i < data!.length; i++) {
+      datalist.add(data[i].value.toString());
+    }
+
     return Container(
       child: DropdownButtonFormField(
         hint: CommonTextWidget(
@@ -194,12 +220,7 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
           fontWeight: FontWeight.w600,
           fontColor: AppColor.blackColor,
         ),
-        items: [
-          'Patient',
-          'Family Member',
-          'Driver',
-          'Care Taker',
-        ].map((label) {
+        items: datalist.map((label) {
           return DropdownMenuItem(
             child: Container(
               child: CommonTextWidget(
@@ -407,5 +428,31 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
       return false;
     }
     return true;
+  }
+}
+
+class NumberTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final int newTextLength = newValue.text.length;
+    int selectionIndex = newValue.selection.end;
+    int usedSubstringIndex = 0;
+    final StringBuffer newText = new StringBuffer();
+    if (newTextLength >= 1) {
+      newText.write('+');
+      if (newValue.selection.end >= 1) selectionIndex++;
+    }
+    if (newTextLength >= 3) {
+      newText.write(newValue.text.substring(0, usedSubstringIndex = 2) + ' ');
+      if (newValue.selection.end >= 2) selectionIndex += 1;
+    }
+    // Dump the rest.
+    if (newTextLength >= usedSubstringIndex)
+      newText.write(newValue.text.substring(usedSubstringIndex));
+    return new TextEditingValue(
+      text: newText.toString(),
+      selection: new TextSelection.collapsed(offset: selectionIndex),
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:bflow/app/bottom_nav_bar/bottom_navigation_pages.dart';
 import 'package:bflow/app/common_widget/snackbar/utils.dart';
 import 'package:bflow/app/login/model/login_model.dart';
 import 'package:bflow/app/login/model/validate_response.dart';
+import 'package:bflow/app/login/pages/login.dart';
 import 'package:bflow/app/login/pages/verification_pages.dart';
 import 'package:bflow/network/api_repository.dart';
 import 'package:bflow/utils/AppStrings.dart';
@@ -29,34 +30,47 @@ class LoginBlock {
     required String corporateId,
   }) async {
     progressSink.add(true);
-    apiRepository
-        .loginApi(
+    apiRepository.loginApi(
       context: context,
       userName: userName,
       password: password,
       corporateId: corporateId,
-    )
-        .then((onResponse) {
+    ).then((onResponse) {
       progressSink.add(false);
-      loginModel = LoginModel(
-          userName: userName, corporateId: corporateId, password: password);
+      loginModel = LoginModel(userName: userName, corporateId: corporateId, password: password);
       print("onResponse $onResponse");
       if (onResponse.responseMessage != null) {
-        SnackBarUtils.showSuccessSnackBar(
-            onResponse.responseMessage??"", context);
-        Navigator.push(
-            context,
-            CupertinoPageRoute(
-                builder: (context) => Verification(
-                      //authCode: onResponse.authCode.toString(),
-                      loginModel: loginModel,
-                    )));
+        SnackBarUtils.showSuccessSnackBar(onResponse.responseMessage ?? "", context);
+        Navigator.push(context, CupertinoPageRoute(builder: (context) => Verification(loginModel: loginModel,)));
       } else {
-        SnackBarUtils.showErrorSnackBar(
-            AppStrings.something_went_wrong, context);
-      }
-
-    }).catchError((onError) {
+        SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
+      }}).catchError((onError) {
+      progressSink.add(false);
+      SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
+    });
+  }
+  Future<void> resendApiCall({
+    required BuildContext context,
+    required String userName,
+    required String password,
+    required String corporateId,
+  }) async {
+    progressSink.add(true);
+    apiRepository.loginApi(
+      context: context,
+      userName: userName,
+      password: password,
+      corporateId: corporateId,
+    ).then((onResponse) {
+      progressSink.add(false);
+      loginModel = LoginModel(userName: userName, corporateId: corporateId, password: password);
+      print("onResponse $onResponse");
+      if (onResponse.responseMessage != null) {
+        SnackBarUtils.showSuccessSnackBar(onResponse.responseMessage ?? "", context);
+        // Navigator.push(context, CupertinoPageRoute(builder: (context) => Verification(loginModel: loginModel,)));
+      } else {
+        SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
+      }}).catchError((onError) {
       progressSink.add(false);
       SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
     });
@@ -69,6 +83,7 @@ class LoginBlock {
     required String corporateId,
     required String authCode,
   }) async {
+    progressSink.add(true);
     apiRepository
         .validateApi(
       context: context,
@@ -81,7 +96,6 @@ class LoginBlock {
       print("onResponse $onResponse");
       progressSink.add(false);
       if (onResponse != null) {
-
         setLocalData(validateResponse: onResponse);
         Navigator.push(context,
             CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
@@ -105,7 +119,6 @@ class LoginBlock {
     });
     SharedPreferenceData.settoken(validateResponse.token.toString())
         .then((value) {
-      print(value);
       SharedPreferenceData.gettoken().then((getvalue) {
         AppStrings.token = getvalue;
         print(getvalue);
@@ -114,7 +127,6 @@ class LoginBlock {
     SharedPreferenceData.setFullName(
             validateResponse.userDetails!.fullName.toString())
         .then((value) {
-      print(value);
       SharedPreferenceData.getFullName().then((getvalue) {
         AppStrings.fullname = getvalue;
         print(getvalue);
@@ -123,7 +135,6 @@ class LoginBlock {
     SharedPreferenceData.setUserName(
             validateResponse.userDetails!.userName.toString())
         .then((value) {
-      print(value);
       SharedPreferenceData.getUserName().then((getvalue) {
         AppStrings.userName = getvalue;
         print(getvalue);
@@ -132,11 +143,50 @@ class LoginBlock {
     SharedPreferenceData.setCorporateId(
             validateResponse.userDetails!.corporateId.toString())
         .then((value) {
-      print(value);
       SharedPreferenceData.getCorporateId().then((getvalue) {
         AppStrings.corporateId = getvalue;
         print(getvalue);
       });
+    });
+    SharedPreferenceData.setUserId(
+            validateResponse.userDetails!.userId.toString())
+        .then((value) {
+      SharedPreferenceData.getUserId().then((getvalue) {
+        AppStrings.userId = getvalue;
+        print(getvalue);
+      });
+    });
+    SharedPreferenceData.setEmailAddress(
+            validateResponse.userDetails!.emailAddress.toString())
+        .then((value) {
+      SharedPreferenceData.getEmailAddress().then((getvalue) {
+        AppStrings.emailAddress = getvalue;
+        print(getvalue);
+      });
+    });
+  }
+
+  Future<void> forgetPassword({required String userName,required String corporateId,required BuildContext context})async{
+    progressSink.add(true);
+    apiRepository
+        .forgetPassword(
+      context: context,
+      userName: userName,
+      corporateId: corporateId,
+    )
+        .then((onResponse) {
+      print("onResponse $onResponse");
+      progressSink.add(false);
+      if (onResponse != null) {
+        Navigator.push(context,
+            CupertinoPageRoute(builder: (context) => LoginPage()));
+      } else {
+        SnackBarUtils.showErrorSnackBar(
+            AppStrings.something_went_wrong, context);
+      }
+    }).catchError((onError) {
+      progressSink.add(false);
+      SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
     });
   }
 }

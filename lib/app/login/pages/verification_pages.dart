@@ -191,12 +191,21 @@ class _VerificationState extends State<Verification> {
                   ),
                   SizedBox(height: Dimens.thirty),
                   Center(
-                    child: CommonTextUnderLineWidget(
-                      textDecoration: TextDecoration.underline,
-                      text: AppStrings.resend_otp,
-                      fontSize: Dimens.fifteen,
-                      fontWeight: FontWeight.w500,
-                      fontColor: AppColor.whiteColor,
+                    child: GestureDetector(
+                      onTap: (){
+                        loginblock!.resendApiCall(
+                            context: context,
+                            userName: widget.loginModel.userName.toString(),
+                            password: widget.loginModel.password.toString(),
+                            corporateId: widget.loginModel.corporateId.toString());
+                      },
+                      child: CommonTextUnderLineWidget(
+                        textDecoration: TextDecoration.underline,
+                        text: AppStrings.resend_otp,
+                        fontSize: Dimens.fifteen,
+                        fontWeight: FontWeight.w500,
+                        fontColor: AppColor.whiteColor,
+                      ),
                     ),
                   ),
                 ],

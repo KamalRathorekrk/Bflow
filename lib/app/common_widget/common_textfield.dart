@@ -64,6 +64,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
   Widget build(BuildContext context) {
     return Column(children: [
       TextFormField(
+        cursorColor: AppColor.primaryColor,
         textInputAction:widget.textInputAction??TextInputAction.done,
         keyboardType: widget.keyboardType,
         focusNode: widget.focusNode,
@@ -88,9 +89,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
               fontFamily: AppStrings.fontFamily,
               fontWeight: FontWeight.w400,
               fontSize: Dimens.sixteen,
-              color: widget.focusNode.hasFocus
-                  ? AppColor.primaryColor
-                  : widget.color),
+              color:widget.color),
           counterText: widget.counterText,
           hintText: widget.hintText,
           hintStyle: TextStyle(

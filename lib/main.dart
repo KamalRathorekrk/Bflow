@@ -69,6 +69,12 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPreferenceData.getCorporateId().then((value) {
       AppStrings.corporateId = value;
     });
+    SharedPreferenceData.getUserId().then((value) {
+      AppStrings.userId = value;
+    });SharedPreferenceData.getEmailAddress().then((value) {
+      AppStrings.emailAddress = value;
+    });
+
   }
 
   @override

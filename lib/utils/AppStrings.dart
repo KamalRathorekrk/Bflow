@@ -7,6 +7,8 @@ class AppStrings {
   static  String fullname="fullname";
   static  String userName="userName";
   static  String corporateId="corporateId";
+  static  String userId="userId";
+  static  String emailAddress="emailAddress";
 
 
   // settings
@@ -178,7 +180,7 @@ class AppStrings {
 
   //routes activity list
   static const String receivers_signature = "Receiver’s Signature";
-  static const String signed = "Signed : 16–Jun-21 08:43 AM";
+  static const String signed = "Signed : ";
   static const String openpdf = "Open Pdf";
   static const String delivered = "Delivered";
   static const String route_activity_list = "Route Activity List";

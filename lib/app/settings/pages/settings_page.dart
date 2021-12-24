@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
+import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/login/pages/login.dart';
+import 'package:bflow/app/settings/bloc/setting_bloc.dart';
 import 'package:bflow/app/settings/pages/change_password.dart';
 import 'package:bflow/app/settings/pages/privacy_policy.dart';
 import 'package:bflow/app/settings/pages/terms_and_conditions.dart';
@@ -25,10 +27,12 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
+  SettingBlock? _settingBlock;
 
   @override
   void initState() {
     permissionAccess();
+    _settingBlock=SettingBlock();
     super.initState();
   }
 
@@ -225,6 +229,7 @@ class _SettingsState extends State<Settings> {
                   child: SvgPicture.asset(AppImages.edit),
                   shape: CircleBorder(),
                 )),
+
           ]),
           SizedBox(
             height: Dimens.ten,
@@ -308,6 +313,7 @@ class _SettingsState extends State<Settings> {
       }
     });
     setState(() {});
+    _settingBlock!.updateProfilePhoto(userId:AppStrings.userId ,file:File(image!.path) );
     Navigator.of(context).pop();
   }
 
@@ -318,6 +324,7 @@ class _SettingsState extends State<Settings> {
         _image = image;
       }
     });
+    _settingBlock!.updateProfilePhoto(userId:AppStrings.userId ,file:File(image!.path) );
     Navigator.of(context).pop();
   }
 }

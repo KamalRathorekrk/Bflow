@@ -8,12 +8,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 // ignore: must_be_immutable
 class CommonTextFieldSimple extends StatefulWidget {
   final Color? color, borderColor;
-  final String counterText;
-  final String hintText, labelText;
-  final TextStyle hintStyle, labelStyle;
-  final InputBorder border, enabledborder, focusedborder;
+
+  final String labelText;
+  final TextStyle labelStyle;
+
   final EdgeInsetsGeometry contentpadding;
-  final spacebetween;
+
   TextEditingController textEditingController;
   final ValueChanged<String>? onChange;
   final ValueChanged<String>? onSubmit;
@@ -29,26 +29,13 @@ class CommonTextFieldSimple extends StatefulWidget {
         this.inputFormatters,
       this.borderColor,
         this.focusNode,
-      this.counterText = "",
-      this.hintText = "",
       this.labelText = "",
         this.onSubmit,
-      this.hintStyle = const TextStyle(color: const Color(0xFF666666)),
       this.labelStyle = const TextStyle(color: const Color(0xFF666666)),
       this.keyboardType,
       this.maxLines = 1,
-      this.border = const OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.grey),
-      ),
-      this.enabledborder = const OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.grey),
-      ),
-      this.focusedborder = const OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.grey),
-      ),
       this.contentpadding =
           const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
-      this.spacebetween = 5.0,
       this.onChange,
       this.readOnly = false});
 
@@ -86,19 +73,13 @@ class _CommonTextFieldSimpleState extends State<CommonTextFieldSimple> {
           border: OutlineInputBorder(
               borderRadius: BorderRadius.zero,
               borderSide: BorderSide(color: widget.borderColor!, width: 1.0)),
-          labelText: widget.hintText,
+          labelText: widget.labelText,
           labelStyle: TextStyle(
               fontFamily: AppStrings.fontFamily,
               fontWeight: FontWeight.w400,
               fontSize: Dimens.sixteen,
               color: widget.color),
-          counterText: widget.counterText,
-          hintText: widget.hintText,
-          hintStyle: TextStyle(
-              fontFamily: AppStrings.fontFamily,
-              fontWeight: FontWeight.w400,
-              fontSize: Dimens.sixteen,
-              color: widget.color),
+
         ),
         style: TextStyle(
             fontFamily: AppStrings.fontFamily,

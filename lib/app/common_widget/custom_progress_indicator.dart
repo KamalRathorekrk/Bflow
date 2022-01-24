@@ -12,8 +12,8 @@ class CommmonProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final spinkit = SpinKitCircle(
-      color: AppColor.backgroundColor,
-      size: Dimens.fifty,
+      color: AppColor.primaryColor,
+      size: Dimens.sixty,
     );
     return isLoading
         ? Opacity(

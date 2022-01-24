@@ -8,6 +8,7 @@ class SharedPreferenceData {
   static final String corporateId = "corporateId";
   static final String userId = "userId";
   static final String emailAddress = "emailAddress";
+  static final String imageUrl ="imageUrl";
 
   static Future<String> getlogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -87,6 +88,16 @@ class SharedPreferenceData {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.setString(emailAddress, value);
+  }static Future<String> getProfileImageUrl() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString(imageUrl) ?? '';
+  }
+
+  static Future<bool> setProfileImageUrl(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.setString(imageUrl, value);
   }
 
   static Future<bool?> clearAllPreferncesData() async {
@@ -98,6 +109,7 @@ class SharedPreferenceData {
     preferences.remove(corporateId);
     preferences.remove(userId);
     preferences.remove(emailAddress);
+    preferences.remove(imageUrl);
     preferences.clear();
     preferences.commit();
   }

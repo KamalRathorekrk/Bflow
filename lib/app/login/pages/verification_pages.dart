@@ -67,149 +67,153 @@ class _VerificationState extends State<Verification> {
       children: [
         Scaffold(
           resizeToAvoidBottomInset: true,
-          body: Container(
-              color: AppColor.backgroundColor,
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(
-                  vertical: Dimens.thirty, horizontal: Dimens.thirty),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: Dimens.twenty,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: SvgPicture.asset(
-                      AppImages.ic_back_small,
-                      color: AppColor.whiteColor,
+          body: SingleChildScrollView(
+            controller: ScrollController(),
+            child: Container(
+              height:  MediaQuery.of(context).size.height,
+                color: AppColor.backgroundColor,
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(
+                    vertical: Dimens.thirty, horizontal: Dimens.thirty),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: Dimens.twenty,
                     ),
-                  ),
-                  SizedBox(
-                    height: Dimens.twenty,
-                  ),
-                  CommonTextWidget(
-                    text: AppStrings.verification,
-                    fontSize: Dimens.twentyNine,
-                    fontWeight: FontWeight.w700,
-                    fontColor: AppColor.whiteColor,
-                  ),
-                  SizedBox(
-                    height: Dimens.ten,
-                  ),
-                  CommonTextWidget(
-                    text: AppStrings.otp_send,
-                    fontSize: Dimens.forteen,
-                    fontWeight: FontWeight.w500,
-                    fontColor: AppColor.whiteColor,
-                    height: 1.5,
-                  ),
-                  SizedBox(
-                    height: Dimens.thirty,
-                  ),
-                  // PinPut(
-                  //   // eachFieldConstraints: BoxConstraints(
-                  //   //     minHeight: Dimens.sixtyFour, minWidth: Dimens.sixtyFour),
-                  //   fieldsCount: 8,
-                  //   controller: authCodeController,
-                  //   focusNode: FocusNode(),
-                  //   submittedFieldDecoration: BoxDecoration(
-                  //     border: Border.all(color: AppColor.whiteColor),
-                  //     borderRadius: BorderRadius.circular(5.0),
-                  //   ),
-                  //   selectedFieldDecoration: BoxDecoration(
-                  //     border: Border.all(color: AppColor.whiteColor),
-                  //     borderRadius: BorderRadius.circular(5.0),
-                  //   ),
-                  //   followingFieldDecoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(5.0),
-                  //     border: Border.all(
-                  //       color: AppColor.whiteColor,
-                  //     ),
-                  //   ),inputDecoration: InputDecoration(fillColor: Colors.white) ,
-                  // ),
-                  PinCodeTextField(
-                    autofocus: true,
-                    controller: authCodeController,
-                    // hideCharacter: true,
-                    highlight: true,
-                    pinBoxColor: Colors.transparent,
-                    highlightPinBoxColor: Colors.transparent,
-                    highlightColor: AppColor.whiteColor,
-                    defaultBorderColor: Colors.white,
-                    pinBoxBorderWidth: 1,
-                    // hasError: hasError,
-                    maxLength: 8,
-                    hasTextBorderColor: Colors.white,
-                    // maskCharacter: "*",
-                    onTextChanged: (text) {
-                      // setState(() {
-                      //   hasError = false;
-                      // });
-                    },
-                    onDone: (text) {
-                      print("DONE $text");
-                    },
-                    pinBoxWidth: MediaQuery.of(context).size.width * 0.085,
-                    pinBoxHeight: 50,
-                    hasUnderline: false,
-                    wrapAlignment: WrapAlignment.spaceAround,
-                    pinBoxDecoration: pinBoxDecoration,
-                    pinTextStyle:
-                        TextStyle(fontSize: Dimens.sixteen, color: AppColor.whiteColor),
-                    pinTextAnimatedSwitcherTransition:
-                        ProvidedPinBoxTextAnimation.scalingTransition,
-                    pinTextAnimatedSwitcherDuration: Duration(milliseconds: 200),
-                    highlightAnimationEndColor: Colors.white12,
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(
-                    height: Dimens.thirty,
-                  ),
-                  CommonActionButton(
-                    title: AppStrings.submit,
-                    onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     CupertinoPageRoute(
-                      //         builder: (context) => BottomNavigationPage()));
-                      if (formValidation(context)) {
-                        loginblock!.validateApiCall(
-                            authCode: authCodeController.text,
-                            password: widget.loginModel.password.toString(),
-                            corporateId: widget.loginModel.corporateId.toString(),
-                            userName: widget.loginModel.userName.toString(),
-                            context: context);
-                      }
-                    },
-                    borderRadius: Dimens.ten,
-                    backgroundColor: AppColor.primaryColor,
-                    width: double.maxFinite,
-                    shadowColor: AppColor.backgroundColor,
-                  ),
-                  SizedBox(height: Dimens.thirty),
-                  Center(
-                    child: GestureDetector(
-                      onTap: (){
-                        loginblock!.resendApiCall(
-                            context: context,
-                            userName: widget.loginModel.userName.toString(),
-                            password: widget.loginModel.password.toString(),
-                            corporateId: widget.loginModel.corporateId.toString());
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
                       },
-                      child: CommonTextUnderLineWidget(
-                        textDecoration: TextDecoration.underline,
-                        text: AppStrings.resend_otp,
-                        fontSize: Dimens.fifteen,
-                        fontWeight: FontWeight.w500,
-                        fontColor: AppColor.whiteColor,
+                      child: SvgPicture.asset(
+                        AppImages.ic_back_small,
+                        color: AppColor.whiteColor,
                       ),
                     ),
-                  ),
-                ],
-              )),
+                    SizedBox(
+                      height: Dimens.twenty,
+                    ),
+                    CommonTextWidget(
+                      text: AppStrings.verification,
+                      fontSize: Dimens.twentyNine,
+                      fontWeight: FontWeight.w700,
+                      fontColor: AppColor.whiteColor,
+                    ),
+                    SizedBox(
+                      height: Dimens.ten,
+                    ),
+                    CommonTextWidget(
+                      text: AppStrings.otp_send,
+                      fontSize: Dimens.forteen,
+                      fontWeight: FontWeight.w500,
+                      fontColor: AppColor.whiteColor,
+                      height: 1.5,
+                    ),
+                    SizedBox(
+                      height: Dimens.thirtyFive,
+                    ),
+                    // PinPut(
+                    //   // eachFieldConstraints: BoxConstraints(
+                    //   //     minHeight: Dimens.sixtyFour, minWidth: Dimens.sixtyFour),
+                    //   fieldsCount: 8,
+                    //   controller: authCodeController,
+                    //   focusNode: FocusNode(),
+                    //   submittedFieldDecoration: BoxDecoration(
+                    //     border: Border.all(color: AppColor.whiteColor),
+                    //     borderRadius: BorderRadius.circular(5.0),
+                    //   ),
+                    //   selectedFieldDecoration: BoxDecoration(
+                    //     border: Border.all(color: AppColor.whiteColor),
+                    //     borderRadius: BorderRadius.circular(5.0),
+                    //   ),
+                    //   followingFieldDecoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(5.0),
+                    //     border: Border.all(
+                    //       color: AppColor.whiteColor,
+                    //     ),
+                    //   ),inputDecoration: InputDecoration(fillColor: Colors.white) ,
+                    // ),
+                    PinCodeTextField(
+                      autofocus: true,
+                      controller: authCodeController,
+                      // hideCharacter: true,
+                      highlight: true,
+                      pinBoxColor: Colors.transparent,
+                      highlightPinBoxColor: Colors.transparent,
+                      highlightColor: AppColor.whiteColor,
+                      defaultBorderColor: Colors.white,
+                      pinBoxBorderWidth: 1,
+                      // hasError: hasError,
+                      maxLength: 8,
+                      hasTextBorderColor: Colors.white,
+                      // maskCharacter: "*",
+                      onTextChanged: (text) {
+                        // setState(() {
+                        //   hasError = false;
+                        // });
+                      },
+                      onDone: (text) {
+                        print("DONE $text");
+                      },
+                      pinBoxWidth: MediaQuery.of(context).size.width * 0.083,
+                      pinBoxHeight: 50,
+                      hasUnderline: false,
+                      wrapAlignment: WrapAlignment.spaceAround,
+                      pinBoxDecoration: pinBoxDecoration,
+                      pinTextStyle:
+                          TextStyle(fontSize: Dimens.sixteen, color: AppColor.whiteColor),
+                      pinTextAnimatedSwitcherTransition:
+                          ProvidedPinBoxTextAnimation.scalingTransition,
+                      pinTextAnimatedSwitcherDuration: Duration(milliseconds: 200),
+                      highlightAnimationEndColor: Colors.white12,
+                      keyboardType: TextInputType.number,
+                    ),
+                    SizedBox(
+                      height: Dimens.fifty,
+                    ),
+                    CommonActionButton(
+                      title: AppStrings.submit,
+                      onPressed: () {
+                        // Navigator.push(
+                        //     context,
+                        //     CupertinoPageRoute(
+                        //         builder: (context) => BottomNavigationPage()));
+                        if (formValidation(context)) {
+                          loginblock!.validateApiCall(
+                              authCode: authCodeController.text,
+                              password: widget.loginModel.password.toString(),
+                              corporateId: widget.loginModel.corporateId.toString(),
+                              userName: widget.loginModel.userName.toString(),
+                              context: context);
+                        }
+                      },
+                      borderRadius: Dimens.ten,
+                      backgroundColor: AppColor.primaryColor,
+                      width: double.maxFinite,
+                      shadowColor: AppColor.backgroundColor,
+                    ),
+                    SizedBox(height: Dimens.thirty),
+                    Center(
+                      child: GestureDetector(
+                        onTap: (){
+                          loginblock!.resendApiCall(
+                              context: context,
+                              userName: widget.loginModel.userName.toString(),
+                              password: widget.loginModel.password.toString(),
+                              corporateId: widget.loginModel.corporateId.toString());
+                        },
+                        child: CommonTextUnderLineWidget(
+                          textDecoration: TextDecoration.underline,
+                          text: AppStrings.resend_otp,
+                          fontSize: Dimens.sixteen,
+                          fontWeight: FontWeight.w600,
+                          fontColor: AppColor.whiteColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
         ),
         StreamBuilder<bool>(
             stream: loginblock!.progressStream,

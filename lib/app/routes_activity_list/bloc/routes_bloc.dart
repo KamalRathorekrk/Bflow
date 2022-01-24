@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bflow/app/common_widget/snackbar/utils.dart';
-import 'package:bflow/app/routes_activity_list/model/routes_model.dart';
+import 'package:bflow/app/routes_activity_list/model/get_routes_list.dart';
 import 'package:bflow/network/api_repository.dart';
 import 'package:bflow/utils/AppStrings.dart';
 import 'package:rxdart/rxdart.dart';
@@ -14,12 +14,12 @@ class RoutesBloc {
 
   StreamSink<bool> get progressSink => progressController.sink;
 
-  final routesListController = BehaviorSubject<List<RoutesDetails>>();
+  final routesListController = BehaviorSubject<List<ResponseRoutes>>();
 
-  Stream<List<RoutesDetails>> get routesListStream =>
+  Stream<List<ResponseRoutes>> get routesListStream =>
       routesListController.stream;
 
-  StreamSink<List<RoutesDetails>> get routesListSink =>
+  StreamSink<List<ResponseRoutes>> get routesListSink =>
       routesListController.sink;
 
   getCompletedRoutes({context}) {
@@ -27,17 +27,18 @@ class RoutesBloc {
     progressSink.add(true);
 
     _apiRepository
-        .routeacivitylist(userId: AppStrings.userId)
+        .routeAcivityList(userId: AppStrings.userId)
         .then((onResponse) {
       progressSink.add(false);
       if (onResponse.responseType == "Ok") {
-        routesListSink.add(onResponse.responseObject!);
+        routesListSink.add(onResponse.responseRoutes!);
       } else {
         SnackBarUtils.showErrorSnackBar(
             onResponse.responseMessage.toString(), context);
       }
     }).catchError((onError) {
       progressSink.add(false);
+      print(onError);
       SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
     });
   }

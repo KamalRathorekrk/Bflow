@@ -30,6 +30,7 @@ class AppImages {
   static String ic_back_small = 'assets/images/ic_back_small.svg';
   static String bflow_white = 'assets/images/bflow_white.png';
   static String list = 'assets/images/list.svg';
+  static String signaturePlaceHolder = 'assets/images/signature.svg';
 
 
 }

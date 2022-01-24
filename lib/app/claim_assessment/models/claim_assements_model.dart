@@ -2,36 +2,39 @@
 /// value : false
 
 class ClaimAssementsModel {
-  String? _text;
-  bool? _value;
+  String? _name;
+  bool? _isSelected;
+  num? _id;
 
-  String? get text => _text;
-  bool? get value => _value;
+  num? get id => _id;
 
-  ClaimAssementsModel({
-      String? text, 
-      bool? value}){
-    _text = text;
-    _value = value;
-}
+  String? get name => _name;
+
+  bool? get isSelected => _isSelected;
+
+  ClaimAssementsModel({String? name, bool? isSelected, num? id}) {
+    _name = name;
+    _id = id;
+    _isSelected = isSelected;
+  }
 
   ClaimAssementsModel.fromJson(dynamic json) {
-    _text = json['text'];
-    _value = json['value'];
+    _name = json['name'];
+    _isSelected = json['isSelected'];
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map['text'] = _text;
-    map['value'] = _value;
+    map['name'] = _name;
+    map['isSelected'] = _isSelected;
     return map;
   }
 
-  set setValue(bool value) {
-    _value = value;
+  set setIsSelected(bool value) {
+    _isSelected = value;
   }
 
-  set setText(String value) {
-    _text = value;
+  set setName(String value) {
+    _name = value;
   }
 }

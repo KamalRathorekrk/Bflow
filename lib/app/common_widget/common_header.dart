@@ -1,4 +1,5 @@
-import 'package:bflow/app/claim_assessment/models/patient_detail_model.dart';
+
+import 'package:bflow/app/claim_assessment/models/post_complete_delivery.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
@@ -8,10 +9,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CommonHeader extends StatelessWidget{
   final int? step;
-  final PatientDetailsModel? patientDetailsModel;
+   final PostCompleteDelivery? postCompleteDelivery;
 
 
-  const CommonHeader({ this.patientDetailsModel,this.step}) ;
+  const CommonHeader({ this.postCompleteDelivery,this.step}) ;
 
 
   @override
@@ -29,7 +30,7 @@ class CommonHeader extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CommonTextWidget(
-                text: "Claim: #${patientDetailsModel!.claimId}",
+                text: "Claim: #${postCompleteDelivery!.claimId}",
                 fontSize: Dimens.fifteen,
                 fontWeight: FontWeight.w600,
                 fontColor: AppColor.blackColor,
@@ -52,7 +53,7 @@ class CommonHeader extends StatelessWidget{
                 fontColor: AppColor.blackColor,
               ),
               CommonTextWidget(
-                text: patientDetailsModel!.patientName.toString(),
+                text: postCompleteDelivery!.patientFullName.toString(),
                 fontSize: Dimens.thrteen,
                 fontWeight: FontWeight.w500,
                 fontColor: AppColor.blackColor,
@@ -67,7 +68,7 @@ class CommonHeader extends StatelessWidget{
                 child: SvgPicture.asset(AppImages.location),
               ),
               CommonTextWidget(
-                text: patientDetailsModel!.patientAddress.toString(),
+                text: "${postCompleteDelivery!.deliveryAddress!.address.toString()}, ${postCompleteDelivery!.deliveryAddress!.city.toString()}, ${postCompleteDelivery!.deliveryAddress!.state.toString()}",
                 fontSize: Dimens.forteen,
                 fontColor: AppColor.blackColor,
                 fontWeight: FontWeight.w500,

@@ -8,14 +8,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 // ignore: must_be_immutable
 class CommonTextField extends StatefulWidget {
   final String prefixIcon;
-  final Color? color;
-  final String counterText;
-  final String hintText, labelText;
-  final TextStyle hintStyle, labelStyle;
-  final InputBorder border, enabledborder, focusedborder;
+  final Color color, borderColor;
+  final String labelText;
+  final TextStyle labelStyle;
   final EdgeInsetsGeometry contentpadding;
-  final spacebetween;
-
   var focusNode;
   final TextEditingController textEditingController;
   final ValueChanged<String>? onChange;
@@ -23,37 +19,20 @@ class CommonTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   TextInputAction? textInputAction;
 
-
-      CommonTextField(
+  CommonTextField(
       {required this.textEditingController,
       this.prefixIcon = "",
-      this.color,
+      required this.color,
+      required this.borderColor,
       this.onSubmit,
-      this.counterText = "",
-      this.hintText = "",
       this.labelText = "",
-      this.hintStyle = const TextStyle(color: Colors.grey),
       this.labelStyle = const TextStyle(color: Colors.black),
       this.keyboardType,
       this.focusNode,
-      this.border = const OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.grey),
-      ),
-      this.enabledborder = const OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.grey),
-      ),
-      this.focusedborder = const OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.grey),
-      ),
       this.contentpadding =
           const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
-      this.spacebetween = 5.0,
       this.onChange,
       this.textInputAction});
-
-  InputBorder aa = new OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.grey),
-      borderRadius: BorderRadius.circular(Dimens.thirty));
 
   @override
   _CommonTextFieldState createState() => _CommonTextFieldState();
@@ -65,40 +44,33 @@ class _CommonTextFieldState extends State<CommonTextField> {
     return Column(children: [
       TextFormField(
         cursorColor: AppColor.primaryColor,
-        textInputAction:widget.textInputAction??TextInputAction.done,
+        textInputAction: widget.textInputAction ?? TextInputAction.done,
         keyboardType: widget.keyboardType,
         focusNode: widget.focusNode,
         controller: widget.textEditingController,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimens.twelve),
-            borderSide: BorderSide(
-                color: widget.color ?? AppColor.hintColor, width: 1.0),
+            borderRadius: BorderRadius.circular(Dimens.eight),
+            borderSide:
+                BorderSide(color: widget.borderColor, width: Dimens.one),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimens.twelve),
-            borderSide: BorderSide(
-                color: widget.color ?? AppColor.hintColor, width: 1.0),
+            borderRadius: BorderRadius.circular(Dimens.eight),
+            borderSide:
+                BorderSide(color: widget.borderColor, width: Dimens.one),
           ),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(Dimens.twelve),
-              borderSide: BorderSide(
-                  color: widget.color ?? AppColor.hintColor, width: 1.0)),
-          labelText: widget.hintText,
+              borderRadius: BorderRadius.circular(Dimens.eight),
+              borderSide:
+                  BorderSide(color: widget.borderColor, width: Dimens.one)),
+          labelText: widget.labelText,
           labelStyle: TextStyle(
               fontFamily: AppStrings.fontFamily,
               fontWeight: FontWeight.w400,
               fontSize: Dimens.sixteen,
-              color:widget.color),
-          counterText: widget.counterText,
-          hintText: widget.hintText,
-          hintStyle: TextStyle(
-              fontFamily: AppStrings.fontFamily,
-              fontWeight: FontWeight.w500,
-              fontSize: Dimens.sixteen,
               color: widget.color),
           prefixIcon: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(horizontal: Dimens.fifteen),
             child: InkWell(
               child: SvgPicture.asset(
                 widget.prefixIcon,
@@ -111,8 +83,8 @@ class _CommonTextFieldState extends State<CommonTextField> {
         ),
         style: TextStyle(
             fontFamily: AppStrings.fontFamily,
-            fontWeight: FontWeight.w500,
-            fontSize: Dimens.nineteen,
+            fontWeight: FontWeight.w400,
+            fontSize: Dimens.fifteen,
             background: null,
             color: widget.color),
         onChanged: widget.onChange,

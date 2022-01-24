@@ -1,11 +1,10 @@
+import 'package:bflow/app/common/claims_details.dart';
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_app_bar.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/app/common_widget/common_textfiled_multiline.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/pre_delivery/bloc/pre_delivery_block.dart';
-import 'package:bflow/app/pre_delivery/model/claim_id_response.dart';
-import 'package:bflow/app/common/claims_details.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
 import 'package:bflow/utils/AppStrings.dart';
@@ -80,10 +79,9 @@ class _AddClaimState extends State<AddClaim> {
                             children: [
                               PatientDetailsContainer(
                                   address:
-                                  "${snapshot.data!.deliveryAddress!.address
-                                      .toString()} ,${snapshot.data!
-                                      .deliveryAddress!.state.toString()}",
-                                  name: snapshot.data!.patientFullName.toString(),
+                                      "${snapshot.data!.deliveryAddress!.address.toString()}, ${snapshot.data!.deliveryAddress!.city.toString()}, ${snapshot.data!.deliveryAddress!.state.toString()}",
+                                  name:
+                                      snapshot.data!.patientFullName.toString(),
                                   phone: snapshot.data!.phoneNumber.toString(),
                                   zipCode: snapshot
                                       .data!.deliveryAddress!.zipCode
@@ -265,9 +263,10 @@ class _AddClaimState extends State<AddClaim> {
               ),
               InkWell(
                 onTap: () async {
-                  print("----");
-                  await MapsLauncher.launchCoordinates(
-                      37.4220041, -122.0862462, 'Google Headquarters are here');
+                  await MapsLauncher.launchQuery(address);
+                  // print("----");
+                  // await MapsLauncher.launchCoordinates(
+                  //     37.4220041, -122.0862462, 'Google Headquarters are here');
                 },
                 child: Padding(
                   padding: EdgeInsets.only(right: Dimens.ten),
@@ -494,84 +493,84 @@ class _AddClaimState extends State<AddClaim> {
 
   void twoButtonCommonDialog(BuildContext context) async {
     DateTime dateTime = DateTime.now();
-    final DateFormat formatter =
-    DateFormat('EE MMMM dd,yyyy');
-    final DateFormat formatterTime =
-    DateFormat.jm();
+    final DateFormat formatter = DateFormat('EE MMMM dd,yyyy');
+    final DateFormat formatterTime = DateFormat.jm();
     String? tempPickedDate = formatter.format(dateTime);
     String? tempPickedTime = formatterTime.format(dateTime);
     return showDialog(
       context: context,
       // barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return StatefulBuilder(
-
-            builder: (context, setState) {
-              return AlertDialog(
-                contentPadding: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(Dimens.fifteen))),
-                title: CommonTextWidget(
-                  text: AppStrings.set_date_and_time_of_delivery,
-                  fontSize: Dimens.sixteen,
-                  textAlignment: TextAlign.center,
-                  fontWeight: FontWeight.w500,
-                  fontColor: AppColor.blackColor,
-                ),
-                content: Container(
-                  // color: AppColor.redColor,
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.45,
-                  child: Column(
-                    children: [
-                      Container(
-                        height: Dimens.twoHundred,
-                        child: CupertinoDatePicker(
-                          mode: CupertinoDatePickerMode.dateAndTime,
-                          onDateTimeChanged: (DateTime dateTime) {
-                            setState(() {});
-                            tempPickedDate = formatter.format(dateTime);
-                            tempPickedTime = formatterTime.format(dateTime);
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: Dimens.twenty,
-                      ),
-                      CommonTextWidget(
-                        text: tempPickedDate.toString(),
-                        fontSize: Dimens.twenty,
-                        fontWeight: FontWeight.w600,
-                        fontColor: AppColor.blackColor,
-                      ),
-                      SizedBox(
-                        height: Dimens.ten,
-                      ),
-                      CommonTextWidget(
-                        text: tempPickedTime.toString(),
-                        fontSize: Dimens.seventeen,
-                        fontWeight: FontWeight.w500,
-                        fontColor: AppColor.blackColor,
-                      ),
-                    ],
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            actionsPadding: EdgeInsets.zero,
+            buttonPadding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: AppColor.offWhite42Color),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(Dimens.fifteen)),),
+            title: CommonTextWidget(
+              text: AppStrings.set_date_and_time_of_delivery,
+              fontSize: Dimens.sixteen,
+              textAlignment: TextAlign.center,
+              fontWeight: FontWeight.w500,
+              fontColor: AppColor.blackColor,
+            ),
+            content: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: MediaQuery.of(context).size.height * 0.24,
+                    child: CupertinoDatePicker(
+                      mode: CupertinoDatePickerMode.dateAndTime,
+                      onDateTimeChanged: (DateTime dateTime) {
+                        setState(() {});
+                        tempPickedDate = formatter.format(dateTime);
+                        tempPickedTime = formatterTime.format(dateTime);
+                      },
+                    ),
                   ),
-                ),
-                actions: [
-                  Column(
+                  SizedBox(
+                    height: Dimens.twenty,
+                  ),
+                  CommonTextWidget(
+                    text: tempPickedDate.toString(),
+                    fontSize: Dimens.twenty,
+                    fontWeight: FontWeight.w600,
+                    fontColor: AppColor.blackColor,
+                  ),
+                  SizedBox(
+                    height: Dimens.ten,
+                  ),
+                  CommonTextWidget(
+                    text: tempPickedTime.toString(),
+                    fontSize: Dimens.seventeen,
+                    fontWeight: FontWeight.w500,
+                    fontColor: AppColor.blackColor,
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Divider(
+                    thickness: Dimens.one,
+                    height: Dimens.one,
+                    color: AppColor.offWhite42Color,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Divider(
-                        thickness: Dimens.one,
-                        height: Dimens.one,
-                        color: AppColor.offWhite17Color,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
+                      Expanded(
+                        child: Center(
+                          child: GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
                             },
@@ -582,12 +581,16 @@ class _AddClaimState extends State<AddClaim> {
                               fontColor: AppColor.redColor,
                             ),
                           ),
-                          Container(
-                            width: Dimens.one,
-                            height: Dimens.fifty,
-                            color: AppColor.offWhite17Color,
-                          ),
-                          GestureDetector(
+                        ),
+                      ),
+                      Container(
+                        width: Dimens.one,
+                        height: Dimens.fifty,
+                        color: AppColor.offWhite42Color,
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
                             },
@@ -598,24 +601,22 @@ class _AddClaimState extends State<AddClaim> {
                               fontColor: AppColor.blueColor,
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
                 ],
-              );
-            }
-        );
+              ),
+            ],
+          );
+        });
       },
     );
   }
 
   Widget dropDownWidget() {
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width * 0.8,
+      width: MediaQuery.of(context).size.width * 0.8,
       child: DropdownButtonFormField(
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(

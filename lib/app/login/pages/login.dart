@@ -5,8 +5,10 @@ import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/app/common_widget/common_textfield.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/common_widget/snackbar/utils.dart';
-import 'package:bflow/app/login/pages/forget_password.dart';
 import 'package:bflow/app/login/bloc/login_bloc.dart';
+import 'package:bflow/app/login/model/login_model.dart';
+import 'package:bflow/app/login/pages/forget_password.dart';
+import 'package:bflow/app/login/pages/verification_pages.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
 import 'package:bflow/utils/AppStrings.dart';
@@ -29,14 +31,12 @@ class _LoginPageState extends State<LoginPage> {
   final passwordFocusNode = FocusNode();
   final corporateIdFocusNode = FocusNode();
   double? height;
-  // @override
 
+  @override
   void initState() {
     super.initState();
     loginblock = LoginBlock();
   }
-
-
 
   @override
   void dispose() {
@@ -56,10 +56,9 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: AppColor.backgroundColor,
           body: Container(
             padding: EdgeInsets.only(
-                left: Dimens.twenty,
-                right: Dimens.twenty,
-                top: height! * 0.08,
-
+              left: Dimens.twenty,
+              right: Dimens.twenty,
+              top: height! * 0.08,
             ),
             color: AppColor.backgroundColor,
             child: Stack(
@@ -77,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       loginInContainer(context),
                       SizedBox(
-                        height: height!*0.05,
+                        height: height! * 0.05,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -87,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                                   builder: (context) => ForgetPassword()));
                         },
                         child: Padding(
-                          padding:  EdgeInsets.only( bottom: height! * 0.03 ),
+                          padding: EdgeInsets.only(bottom: height! * 0.03),
                           child: CommonTextUnderLineWidget(
                             textDecoration: TextDecoration.underline,
                             text: AppStrings.forget_password,
@@ -136,22 +135,22 @@ class _LoginPageState extends State<LoginPage> {
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.text,
             textEditingController: userNameController,
-            hintText: AppStrings.username,
             labelText: AppStrings.username,
             prefixIcon: AppImages.profile,
             color: AppColor.hintColor,
+            borderColor: AppColor.borderColor,
             focusNode: userNameFocusNode,
-            onSubmit: (val)=>
+            onSubmit: (val) =>
                 FocusScope.of(context).requestFocus(passwordFocusNode),
           ),
           CommonPasswordField(
             textInputAction: TextInputAction.next,
             textEditingController: passwordController,
-            hintText: AppStrings.password,
             labelText: AppStrings.password,
             prefixIcon: AppImages.lock,
+            color: AppColor.hintColor,
             focusNode: passwordFocusNode,
-            onSubmit: (val)=>
+            onSubmit: (val) =>
                 FocusScope.of(context).requestFocus(corporateIdFocusNode),
           ),
           SizedBox(height: Dimens.ten),
@@ -159,10 +158,10 @@ class _LoginPageState extends State<LoginPage> {
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.text,
             textEditingController: corporateIdController,
-            hintText: AppStrings.corporate_id,
             labelText: AppStrings.corporate_id,
             prefixIcon: AppImages.coperate_id,
             color: AppColor.hintColor,
+            borderColor: AppColor.borderColor,
             focusNode: corporateIdFocusNode,
           ),
           SizedBox(
@@ -171,19 +170,16 @@ class _LoginPageState extends State<LoginPage> {
           CommonActionButton(
             title: AppStrings.login,
             onPressed: () async {
+            // var  loginModel = LoginModel(userName: "userName", corporateId: "corporateId", password: "password");
+            //   Navigator.push(context, CupertinoPageRoute(builder: (context) => Verification(loginModel: loginModel,)));
+
               if (formValidation(context)) {
                 await loginblock!.loginUpApiCall(
                     context: context,
                     userName: userNameController.text,
                     password: passwordController.text,
                     corporateId: corporateIdController.text);
-                /*  await Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => Verification()));*/
               }
-
-              //   if(formValidation(context)){
-              //   Navigator.push(context, CupertinoPageRoute(builder: (context)=>Settings()));
-              // }
             },
             borderRadius: Dimens.seven,
             backgroundColor: AppColor.primaryColor,
@@ -200,15 +196,15 @@ class _LoginPageState extends State<LoginPage> {
       SnackBarUtils.showErrorSnackBar(
           AppStrings.please_enter_valid_username, context);
       return false;
+    } else if (Utils.checkNullOrEmpty(passwordController.text)) {
+      FocusScope.of(context).requestFocus(passwordFocusNode);
+      SnackBarUtils.showErrorSnackBar(
+          AppStrings.please_enter_valid_password, context);
+      return false;
     } else if (Utils.checkNullOrEmpty(corporateIdController.text)) {
       FocusScope.of(context).requestFocus(corporateIdFocusNode);
       SnackBarUtils.showErrorSnackBar(
           AppStrings.please_enter_valid_corporate_id, context);
-      return false;
-    } else if (Utils.checkNullOrEmpty(passwordController.text)) {
-          FocusScope.of(context).requestFocus(passwordFocusNode);
-      SnackBarUtils.showErrorSnackBar(
-          AppStrings.please_enter_valid_password, context);
       return false;
     }
     return true;

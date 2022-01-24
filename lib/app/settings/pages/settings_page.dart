@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
-import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/login/pages/login.dart';
 import 'package:bflow/app/settings/bloc/setting_bloc.dart';
 import 'package:bflow/app/settings/pages/change_password.dart';
@@ -16,6 +15,7 @@ import 'package:bflow/utils/SharedPreferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -32,7 +32,9 @@ class _SettingsState extends State<Settings> {
   @override
   void initState() {
     permissionAccess();
-    _settingBlock=SettingBlock();
+    _settingBlock = SettingBlock();
+    _settingBlock!.getProfilePic();
+    setState(() {});
     super.initState();
   }
 
@@ -78,7 +80,11 @@ class _SettingsState extends State<Settings> {
               Container(
                   padding: EdgeInsets.symmetric(
                       vertical: Dimens.twenty, horizontal: Dimens.thirtyFive),
-                  child: Profile()),
+                  child: StreamBuilder<String>(
+                      stream: _settingBlock!.fetchProfileStream,
+                      builder: (context, snapshot) {
+                        return Profile(context, snapshot.data);
+                      })),
               SizedBox(
                 height: Dimens.forty,
               ),
@@ -172,8 +178,10 @@ class _SettingsState extends State<Settings> {
                   title: AppStrings.logout,
                   onPressed: () {
                     SharedPreferenceData.clearAllPreferncesData();
-                    Navigator.pushReplacement(context,
-                        CupertinoPageRoute(builder: (context) => LoginPage()));
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        CupertinoPageRoute(builder: (context) => LoginPage()),
+                        (route) => false);
                   },
                   borderRadius: Dimens.seven,
                   backgroundColor: AppColor.primaryColor,
@@ -188,49 +196,56 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  Widget Profile() {
+  Widget Profile(BuildContext context, data) {
     String userImage = "AppStrings.userImage";
+    print(AppStrings.imageUrl);
     return Container(
       width: double.maxFinite,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Stack(children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: Dimens.twenty),
-              padding: EdgeInsets.symmetric(horizontal: Dimens.five),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColor.blackColor, width: 1.5)),
-              width: Dimens.hundred,
-              height: Dimens.hundred,
-              child: _image != null
-                  ? CircleAvatar(
-                backgroundImage: AssetImage(_image!.path),
-              )
-                  : CircleAvatar(
-                      backgroundImage: AssetImage(AppImages.bg),
-                    ),
-              // imageProfile==null?Image.file(
-              //   File(imageProfile!.path),
-              //   fit: BoxFit.fill,
-              // ):CircleAvatar(
-              //   backgroundImage: AssetImage(AppImages.bg),
-              // ),
-            ),
-            Positioned(
-                bottom: -5,
-                right: -15,
-                child: RawMaterialButton(
-                  onPressed: () {
-                    showSelectionDialog(context);
-                  },
-                  elevation: 2.0,
-                  child: SvgPicture.asset(AppImages.edit),
-                  shape: CircleBorder(),
-                )),
-
-          ]),
+          Align(
+            alignment: Alignment.center,
+            child: Stack(children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: Dimens.twenty),
+                padding: EdgeInsets.all(Dimens.four),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColor.blackColor, width: 1.5)),
+                width: Dimens.hundred,
+                height: Dimens.hundred,
+                child: AppStrings.imageUrl != "imageUrl"
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(45),
+                        child: Image.network(
+                          data.toString(),
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : CircleAvatar(
+                        backgroundImage: AssetImage(AppImages.bg),
+                      ),
+                // imageProfile==null?Image.file(
+                //   File(imageProfile!.path),
+                //   fit: BoxFit.fill,
+                // ):CircleAvatar(
+                //   backgroundImage: AssetImage(AppImages.bg),
+                // ),
+              ),
+              Positioned(
+                  bottom: -5,
+                  right: -15,
+                  child: RawMaterialButton(
+                    onPressed: () {
+                      showSelectionDialog(context);
+                    },
+                    elevation: 2.0,
+                    child: SvgPicture.asset(AppImages.edit),
+                    shape: CircleBorder(),
+                  )),
+            ]),
+          ),
           SizedBox(
             height: Dimens.ten,
           ),
@@ -245,7 +260,7 @@ class _SettingsState extends State<Settings> {
             height: Dimens.five,
           ),
           CommonTextWidget(
-            text:"@ ${AppStrings.userName}",
+            text: "@ ${AppStrings.userName}",
             fontSize: Dimens.fifteen,
             fontWeight: FontWeight.w500,
             fontColor: AppColor.blackColor,
@@ -305,26 +320,69 @@ class _SettingsState extends State<Settings> {
   }
 
   _openGallery(BuildContext context) async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (image != null) {
-        _image = image;
-      }
-    });
-    setState(() {});
-    _settingBlock!.updateProfilePhoto(userId:AppStrings.userId ,file:File(image!.path) );
-    Navigator.of(context).pop();
+    final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery, maxHeight: 480, maxWidth: 640);
+    // final List<XFile>? image = await _picker.pickMultiImage(maxHeight: 480, maxWidth: 640);
+    // cropProfileImage(image);
+    if (image != null) {
+      // _image = image;
+      setState(() {
+        cropProfileImage(image);
+      });
+    }
   }
 
   _openCamera(BuildContext context) async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-    setState(() {
-      if (image != null) {
-        _image = image;
-      }
-    });
-    _settingBlock!.updateProfilePhoto(userId:AppStrings.userId ,file:File(image!.path) );
-    Navigator.of(context).pop();
+    final XFile? image = await _picker.pickImage(
+        source: ImageSource.camera, maxHeight: 480, maxWidth: 640);
+
+    if (image != null) {
+      // _image = image;
+      setState(() {
+        cropProfileImage(image);
+      });
+    }
+  }
+
+  Future cropProfileImage(
+    imageFile,
+  ) async {
+    File? croppedFile = await ImageCropper.cropImage(
+      sourcePath: imageFile.path,
+      cropStyle: CropStyle.circle,
+      aspectRatio: CropAspectRatio(
+        ratioX: 1,
+        ratioY: 1,
+      ),
+      aspectRatioPresets: [
+        CropAspectRatioPreset.original,
+      ],
+      iosUiSettings: IOSUiSettings(
+        aspectRatioLockEnabled: true,
+        rotateButtonsHidden: true,
+        minimumAspectRatio: 1.0,
+      ),
+      androidUiSettings: AndroidUiSettings(
+          toolbarTitle: 'Crop Image',
+          toolbarColor: AppColor.backgroundColor,
+          toolbarWidgetColor: Colors.white,
+          hideBottomControls: true,
+          showCropGrid: false,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: true),
+    );
+
+    if (croppedFile != null) {
+      print("croppedFile  $croppedFile");
+      // _settingBlock!.updateProfilePhoto(
+      //     userId: int.parse(AppStrings.userId), file: File(croppedFile.path));
+      setState(() {
+        _settingBlock!.updateProfilePhoto(
+            userId: int.parse(AppStrings.userId), file: File(croppedFile.path));
+      });
+      imageFile = croppedFile;
+    }
+
+    return imageFile;
   }
 }

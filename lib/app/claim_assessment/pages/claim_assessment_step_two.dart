@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:bflow/app/claim_assessment/bloc/claims_assessment_bloc.dart';
-import 'package:bflow/app/claim_assessment/models/patient_detail_model.dart';
+import 'package:bflow/app/claim_assessment/models/post_complete_delivery.dart';
 import 'package:bflow/app/claim_assessment/models/who_received_model.dart';
 import 'package:bflow/app/claim_assessment/pages/claim_assessment_step_three.dart';
 import 'package:bflow/app/common_widget/common_action_button.dart';
@@ -25,9 +25,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ClaimAssementStepTwo extends StatefulWidget {
-  PatientDetailsModel? patientDetailsModel;
+  PostCompleteDelivery? postCompleteDelivery;
 
-  ClaimAssementStepTwo(this.patientDetailsModel);
+  ClaimAssementStepTwo(this.postCompleteDelivery);
 
   @override
   _ClaimAssementStepTwoState createState() => _ClaimAssementStepTwoState();
@@ -35,7 +35,7 @@ class ClaimAssementStepTwo extends StatefulWidget {
 
 class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
   final ImagePicker _picker = ImagePicker();
-  List<XFile> imageList = [];
+  List<File> imageList = [];
   String whoRecived = "";
   final _nameController = TextEditingController();
   final _titleController = TextEditingController();
@@ -48,13 +48,23 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
   final _signedPhoneFocusNode = FocusNode();
   final _addClaimNotesFocusNode = FocusNode();
   ClaimAssementsBloc? _claimAssementsBloc;
+  CompleteClaimAssessment? completeClaimAssessment;
+
+  PhoneCountryData? _countryData;
 
   @override
   void initState() {
     _claimAssementsBloc = ClaimAssementsBloc();
     _claimAssementsBloc!.whoReceived(context: context);
     permissionAccess();
+
     super.initState();
+  }
+
+  void _onCountrySelected(PhoneCountryData? countryData) {
+    setState(() {
+      _countryData = countryData;
+    });
   }
 
   Future<void> permissionAccess() async {
@@ -82,7 +92,7 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
             child: Column(children: [
               CommonHeader(
                 step: 2,
-                patientDetailsModel: widget.patientDetailsModel,
+                postCompleteDelivery: widget.postCompleteDelivery,
               ),
               SizedBox(
                 height: Dimens.twenty,
@@ -127,7 +137,7 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
           CommonTextFieldSimple(
             textEditingController: _nameController,
             borderColor: AppColor.offWhite97Color,
-            hintText: AppStrings.name,
+            labelText: AppStrings.name,
             color: AppColor.hintTextColor,
             focusNode: _nameFocusNode,
             onSubmit: (val) =>
@@ -136,7 +146,7 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
           CommonTextFieldSimple(
             textEditingController: _titleController,
             borderColor: AppColor.offWhite97Color,
-            hintText: AppStrings.title,
+            labelText: AppStrings.title,
             color: AppColor.hintTextColor,
             focusNode: _titleFocusNode,
             onSubmit: (val) =>
@@ -145,7 +155,7 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
           CommonTextFieldSimple(
             textEditingController: _reasonSignedController,
             borderColor: AppColor.offWhite97Color,
-            hintText: AppStrings.reason_signed,
+            labelText: AppStrings.reason_signed,
             color: AppColor.hintTextColor,
             focusNode: _reasonSignedFocusNode,
             onSubmit: (val) =>
@@ -154,13 +164,14 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
           CommonTextFieldSimple(
             textEditingController: _signedPhoneController,
             borderColor: AppColor.offWhite97Color,
-            hintText: AppStrings.signed_phone,
+            labelText: AppStrings.signed_phone,
             color: AppColor.hintTextColor,
             focusNode: _signedPhoneFocusNode,
             keyboardType: TextInputType.phone,
             inputFormatters: [
-              // MaskedInputFormatter('+# (###) ### ####')
-              PhoneInputFormatter(allowEndlessPhone: false)
+            // MaskedInputFormatter('+# (###) ### ####')
+            PhoneInputFormatter(allowEndlessPhone: true, onCountrySelected: _onCountrySelected,
+            )
             ],
           ),
           SizedBox(
@@ -187,13 +198,34 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
             padding: EdgeInsets.symmetric(vertical: Dimens.twenty),
             child: CommonActionButton(
               title: AppStrings.next,
-              onPressed: () {
+              onPressed: () async {
+                var postCompleteDelivery = PostCompleteDelivery(
+                    item: widget.postCompleteDelivery!.item.toString(),
+                    claimId: widget.postCompleteDelivery!.claimId,
+                    phoneNumber: widget.postCompleteDelivery!.phoneNumber,
+                    patientFullName:
+                        widget.postCompleteDelivery!.patientFullName,
+                    deliveryAddress:
+                        widget.postCompleteDelivery!.deliveryAddress,
+                    claimAssessmentCheckList: widget.postCompleteDelivery!.claimAssessmentCheckList,
+                    orderReceiverOptions: [
+                      OrderReceiverOptions(
+                          title: _titleController.text,
+                          name: _nameController.text,
+                          claimNotes: _addClaimNotesController.text,
+                          reasonSigned: _reasonSignedController.text,
+                          signedPhone: _signedPhoneController.text,
+                          whoReceived: whoRecived)
+                    ]);
+                completeClaimAssessment = CompleteClaimAssessment(
+                    attachments: imageList,
+                    postCompleteDelivery: postCompleteDelivery);
                 if (validate(context)) {
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => ClaimAssementStepThree(
-                              widget.patientDetailsModel)));
+                          builder: (context) =>
+                              ClaimAssementStepThree(completeClaimAssessment)));
                 }
               },
               borderRadius: Dimens.seven,
@@ -328,11 +360,12 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
   }
 
   _openGallery(BuildContext context) async {
-    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery, maxHeight: 480, maxWidth: 640);
 
     setState(() {
       if (image != null) {
-        imageList.add(image);
+        imageList.add(File(image.path));
       }
     });
     setState(() {});
@@ -345,7 +378,7 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
     print(image!.path);
     setState(() {
       if (image != null) {
-        imageList.add(image);
+        imageList.add(File(image.path));
       }
     });
     Navigator.of(context).pop();
@@ -415,8 +448,7 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
       SnackBarUtils.showErrorSnackBar(
           AppStrings.please_enter_valid_reason_signed, context);
       return false;
-    } else if (Utils.checkNullOrEmpty(_signedPhoneController.text) ||
-        _signedPhoneController.text.length != 10) {
+    } else if (Utils.checkNullOrEmpty(_signedPhoneController.text)) {
       FocusScope.of(context).requestFocus(_signedPhoneFocusNode);
       SnackBarUtils.showErrorSnackBar(
           AppStrings.please_enter_valid_signed_phone, context);

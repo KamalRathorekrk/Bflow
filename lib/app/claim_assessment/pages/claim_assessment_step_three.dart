@@ -1,6 +1,7 @@
+import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:bflow/app/claim_assessment/models/patient_detail_model.dart';
+import 'package:bflow/app/claim_assessment/models/post_complete_delivery.dart';
 import 'package:bflow/app/claim_assessment/pages/claim_assessment_step_four.dart';
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_app_bar.dart';
@@ -11,12 +12,14 @@ import 'package:bflow/utils/AppStrings.dart';
 import 'package:bflow/utils/Dimens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class ClaimAssementStepThree extends StatefulWidget {
-  PatientDetailsModel? patientDetailsModel;
+  // PostCompleteDelivery? postCompleteDelivery;
+  CompleteClaimAssessment? completeClaimAssessment;
 
-  ClaimAssementStepThree(this.patientDetailsModel);
+  ClaimAssementStepThree(this.completeClaimAssessment);
 
   @override
   _ClaimAssementStepThreeState createState() => _ClaimAssementStepThreeState();
@@ -37,7 +40,8 @@ class _ClaimAssementStepThreeState extends State<ClaimAssementStepThree> {
             child: Column(children: [
               CommonHeader(
                 step: 3,
-                patientDetailsModel: widget.patientDetailsModel,
+                postCompleteDelivery:
+                    widget.completeClaimAssessment!.postCompleteDelivery,
               ),
               SizedBox(
                 height: Dimens.twenty,
@@ -116,14 +120,28 @@ class _ClaimAssementStepThreeState extends State<ClaimAssementStepThree> {
             padding: EdgeInsets.symmetric(vertical: Dimens.twenty),
             child: CommonActionButton(
               title: AppStrings.next,
-              onPressed: () {
-                // _handleSaveButtonPressed();
+              onPressed: () async {
+                final data = await _signaturePadKey.currentState!
+                    .toImage(pixelRatio: 3.0);
 
+                final bytes =
+                    await data.toByteData(format: ui.ImageByteFormat.png);
+                // var bytes = await rootBundle.load('assets/$imageName.$ext');
+                String tempPath = (await getTemporaryDirectory()).path;
+                File file = File('$tempPath/Signature.png');
+                await file.writeAsBytes(bytes!.buffer
+                    .asUint8List(bytes.offsetInBytes, bytes.lengthInBytes));
+                // _handleSaveButtonPressed();
+                var completeClaimAssessment = CompleteClaimAssessment(
+                    attachments: widget.completeClaimAssessment!.attachments,
+                    postCompleteDelivery:
+                        widget.completeClaimAssessment!.postCompleteDelivery,
+                    signature: file);
                 Navigator.push(
                     context,
                     CupertinoPageRoute(
                         builder: (context) =>
-                            ClaimAssementStepFour(widget.patientDetailsModel)));
+                            ClaimAssementStepFour(completeClaimAssessment)));
               },
               borderRadius: Dimens.seven,
               backgroundColor: AppColor.primaryColor,
@@ -137,7 +155,13 @@ class _ClaimAssementStepThreeState extends State<ClaimAssementStepThree> {
 
   void _handleSaveButtonPressed() async {
     final data = await _signaturePadKey.currentState!.toImage(pixelRatio: 3.0);
+
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
+    // var bytes = await rootBundle.load('assets/$imageName.$ext');
+    String tempPath = (await getTemporaryDirectory()).path;
+    File file = File('$tempPath/Signature.png');
+    await file.writeAsBytes(
+        bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes));
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -146,7 +170,8 @@ class _ClaimAssementStepThreeState extends State<ClaimAssementStepThree> {
             body: Center(
               child: Container(
                 color: Colors.grey[300],
-                child: Image.memory(bytes!.buffer.asUint8List()),
+                child: Image.file(file),
+                // child: Image.memory(bytes!.buffer.asUint8List()),
               ),
             ),
           );

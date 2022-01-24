@@ -45,6 +45,7 @@ class LoginBlock {
       } else {
         SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
       }}).catchError((onError) {
+        print(onError.toString());
       progressSink.add(false);
       SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
     });
@@ -56,7 +57,7 @@ class LoginBlock {
     required String corporateId,
   }) async {
     progressSink.add(true);
-    apiRepository.loginApi(
+    apiRepository.resendOtp(
       context: context,
       userName: userName,
       password: password,
@@ -65,7 +66,7 @@ class LoginBlock {
       progressSink.add(false);
       loginModel = LoginModel(userName: userName, corporateId: corporateId, password: password);
       print("onResponse $onResponse");
-      if (onResponse.responseMessage != null) {
+      if (onResponse.responseType == "Ok") {
         SnackBarUtils.showSuccessSnackBar(onResponse.responseMessage ?? "", context);
         // Navigator.push(context, CupertinoPageRoute(builder: (context) => Verification(loginModel: loginModel,)));
       } else {
@@ -97,8 +98,9 @@ class LoginBlock {
       progressSink.add(false);
       if (onResponse != null) {
         setLocalData(validateResponse: onResponse);
-        Navigator.push(context,
-            CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
+        Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => BottomNavigationPage()), (Route<dynamic> route) => false);
+        // Navigator.pushReplacement(context,
+        //     CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
       } else {
         SnackBarUtils.showErrorSnackBar(
             AppStrings.something_went_wrong, context);
@@ -178,11 +180,12 @@ class LoginBlock {
       print("onResponse $onResponse");
       progressSink.add(false);
       if (onResponse != null) {
+        SnackBarUtils.showSuccessSnackBar(onResponse.responseMessage.toString(), context);
         Navigator.push(context,
             CupertinoPageRoute(builder: (context) => LoginPage()));
       } else {
         SnackBarUtils.showErrorSnackBar(
-            AppStrings.something_went_wrong, context);
+            onResponse.responseMessage.toString(), context);
       }
     }).catchError((onError) {
       progressSink.add(false);

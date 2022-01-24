@@ -71,17 +71,19 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       height: Dimens.ten,
                     ),
                     CommonTextWidget(
+                      height:1.5,
                       text: AppStrings.enter_username,
                       fontSize: Dimens.forteen,
                       fontWeight: FontWeight.w500,
                       fontColor: AppColor.whiteColor,
+
                     ),
                     SizedBox(
                       height: Dimens.thirty,
                     ),
                     CommonTextField(
                       textEditingController: userNameController,
-                      hintText: AppStrings.username,
+                      borderColor: AppColor.whiteColor,
                       labelText: AppStrings.username,
                       prefixIcon: AppImages.profile,
                       color: AppColor.whiteColor,
@@ -91,7 +93,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     ),
                     CommonTextField(
                       textEditingController: corporateIdController,
-                      hintText: AppStrings.corporate_id,
+                      borderColor: AppColor.whiteColor,
                       labelText: AppStrings.corporate_id,
                       prefixIcon: AppImages.coperate_id,
                       color: AppColor.whiteColor,

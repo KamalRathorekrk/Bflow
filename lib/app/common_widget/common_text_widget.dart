@@ -46,6 +46,7 @@ class CommonTextWidget extends StatelessWidget {
         maxLines: maxLines,
         overflow: overflow,
         softWrap: true,
+
         style: TextStyle(
             fontStyle: fontStyle??FontStyle.normal,
             fontFamily: AppStrings.fontFamily,

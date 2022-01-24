@@ -1,4 +1,4 @@
-import 'package:bflow/app/claim_assessment/models/patient_detail_model.dart';
+import 'package:bflow/app/claim_assessment/models/post_complete_delivery.dart';
 import 'package:bflow/app/claim_assessment/pages/claim_assessment_step_one.dart';
 import 'package:bflow/app/claim_assessment/pages/reason_for_cancellation.dart';
 import 'package:bflow/app/common/claims_details.dart';
@@ -28,7 +28,7 @@ class TodaysRouteDetails extends StatefulWidget {
 
 class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
   TodaysRouteBloc? todaysRouteBloc;
-  PatientDetailsModel? patientDetailsModel;
+  PostCompleteDelivery? _postCompleteDelivery;
 
   @override
   void initState() {
@@ -51,11 +51,17 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
             stream: todaysRouteBloc!.claimDetailStream,
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data != null) {
-                patientDetailsModel = PatientDetailsModel(
-                    claimId: snapshot.data!.claimId.toString(),
-                    patientName: snapshot.data!.patientFullName.toString(),
-                    patientAddress:
-                        "${snapshot.data!.deliveryAddress!.address.toString()}, ${snapshot.data!.deliveryAddress!.city.toString()}, ${snapshot.data!.deliveryAddress!.state.toString()}");
+                _postCompleteDelivery = PostCompleteDelivery(
+                    claimId: snapshot.data!.claimId,
+                    deliveryAddress: DeliveryAddressPost(
+                        address: snapshot.data!.deliveryAddress!.address,
+                        state: snapshot.data!.deliveryAddress!.state,
+                        zipCode: snapshot.data!.deliveryAddress!.zipCode,
+                        city: snapshot.data!.deliveryAddress!.city),
+                    patientFullName: snapshot.data!.patientFullName.toString(),
+                    phoneNumber: snapshot.data!.phoneNumber.toString(),
+                    item: snapshot.data!.items!.name.toString());
+
                 return Scaffold(
                   // backgroundColor: AppColor.offWhiteColor,
                   appBar: CommonAppBar(
@@ -111,8 +117,8 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
                                   CupertinoPageRoute(
                                       builder: (context) =>
                                           ClaimAssementStepOne(
-                                            patientDetailsModel:
-                                                patientDetailsModel,
+                                            postCompleteDelivery:
+                                                _postCompleteDelivery,
                                           )));
                             },
                             borderRadius: Dimens.seven,
@@ -211,7 +217,10 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           SizedBox(
             height: Dimens.twenty,
           ),
-          RowElement(title: AppStrings.phone_number, value: phone),
+          RowElement(
+              title: AppStrings.phone_number,
+              value: phone.replaceAllMapped(RegExp(r'(\d{3})(\d{3})(\d+)'),
+                  (Match m) => "(${m[1]}) ${m[2]}-${m[3]}")),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -236,44 +245,52 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Visibility(
-                    visible: icon ?? false,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: Dimens.four),
-                      child: SvgPicture.asset(AppImages.location),
-                    )),
-                CommonTextWidget(
-                  text: "${value}",
-                  fontSize: Dimens.forteen,
-                  fontColor: AppColor.blackColor,
-                  fontWeight: FontWeight.w500,
-                ),
-              ],
+            Expanded(flex: 2,
+              child: Row(
+                children: [
+                  Visibility(
+                      visible: icon ?? false,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: Dimens.four),
+                        child: SvgPicture.asset(AppImages.location),
+                      )),
+                  Expanded(
+                    child: CommonTextWidget(
+                      text: "${value}",
+                      fontSize: Dimens.forteen,
+                      fontColor: AppColor.blackColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Visibility(
-              visible: show ?? false,
-              child: InkWell(
-                onTap: () async {
-                  print("----");
-                  // await MapsLauncher.launchCoordinates(
-                  //     37.4220041, -122.0862462, 'Google Headquarters are here');
-                  await MapsLauncher.launchQuery(address);
-                },
-                child: Text(AppStrings.view_on_map,
-                    style: TextStyle(
-                      shadows: [
-                        Shadow(
-                            color: AppColor.backgroundColor,
-                            offset: Offset(0, -2))
-                      ],
-                      color: Colors.transparent,
-                      decoration: TextDecoration.underline,
-                      decorationColor: AppColor.backgroundColor,
-                      fontWeight: FontWeight.w600,
-                      fontSize: Dimens.thrteen,
-                    )),
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Visibility(
+                  visible: show ?? false,
+                  child: InkWell(
+                    onTap: () async {
+                      // await MapsLauncher.launchCoordinates(
+                      //     37.4220041, -122.0862462, 'Google Headquarters are here');
+                      await MapsLauncher.launchQuery(address);
+                    },
+                    child: Text(AppStrings.view_on_map,
+                        style: TextStyle(
+                          shadows: [
+                            Shadow(
+                                color: AppColor.backgroundColor,
+                                offset: Offset(0, -2))
+                          ],
+                          color: Colors.transparent,
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColor.backgroundColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: Dimens.thrteen,
+                        )),
+                  ),
+                ),
               ),
             ),
           ],

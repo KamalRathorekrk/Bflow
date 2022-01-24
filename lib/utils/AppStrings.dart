@@ -9,6 +9,7 @@ class AppStrings {
   static  String corporateId="corporateId";
   static  String userId="userId";
   static  String emailAddress="emailAddress";
+  static String imageUrl="imageUrl";
 
 
   // settings
@@ -35,28 +36,28 @@ class AppStrings {
 
   //verification
   static const String verification = "Verification";
-  static const String otp_send =
-      "OTP has been sent to your mobile number please enter it below";
+  static const String otp_send ="Please enter the OTP sent on your mobile number";
+      // "OTP has been sent to your mobile number please enter it below";
   static const String resend_otp = "Resend OTP";
-  static const String sudmit = "submit";
+  // static const String submit = "submit";
 
   //Login validation
   static const String please_enter_valid_username =
-      "Please enter valid username";
+      "Please enter a valid Username";
   static const String please_enter_valid_password =
-      "Please enter valid password";
+      "Please enter a valid Password";
   static const String please_enter_valid_corporate_id =
-      "Please enter valid Corporate Id";
+      "Please enter a valid Corporate Id";
   static const String please_enter_valid_OTP =
-      "Please enter valid OTP";
+      "Please enter a valid OTP";
   static const String please_enter_valid_name =
-      "Please enter valid Name";
+      "Please enter a valid Name";
   static const String please_enter_valid_title =
-      "Please enter valid Title";
+      "Please enter a valid Title";
   static const String please_enter_valid_signed_phone =
-      "Please enter valid Signed Phone";
+      "Please enter a valid Signed Phone";
   static const String please_enter_valid_reason_signed =
-      "Please enter valid Reason Signed";
+      "Please enter a valid Reason Signed";
   static const String please_add_claim_note =
       "Please add claim note";
   static const String please_select_who_recived=
@@ -64,7 +65,7 @@ class AppStrings {
 
   //forget password
   static const String enter_username =
-      "Enter your username and corporate Id for reset your password.";
+      "Enter your username and corporate Id to reset your password.";
   static const String reset_password = "Reset Password";
 
   //todays route
@@ -168,13 +169,13 @@ class AppStrings {
   static const String pick_equipment =
       "Pick Equipment (does picked equipment serial number match order serial numbers)";
   static const String complete_equipment_inspection_log =
-      "Complete eqipment inspection log";
+      "Complete equipment inspection log";
   static const String print_delivery_ticket_and_delivery_packet =
       "Print delivery ticket and delivery packet";
   static const String verify_delivery_address_and_time =
       "Verify delivery address and time";
   static const String submit_and_schedule_delivery =
-      "submit and schedule delivery";
+      "Submit and schedule delivery";
   static const String set_date_and_time_of_delivery =
       "Set Date and Time of Delivery";
 

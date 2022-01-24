@@ -1,6 +1,7 @@
 import 'package:bflow/app/claim_assessment/pages/details_page_sucess.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
+import 'package:bflow/app/routes_activity_list/model/get_routes_list.dart';
 import 'package:bflow/app/today_route/bloc/todays_route_bloc.dart';
 import 'package:bflow/app/today_route/model/claims_model.dart';
 import 'package:bflow/app/today_route/model/datamodel.dart';
@@ -269,7 +270,7 @@ class _TodaysRouteState extends State<TodaysRoute> {
   }
 
   Widget ListData({context, List<ClaimList>? data}) {
-
+    ResponseRoutes responseRoutes=ResponseRoutes();
     return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -280,10 +281,10 @@ class _TodaysRouteState extends State<TodaysRoute> {
           return GestureDetector(
             onTap: () {
               if (position == 1) {
-                Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                        builder: (context) => DetailsPageSucess()));
+                // Navigator.push(
+                //     context,
+                //     CupertinoPageRoute(
+                //         builder: (context) => DetailsPageSucess(responseRoutes: responseRoutes,)));
               } else {
                 Navigator.push(
                     context,

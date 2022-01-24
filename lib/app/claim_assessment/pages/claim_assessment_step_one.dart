@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:bflow/app/claim_assessment/models/claim_assements_model.dart';
-import 'package:bflow/app/claim_assessment/models/patient_detail_model.dart';
+import 'package:bflow/app/claim_assessment/models/post_complete_delivery.dart';
 import 'package:bflow/app/claim_assessment/pages/claim_assessment_step_two.dart';
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_app_bar.dart';
@@ -16,9 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ClaimAssementStepOne extends StatefulWidget {
-  PatientDetailsModel? patientDetailsModel;
+  // PatientDetailsModel? patientDetailsModel;
+  PostCompleteDelivery? postCompleteDelivery;
 
-  ClaimAssementStepOne({this.patientDetailsModel});
+  ClaimAssementStepOne({this.postCompleteDelivery});
 
   @override
   _ClaimAssementStepOneState createState() => _ClaimAssementStepOneState();
@@ -43,7 +44,7 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
           child: Container(
             child: Column(children: [
               CommonHeader(
-                patientDetailsModel: widget.patientDetailsModel,
+                postCompleteDelivery: widget.postCompleteDelivery,
                 step: 1,
               ),
               Container(
@@ -78,29 +79,29 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
                     SizedBox(
                       height: Dimens.ten,
                     ),
-                    CommonTextWidget(
-                      text: AppStrings.print_existing_notes_on_delivery_ticket,
-                      fontSize: Dimens.forteen,
-                      fontWeight: FontWeight.w600,
-                      fontColor: AppColor.blackColor,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child: ListDileveryTicket(),
-                    ),
-                    SizedBox(
-                      height: Dimens.ten,
-                    ),
-                    CommonTextWidget(
-                      text: AppStrings.insurance_verification,
-                      fontSize: Dimens.forteen,
-                      fontWeight: FontWeight.w600,
-                      fontColor: AppColor.blackColor,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child: listInsuranceVerification(),
-                    ),
+                    // CommonTextWidget(
+                    //   text: AppStrings.print_existing_notes_on_delivery_ticket,
+                    //   fontSize: Dimens.forteen,
+                    //   fontWeight: FontWeight.w600,
+                    //   fontColor: AppColor.blackColor,
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(vertical: 8.0),
+                    //   child: ListDileveryTicket(),
+                    // ),
+                    // SizedBox(
+                    //   height: Dimens.ten,
+                    // ),
+                    // CommonTextWidget(
+                    //   text: AppStrings.insurance_verification,
+                    //   fontSize: Dimens.forteen,
+                    //   fontWeight: FontWeight.w600,
+                    //   fontColor: AppColor.blackColor,
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(vertical: 8.0),
+                    //   child: listInsuranceVerification(),
+                    // ),
                     SizedBox(
                       height: Dimens.ten,
                     ),
@@ -109,11 +110,31 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
                       child: CommonActionButton(
                         title: AppStrings.next,
                         onPressed: () {
+                          var postCompleteDelivery = PostCompleteDelivery(
+                              item:
+                              widget.postCompleteDelivery!.item.toString(),
+                              claimId: widget.postCompleteDelivery!.claimId,
+                              phoneNumber:
+                              widget.postCompleteDelivery!.phoneNumber,
+                              patientFullName:
+                              widget.postCompleteDelivery!.patientFullName,
+                              deliveryAddress:
+                              widget.postCompleteDelivery!.deliveryAddress,
+                              claimAssessmentCheckList:
+                              ClaimAssessmentCheckList(
+                                  claimAssessmentCheckListDetails:
+                                  [
+                                    ClaimAssessmentCheckListDetails(
+                                        options:itemlistreviewed, header:AppStrings.reviewed_patient),
+                                    ClaimAssessmentCheckListDetails(
+                                        options:claimCheckList, header:AppStrings.claim_check_list)
+                                  ]));
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => ClaimAssementStepTwo(
-                                      widget.patientDetailsModel)));
+                                  builder: (context) =>
+                                      ClaimAssementStepTwo(
+                                          postCompleteDelivery)));
                         },
                         borderRadius: Dimens.seven,
                         backgroundColor: AppColor.primaryColor,
@@ -161,49 +182,62 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
     );
   }
 
-  List<ClaimAssementsModel> itemlistreviewed = [
-    ClaimAssementsModel(
-        text: AppStrings.equipment_use_instructions, value: false),
-    ClaimAssementsModel(
-        text: AppStrings.equipment_use_instructions, value: false),
-    ClaimAssementsModel(text: AppStrings.costs_and_reimbursement, value: false),
-    ClaimAssementsModel(
-        text: AppStrings.home_safety_home_fire_safety, value: false),
-    ClaimAssementsModel(text: AppStrings.complaint_process, value: false),
-    ClaimAssementsModel(text: AppStrings.patient_rights_research, value: false),
-    ClaimAssementsModel(
-        text: AppStrings.notice_of_privacy_practices, value: false),
-    ClaimAssementsModel(
-        text: AppStrings.infection_prevention_and_control, value: false),
-    ClaimAssementsModel(text: AppStrings.cms_standards, value: false),
-    ClaimAssementsModel(text: AppStrings.patient_satisfaction, value: false),
-    ClaimAssementsModel(text: AppStrings.patient_falls_education, value: false),
-    ClaimAssementsModel(text: AppStrings.policy_notification, value: false),
-    ClaimAssementsModel(text: AppStrings.victim_abuse, value: false),
+  List<OptionsClaim> itemlistreviewed = [
+    OptionsClaim(
+        id: 201, name: AppStrings.equipment_use_instructions, isSelected: false),
+    OptionsClaim(
+        id: 202, name: AppStrings.costs_and_reimbursement, isSelected: false),
+    OptionsClaim(
+        id: 203,
+        name: AppStrings.home_safety_home_fire_safety,
+        isSelected: false),
+    OptionsClaim(
+        id: 204, name: AppStrings.complaint_process, isSelected: false),
+    OptionsClaim(
+        id: 205, name: AppStrings.patient_rights_research, isSelected: false),
+    OptionsClaim(
+        id: 206, name: AppStrings.notice_of_privacy_practices, isSelected: false),
+    OptionsClaim(
+        id: 207,
+        name: AppStrings.infection_prevention_and_control,
+        isSelected: false),
+    OptionsClaim(
+        id: 208, name: AppStrings.cms_standards, isSelected: false),
+    OptionsClaim(
+        id: 209, name: AppStrings.patient_satisfaction, isSelected: false),
+    OptionsClaim(
+        id: 210, name: AppStrings.patient_falls_education, isSelected: false),
+    OptionsClaim(
+        id: 211, name: AppStrings.policy_notification, isSelected: false),
+    OptionsClaim(
+        id: 212, name: AppStrings.victim_abuse, isSelected: false),
   ];
-  List<ClaimAssementsModel> claimCheckList = [
-    ClaimAssementsModel(text: AppStrings.equipment_delivered, value: false),
-    ClaimAssementsModel(
-        text: AppStrings.patient_training_and_home_evaluation_completed,
-        value: false),
-    ClaimAssementsModel(
-        text: AppStrings.vehicle_inspection_completed_for_delivery_date,
-        value: false),
+  List<OptionsClaim> claimCheckList = [
+    OptionsClaim(
+        id: 220, name: AppStrings.equipment_delivered, isSelected: false),
+    OptionsClaim(
+        id: 221,
+        name: AppStrings.patient_training_and_home_evaluation_completed,
+        isSelected: false),
+    OptionsClaim(
+        id: 222,
+        name: AppStrings.vehicle_inspection_completed_for_delivery_date,
+        isSelected: false),
   ];
   List<ClaimAssementsModel> itemDeliveryTicket = [
     ClaimAssementsModel(
-        text: AppStrings.patient_refused_supplies, value: false),
+        name: AppStrings.patient_refused_supplies, isSelected: false),
   ];
   List<ClaimAssementsModel> itemInsuranceVerification = [
-    ClaimAssementsModel(text: AppStrings.date, value: false),
-    ClaimAssementsModel(text: AppStrings.time, value: false),
-    ClaimAssementsModel(text: AppStrings.insurance, value: false),
-    ClaimAssementsModel(text: AppStrings.spoke_with, value: false),
-    ClaimAssementsModel(text: AppStrings.hcpc_description, value: false),
-    ClaimAssementsModel(text: AppStrings.in_out_of_network, value: false),
-    ClaimAssementsModel(text: AppStrings.deductible, value: false),
-    ClaimAssementsModel(text: AppStrings.coinsurance, value: false),
-    ClaimAssementsModel(text: AppStrings.oop, value: false),
+    ClaimAssementsModel(name: AppStrings.date, isSelected: false),
+    ClaimAssementsModel(name: AppStrings.time, isSelected: false),
+    ClaimAssementsModel(name: AppStrings.insurance, isSelected: false),
+    ClaimAssementsModel(name: AppStrings.spoke_with, isSelected: false),
+    ClaimAssementsModel(name: AppStrings.hcpc_description, isSelected: false),
+    ClaimAssementsModel(name: AppStrings.in_out_of_network, isSelected: false),
+    ClaimAssementsModel(name: AppStrings.deductible, isSelected: false),
+    ClaimAssementsModel(name: AppStrings.coinsurance, isSelected: false),
+    ClaimAssementsModel(name: AppStrings.oop, isSelected: false),
   ];
 
   Widget listReviewed() {
@@ -214,14 +248,14 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
         itemCount: itemlistreviewed.length,
         itemBuilder: (context, position) {
           return checkListWidget(
-            valueString: itemlistreviewed[position].text,
-            isChecked: itemlistreviewed[position].value,
+            valueString: itemlistreviewed[position].name,
+            isChecked: itemlistreviewed[position].isSelected,
             onTap: () {
               setState(() {
-                if (itemlistreviewed[position].value == false) {
-                  itemlistreviewed[position].setValue = true;
+                if (itemlistreviewed[position].isSelected == false) {
+                  itemlistreviewed[position].setIsSelected = true;
                 } else
-                  itemlistreviewed[position].setValue = false;
+                  itemlistreviewed[position].setIsSelected = false;
               });
             },
           );
@@ -236,14 +270,14 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
         itemCount: claimCheckList.length,
         itemBuilder: (context, position) {
           return checkListWidget(
-              valueString: claimCheckList[position].text,
-              isChecked: claimCheckList[position].value,
+              valueString: claimCheckList[position].name,
+              isChecked: claimCheckList[position].isSelected,
               onTap: () {
                 setState(() {
-                  if (claimCheckList[position].value == false) {
-                    claimCheckList[position].setValue = true;
+                  if (claimCheckList[position].isSelected == false) {
+                    claimCheckList[position].setIsSelected = true;
                   } else
-                    claimCheckList[position].setValue = false;
+                    claimCheckList[position].setIsSelected = false;
                 });
               });
         });
@@ -257,14 +291,14 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
         itemCount: itemInsuranceVerification.length,
         itemBuilder: (context, position) {
           return checkListWidget(
-            valueString: itemInsuranceVerification[position].text,
-            isChecked: itemInsuranceVerification[position].value,
+            valueString: itemInsuranceVerification[position].name,
+            isChecked: itemInsuranceVerification[position].isSelected,
             onTap: () {
               setState(() {
-                if (itemInsuranceVerification[position].value == false) {
-                  itemInsuranceVerification[position].setValue = true;
+                if (itemInsuranceVerification[position].isSelected == false) {
+                  itemInsuranceVerification[position].setIsSelected = true;
                 } else
-                  itemInsuranceVerification[position].setValue = false;
+                  itemInsuranceVerification[position].setIsSelected = false;
               });
             },
           );
@@ -280,14 +314,14 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
         itemBuilder: (context, position) {
           return GestureDetector(
             child: checkListWidget(
-              valueString: itemDeliveryTicket[position].text,
-              isChecked: itemDeliveryTicket[position].value,
+              valueString: itemDeliveryTicket[position].name,
+              isChecked: itemDeliveryTicket[position].isSelected,
               onTap: () {
                 setState(() {
-                  if (itemDeliveryTicket[position].value == false) {
-                    itemDeliveryTicket[position].setValue = true;
+                  if (itemDeliveryTicket[position].isSelected == false) {
+                    itemDeliveryTicket[position].setIsSelected = true;
                   } else
-                    itemDeliveryTicket[position].setValue = false;
+                    itemDeliveryTicket[position].setIsSelected = false;
                 });
               },
             ),

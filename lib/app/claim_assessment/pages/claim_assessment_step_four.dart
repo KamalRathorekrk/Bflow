@@ -1,10 +1,11 @@
-import 'package:bflow/app/bottom_nav_bar/bottom_navigation_pages.dart';
-import 'package:bflow/app/claim_assessment/models/patient_detail_model.dart';
+import 'package:bflow/app/claim_assessment/bloc/claims_assessment_bloc.dart';
+import 'package:bflow/app/claim_assessment/models/post_complete_delivery.dart';
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_app_bar.dart';
 import 'package:bflow/app/common_widget/common_header.dart';
 import 'package:bflow/app/common_widget/common_text_field_simple.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
+import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/common_widget/snackbar/utils.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
@@ -17,9 +18,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ClaimAssementStepFour extends StatefulWidget {
-  PatientDetailsModel? patientDetailsModel;
+  CompleteClaimAssessment? completeClaimAssessment;
 
-  ClaimAssementStepFour(this.patientDetailsModel);
+  ClaimAssementStepFour(this.completeClaimAssessment);
 
   @override
   _ClaimAssementStepFourState createState() => _ClaimAssementStepFourState();
@@ -35,6 +36,13 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
   final _cvcFocusNode = FocusNode();
   final _expFocusNode = FocusNode();
   int? month, year;
+  ClaimAssementsBloc? claimAssementsBloc;
+
+  @override
+  void initState() {
+    claimAssementsBloc = ClaimAssementsBloc();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,108 +51,120 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
       appBar: CommonAppBar(
         text: AppStrings.claim_assessment,
       ),
-      body: Container(
-        child: Stack(
-          children: [
-            Container(
-              child: Column(
-                children: [
-                  CommonHeader(
-                    step: 4,
-                    patientDetailsModel: widget.patientDetailsModel,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Dimens.thirtyFive,
-                        vertical: Dimens.twentyEight),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CommonTextWidget(
-                          text: AppStrings.add_payment_card,
-                          fontSize: Dimens.sixteen,
-                          fontWeight: FontWeight.w600,
-                          fontColor: AppColor.blackColor,
-                        ),
-                        SizedBox(
-                          height: Dimens.twentyFive,
-                        ),
-                        CommonTextFieldSimple(
-                          keyboardType: TextInputType.text,
-                          textEditingController: _cardHolderNameController,
-                          borderColor: AppColor.offWhite97Color,
-                          hintText: AppStrings.cardholder_name,
-                          color: AppColor.hintTextColor,
-                          focusNode: _cardHolderFocusNode,
-                          onSubmit: (val) => FocusScope.of(context)
-                              .requestFocus(_cardNumberFocusNode),
-                        ),
-                        CommonTextFieldSimple(
-                          keyboardType: TextInputType.number,
-                          textEditingController: _cardNumberController,
-                          borderColor: AppColor.offWhite97Color,
-                          hintText: AppStrings.card_number,
-                          color: AppColor.hintTextColor,
-                          focusNode: _cardNumberFocusNode,
-                          onSubmit: (val) => FocusScope.of(context)
-                              .requestFocus(_cvcFocusNode),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(16),
-                            CardNumberInputFormatter()
-                          ],
-                        ),
-                        Row(
+      body: Stack(
+        children: [
+          Container(
+            child: Stack(
+              children: [
+                Container(
+                  child: Column(
+                    children: [
+                      CommonHeader(
+                        step: 4,
+                        postCompleteDelivery: widget
+                            .completeClaimAssessment!.postCompleteDelivery,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: Dimens.thirtyFive,
+                            vertical: Dimens.twentyEight),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: CommonTextFieldSimple(
-                                keyboardType: TextInputType.number,
-                                textEditingController: _cvcController,
-                                borderColor: AppColor.offWhite97Color,
-                                hintText: AppStrings.cvc,
-                                color: AppColor.hintTextColor,
-                                focusNode: _cvcFocusNode,
-                                onSubmit: (val) => FocusScope.of(context)
-                                    .requestFocus(_expFocusNode),
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(3),
-                                ],
-                              ),
+                            CommonTextWidget(
+                              text: AppStrings.add_payment_card,
+                              fontSize: Dimens.sixteen,
+                              fontWeight: FontWeight.w600,
+                              fontColor: AppColor.blackColor,
                             ),
                             SizedBox(
-                              width: Dimens.ten,
+                              height: Dimens.twentyFive,
                             ),
-                            Expanded(
-                              child: CommonTextFieldSimple(
-                                keyboardType: TextInputType.number,
-                                textEditingController: _expController,
-                                borderColor: AppColor.offWhite97Color,
-                                hintText: AppStrings.exp,
-                                color: AppColor.hintTextColor,
-                                focusNode: _expFocusNode,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(4),
-                                  CardNumberExpInputFormatter()
-                                ],
-                              ),
+                            CommonTextFieldSimple(
+                              keyboardType: TextInputType.text,
+                              textEditingController: _cardHolderNameController,
+                              borderColor: AppColor.offWhite97Color,
+                              labelText: AppStrings.cardholder_name,
+                              color: AppColor.hintTextColor,
+                              focusNode: _cardHolderFocusNode,
+                              onSubmit: (val) => FocusScope.of(context)
+                                  .requestFocus(_cardNumberFocusNode),
+                            ),
+                            CommonTextFieldSimple(
+                              keyboardType: TextInputType.number,
+                              textEditingController: _cardNumberController,
+                              borderColor: AppColor.offWhite97Color,
+                              labelText: AppStrings.card_number,
+                              color: AppColor.hintTextColor,
+                              focusNode: _cardNumberFocusNode,
+                              onSubmit: (val) => FocusScope.of(context)
+                                  .requestFocus(_cvcFocusNode),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(16),
+                                CardNumberInputFormatter()
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CommonTextFieldSimple(
+                                    keyboardType: TextInputType.number,
+                                    textEditingController: _cvcController,
+                                    borderColor: AppColor.offWhite97Color,
+                                    labelText: AppStrings.cvc,
+                                    color: AppColor.hintTextColor,
+                                    focusNode: _cvcFocusNode,
+                                    onSubmit: (val) => FocusScope.of(context)
+                                        .requestFocus(_expFocusNode),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      LengthLimitingTextInputFormatter(3),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: Dimens.ten,
+                                ),
+                                Expanded(
+                                  child: CommonTextFieldSimple(
+                                    keyboardType: TextInputType.number,
+                                    textEditingController: _expController,
+                                    borderColor: AppColor.offWhite97Color,
+                                    labelText: AppStrings.exp,
+                                    color: AppColor.hintTextColor,
+                                    focusNode: _expFocusNode,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      LengthLimitingTextInputFormatter(4),
+                                      CardNumberExpInputFormatter()
+                                    ],
+                                  ),
+                                )
+                              ],
                             )
                           ],
-                        )
-                      ],
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Positioned(
+                    bottom: Dimens.five,
+                    right: Dimens.five,
+                    left: Dimens.five,
+                    child: innerContainer(context))
+              ],
             ),
-            Positioned(
-                bottom: Dimens.five,
-                right: Dimens.five,
-                left: Dimens.five,
-                child: innerContainer(context))
-          ],
-        ),
+          ),
+          StreamBuilder<bool>(
+              stream: claimAssementsBloc!.progressStream,
+              builder: (context, snapshot) {
+                return Center(
+                    child: CommmonProgressIndicator(
+                        snapshot.hasData ? snapshot.data! : false));
+              }),
+        ],
       ),
     );
   }
@@ -179,10 +199,32 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
             child: CommonActionButton(
               title: AppStrings.complete_delivery,
               onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    CupertinoPageRoute(
-                        builder: (context) => BottomNavigationPage()));
+                if (_cardHolderNameController.text.isEmpty &&
+                    _cardNumberController.text.isEmpty &&
+                    _cvcController.text.isEmpty &&
+                    _expController.text.isEmpty) {
+                  claimAssementsBloc!.completeDelivery(
+                      completeClaimAssessment: widget.completeClaimAssessment!,
+                      context: context);
+                  // var completeClaimAssessment = CompleteClaimAssessment(
+                  //     signature: widget.completeClaimAssessment!.signature,
+                  //     attachments: widget.completeClaimAssessment!.attachments,
+                  // // postCompleteDelivery: PostCompleteDelivery(claimAssessmentCheckList: ,claimId:,phoneNumber: ,item: ,orderReceiverOptions: ,patientFullName: ,deliveryAddress: ));
+                  // claimAssementsBloc!.completeDelivery(
+                  //     completeClaimAssessment: completeClaimAssessment,
+                  //     context: context);
+                } else if (validate(context)) {
+                  claimAssementsBloc!.completeDelivery(
+                      completeClaimAssessment: widget.completeClaimAssessment!,
+                      context: context);
+                }
+
+                // print(widget.completeClaimAssessment!.postCompleteDelivery.toString());
+
+                // Navigator.pushReplacement(
+                //     context,
+                //     CupertinoPageRoute(
+                //         builder: (context) => BottomNavigationPage()));
               },
               borderRadius: Dimens.seven,
               backgroundColor: AppColor.primaryColor,

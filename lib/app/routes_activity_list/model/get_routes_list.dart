@@ -4,13 +4,14 @@
 
 class GetRoutesList {
   GetRoutesList({
-      String? responseType, 
-      List<ResponseRoutes>? responseRoutes,
-      dynamic responseMessage,}){
+    String? responseType,
+    List<ResponseRoutes>? responseRoutes,
+    dynamic responseMessage,
+  }) {
     _responseType = responseType;
     _responseRoutes = responseRoutes;
     _responseMessage = responseMessage;
-}
+  }
 
   GetRoutesList.fromJson(dynamic json) {
     _responseType = json['responseType'];
@@ -22,12 +23,15 @@ class GetRoutesList {
     }
     _responseMessage = json['responseMessage'];
   }
+
   String? _responseType;
   List<ResponseRoutes>? _responseRoutes;
   dynamic _responseMessage;
 
   String? get responseType => _responseType;
+
   List<ResponseRoutes>? get responseRoutes => _responseRoutes;
+
   dynamic get responseMessage => _responseMessage;
 
   Map<String, dynamic> toJson() {
@@ -39,7 +43,6 @@ class GetRoutesList {
     map['responseMessage'] = _responseMessage;
     return map;
   }
-
 }
 
 /// orderId : 5655
@@ -85,46 +88,47 @@ class GetRoutesList {
 
 class ResponseRoutes {
   ResponseRoutes({
-      num? orderId, 
-      String? dateAdded, 
-      num? patientId, 
-      num? orderStatusId, 
-      String? orderStatusName, 
-      String? dateOfservice,
+    num? orderId,
+    String? dateAdded,
+    num? patientId,
+    num? orderStatusId,
+    String? orderStatusName,
+    String? dateOfservice,
     num? userId,
     num? assignedToId,
     num? amountPaid,
     num? totalAmount,
-    num? driverId, 
-      bool? signatureOnFile, 
-      bool? isCancelled, 
-      bool? employment, 
-      bool? isArchived, 
-      bool? isCashOrder, 
-      dynamic suspendOnDate, 
-      String? updatedOn, 
-      dynamic legacyOrderId, 
-      bool? isClaimCrossedOverPending, 
-      dynamic claimAgentName, 
-      dynamic purchaseOrderNumber, 
-      num? orderTransmissionStatusId, 
-      dynamic orderPickUpDate, 
-      num? deliveryMethodId, 
-      num? claimFrequencyTypeId, 
-      dynamic insuranceClaimNumber, 
-      num? orderStateID, 
-      num? claimDelayReasonCode, 
-      dynamic comments, 
-      String? driverName, 
-      String? birthDate, 
-      String? patientFullName, 
-      String? pCompanyName, 
-      String? address, 
-      String? city, 
-      String? state, 
-      String? zipcode, 
-      List<Attachments>? attachments, 
-      List<Signature>? signature,}){
+    num? driverId,
+    bool? signatureOnFile,
+    bool? isCancelled,
+    bool? employment,
+    bool? isArchived,
+    bool? isCashOrder,
+    dynamic suspendOnDate,
+    String? updatedOn,
+    dynamic legacyOrderId,
+    bool? isClaimCrossedOverPending,
+    dynamic claimAgentName,
+    dynamic purchaseOrderNumber,
+    num? orderTransmissionStatusId,
+    dynamic orderPickUpDate,
+    num? deliveryMethodId,
+    num? claimFrequencyTypeId,
+    dynamic insuranceClaimNumber,
+    num? orderStateID,
+    num? claimDelayReasonCode,
+    dynamic comments,
+    String? driverName,
+    String? birthDate,
+    String? patientFullName,
+    String? pCompanyName,
+    String? address,
+    String? city,
+    String? state,
+    String? zipcode,
+    List<Attachments>? attachments,
+    List<Signature>? signature,
+  }) {
     _orderId = orderId;
     _dateAdded = dateAdded;
     _patientId = patientId;
@@ -165,7 +169,7 @@ class ResponseRoutes {
     _zipcode = zipcode;
     _attachments = attachments;
     _signature = signature;
-}
+  }
 
   ResponseRoutes.fromJson(dynamic json) {
     _orderId = json['orderId'];
@@ -219,6 +223,7 @@ class ResponseRoutes {
       });
     }
   }
+
   num? _orderId;
   String? _dateAdded;
   num? _patientId;
@@ -261,44 +266,83 @@ class ResponseRoutes {
   List<Signature>? _signature;
 
   num? get orderId => _orderId;
+
   String? get dateAdded => _dateAdded;
+
   num? get patientId => _patientId;
+
   num? get orderStatusId => _orderStatusId;
+
   String? get orderStatusName => _orderStatusName;
+
   String? get dateOfservice => _dateOfservice;
+
   num? get userId => _userId;
+
   num? get assignedToId => _assignedToId;
+
   num? get amountPaid => _amountPaid;
+
   num? get totalAmount => _totalAmount;
+
   num? get driverId => _driverId;
+
   bool? get signatureOnFile => _signatureOnFile;
+
   bool? get isCancelled => _isCancelled;
+
   bool? get employment => _employment;
+
   bool? get isArchived => _isArchived;
+
   bool? get isCashOrder => _isCashOrder;
+
   dynamic get suspendOnDate => _suspendOnDate;
+
   String? get updatedOn => _updatedOn;
+
   dynamic get legacyOrderId => _legacyOrderId;
+
   bool? get isClaimCrossedOverPending => _isClaimCrossedOverPending;
+
   dynamic get claimAgentName => _claimAgentName;
+
   dynamic get purchaseOrderNumber => _purchaseOrderNumber;
+
   num? get orderTransmissionStatusId => _orderTransmissionStatusId;
+
   dynamic get orderPickUpDate => _orderPickUpDate;
+
   num? get deliveryMethodId => _deliveryMethodId;
+
   num? get claimFrequencyTypeId => _claimFrequencyTypeId;
+
   dynamic get insuranceClaimNumber => _insuranceClaimNumber;
+
   num? get orderStateID => _orderStateID;
+
   num? get claimDelayReasonCode => _claimDelayReasonCode;
+
   dynamic get comments => _comments;
+
   String? get driverName => _driverName;
+
   String? get birthDate => _birthDate;
+
   String? get patientFullName => _patientFullName;
+
   String? get pCompanyName => _pCompanyName;
+
   String? get address => _address;
+
   String? get city => _city;
+
   String? get state => _state;
+
   String? get zipcode => _zipcode;
+
   List<Attachments>? get attachments => _attachments;
+
   List<Signature>? get signature => _signature;
 
   Map<String, dynamic> toJson() {
@@ -349,7 +393,6 @@ class ResponseRoutes {
     }
     return map;
   }
-
 }
 
 /// name : "claim-5655-signature-271221135539"
@@ -357,20 +400,23 @@ class ResponseRoutes {
 
 class Signature {
   Signature({
-      String? name, 
-      String? url,}){
+    String? name,
+    String? url,
+  }) {
     _name = name;
     _url = url;
-}
+  }
 
   Signature.fromJson(dynamic json) {
     _name = json['name'];
     _url = json['url'];
   }
+
   String? _name;
   String? _url;
 
   String? get name => _name;
+
   String? get url => _url;
 
   Map<String, dynamic> toJson() {
@@ -379,7 +425,6 @@ class Signature {
     map['url'] = _url;
     return map;
   }
-
 }
 
 /// name : "6f1170b8-90b3-438d-8c09-b5311653dc58_sample.jpg"
@@ -387,20 +432,23 @@ class Signature {
 
 class Attachments {
   Attachments({
-      String? name, 
-      String? url,}){
+    String? name,
+    String? url,
+  }) {
     _name = name;
     _url = url;
-}
+  }
 
   Attachments.fromJson(dynamic json) {
     _name = json['name'];
     _url = json['url'];
   }
+
   String? _name;
   String? _url;
 
   String? get name => _name;
+
   String? get url => _url;
 
   Map<String, dynamic> toJson() {
@@ -409,5 +457,4 @@ class Attachments {
     map['url'] = _url;
     return map;
   }
-
 }

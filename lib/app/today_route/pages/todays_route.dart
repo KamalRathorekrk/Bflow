@@ -1,4 +1,3 @@
-import 'package:bflow/app/claim_assessment/pages/details_page_sucess.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/routes_activity_list/model/get_routes_list.dart';
@@ -24,12 +23,12 @@ class _TodaysRouteState extends State<TodaysRoute> {
   List<DataModel> itemList = [];
   TodaysRouteBloc? todaysRouteBloc;
   DateTime? _dateTime;
-  var formatter =  DateFormat('EE, MMM dd');
+  var formatter = DateFormat('EE, MMM dd');
 
   void initState() {
     todaysRouteBloc = TodaysRouteBloc();
     todaysRouteBloc!.getClaims(context: context);
-    _dateTime =  DateTime.now();
+    _dateTime = DateTime.now();
 
     itemList.add(DataModel(
         id: "#53434",
@@ -123,7 +122,9 @@ class _TodaysRouteState extends State<TodaysRoute> {
                           padding: EdgeInsets.symmetric(
                               horizontal: Dimens.twentyFive),
                           child: CommonTextWidget(
-                            text: snapshot.data!.length>1?"${snapshot.data!.length} Stops":"${snapshot.data!.length} Stop",
+                            text: snapshot.data!.length > 1
+                                ? "${snapshot.data!.length} Stops"
+                                : "${snapshot.data!.length} Stop",
                             fontSize: Dimens.forteen,
                             fontWeight: FontWeight.w500,
                             fontColor: AppColor.backgroundColor,
@@ -270,7 +271,7 @@ class _TodaysRouteState extends State<TodaysRoute> {
   }
 
   Widget ListData({context, List<ClaimList>? data}) {
-    ResponseRoutes responseRoutes=ResponseRoutes();
+    ResponseRoutes responseRoutes = ResponseRoutes();
     return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -299,8 +300,8 @@ class _TodaysRouteState extends State<TodaysRoute> {
                 id: data[position].claimId.toString(),
                 location:
                     "${data[position].deliveryAddress!.address}, ${data[position].deliveryAddress!.city}, ${data[position].deliveryAddress!.state}",
-                name: data[position].patientFullName??"",
-                time: data[position].deliveryTime??"",
+                name: data[position].patientFullName ?? "",
+                time: data[position].deliveryTime ?? "",
                 status:
                     data[position].deliveryStatus == 'InTransit' ? false : true,
                 color: position != 1

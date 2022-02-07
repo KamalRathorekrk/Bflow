@@ -32,17 +32,7 @@ class ApiRepository {
       receiveTimeout: 20000,
     );
     _dio = Dio(options);
-
-    // _dio!.options.baseUrl = ApiEndPoints.base_url;
     _dio!.options.headers['Content-Type'] = 'application/json';
-    // _dio!.options.baseUrl = ApiEndPoints.base_url;
-    // _dio!.options.headers['Content-Type'] = 'application/json';
-    // _dio!.options.headers['Authorization'] =
-    //     AppStrings.token != null || AppStrings.token.isNotEmpty
-    //         ? "Bearer " + AppStrings.token.toString()
-    //         : "";
-    // _dio!.options.headers['Authorization'] =
-    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJEcml2ZXIiLCJmdWxsTmFtZSI6IkRyaXZlciBCZmxvdyIsInVzZXJJZCI6IjEyOCIsIngtY29wb3JhdGVJZCAgIjoiZGVtbzE5IiwianRpIjoiOGEzMzAwNjktZjE5MC00ZTdiLTk2YzMtNzg5N2ZhMzRhZjIwIiwiZXhwIjoxNjQyNzQwMzYwLCJpc3MiOiJCZmxvdyBTb2x1dGlvbnMgSW5jIiwiYXVkIjoiQmZsb3cgTW9iaWxlIEFwcCBVc2VycyJ9.IpnL2TxYtBK1I25_0ORlnFoAsA_9yPtjnAqgxDcbS7Q";
   }
 
   /*................... login api ..........*/
@@ -256,8 +246,6 @@ class ApiRepository {
 /*................... complete delivery ..........*/
   Future<CommonResponse> completeDelivery(
       {required CompleteClaimAssessment completeClaimAssessment}) async {
-    // var formData = FormData();
-    // print(completeClaimAssessment.postCompleteDelivery!.toJson());
     print(jsonEncode(completeClaimAssessment.postCompleteDelivery!.toJson()));
     List imageFiles = [];
     for (int i = 0; i < completeClaimAssessment.attachments!.length; i++) {
@@ -267,7 +255,7 @@ class ApiRepository {
         ),
       );
     }
-   var formData = FormData.fromMap({
+    var formData = FormData.fromMap({
       "Attachments": imageFiles,
       "Signature": await MultipartFile.fromFile(
         completeClaimAssessment.signature!.path,
@@ -351,21 +339,12 @@ class ApiRepository {
       authTOKEN = value;
 
       if (authTOKEN != null) {
-        // print("Authorization $authTOKEN");
         _dio.interceptors.add(InterceptorsWrapper(
-          //   onError: (error, errorInterceptorHandler) {
-          //   // if (error.message.contains('403')) {}
-          // },
           onRequest: (request, requestInterceptorHandler) {
             request.headers["Authorization"] = "Bearer " + authTOKEN;
-            // print("onRequest Auth token ${authTOKEN}");
+
             requestInterceptorHandler.next(request);
-            // print("onRequest ------${request.method} | ${request.path}");
           },
-          //     onResponse: (response, responseInterceptorHandler) {
-          //
-          //   responseInterceptorHandler.next(response);
-          // }
         ));
       }
     });

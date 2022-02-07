@@ -12,23 +12,23 @@ class DataModel {
   bool? _check;
 
   String? get id => _id;
+
   String? get location => _location;
+
   String? get name => _name;
+
   String? get time => _time;
+
   bool? get check => _check;
 
-  DataModel({
-      String? id, 
-      String? location, 
-      String? name, 
-      String? time, 
-      bool? check}){
+  DataModel(
+      {String? id, String? location, String? name, String? time, bool? check}) {
     _id = id;
     _location = location;
     _name = name;
     _time = time;
     _check = check;
-}
+  }
 
   DataModel.fromJson(dynamic json) {
     _id = json['id'];
@@ -47,5 +47,4 @@ class DataModel {
     map['check'] = _check;
     return map;
   }
-
 }

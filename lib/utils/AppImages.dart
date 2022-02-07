@@ -31,6 +31,4 @@ class AppImages {
   static String bflow_white = 'assets/images/bflow_white.png';
   static String list = 'assets/images/list.svg';
   static String signaturePlaceHolder = 'assets/images/signature.svg';
-
-
 }

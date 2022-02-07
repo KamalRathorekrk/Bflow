@@ -6,9 +6,7 @@ import 'package:bflow/app/common_widget/common_textfield.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/common_widget/snackbar/utils.dart';
 import 'package:bflow/app/login/bloc/login_bloc.dart';
-import 'package:bflow/app/login/model/login_model.dart';
 import 'package:bflow/app/login/pages/forget_password.dart';
-import 'package:bflow/app/login/pages/verification_pages.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
 import 'package:bflow/utils/AppStrings.dart';
@@ -170,9 +168,6 @@ class _LoginPageState extends State<LoginPage> {
           CommonActionButton(
             title: AppStrings.login,
             onPressed: () async {
-            // var  loginModel = LoginModel(userName: "userName", corporateId: "corporateId", password: "password");
-            //   Navigator.push(context, CupertinoPageRoute(builder: (context) => Verification(loginModel: loginModel,)));
-
               if (formValidation(context)) {
                 await loginblock!.loginUpApiCall(
                     context: context,

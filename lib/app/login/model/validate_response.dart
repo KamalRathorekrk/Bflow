@@ -3,20 +3,25 @@
 
 class ValidateResponse {
   ValidateResponse({
-      String? token, 
-      UserDetails? userDetails,}){
+    String? token,
+    UserDetails? userDetails,
+  }) {
     _token = token;
     _userDetails = userDetails;
-}
+  }
 
   ValidateResponse.fromJson(dynamic json) {
     _token = json['token'];
-    _userDetails = json['userDetails'] != null ? UserDetails.fromJson(json['userDetails']) : null;
+    _userDetails = json['userDetails'] != null
+        ? UserDetails.fromJson(json['userDetails'])
+        : null;
   }
+
   String? _token;
   UserDetails? _userDetails;
 
   String? get token => _token;
+
   UserDetails? get userDetails => _userDetails;
 
   Map<String, dynamic> toJson() {
@@ -27,7 +32,6 @@ class ValidateResponse {
     }
     return map;
   }
-
 }
 
 /// userName : "Driver"
@@ -38,17 +42,18 @@ class ValidateResponse {
 
 class UserDetails {
   UserDetails({
-      String? userName, 
-      String? fullName, 
-      String? corporateId, 
-      int? userId, 
-      String? emailAddress,}){
+    String? userName,
+    String? fullName,
+    String? corporateId,
+    int? userId,
+    String? emailAddress,
+  }) {
     _userName = userName;
     _fullName = fullName;
     _corporateId = corporateId;
     _userId = userId;
     _emailAddress = emailAddress;
-}
+  }
 
   UserDetails.fromJson(dynamic json) {
     _userName = json['userName'];
@@ -57,6 +62,7 @@ class UserDetails {
     _userId = json['userId'];
     _emailAddress = json['emailAddress'];
   }
+
   String? _userName;
   String? _fullName;
   String? _corporateId;
@@ -64,9 +70,13 @@ class UserDetails {
   String? _emailAddress;
 
   String? get userName => _userName;
+
   String? get fullName => _fullName;
+
   String? get corporateId => _corporateId;
+
   int? get userId => _userId;
+
   String? get emailAddress => _emailAddress;
 
   Map<String, dynamic> toJson() {
@@ -78,5 +88,4 @@ class UserDetails {
     map['emailAddress'] = _emailAddress;
     return map;
   }
-
 }

@@ -21,7 +21,7 @@ class CommonHeader extends StatelessWidget{
       padding: EdgeInsets.symmetric(
           vertical: Dimens.twenty, horizontal: Dimens.twenty),
       decoration: BoxDecoration(
-          color: AppColor.offWhitef3Color,
+          color: AppColor.offWhiteF3Color,
           border: Border.all(
               color: AppColor.offWhite66Color, width: 0.2)),
       child: Column(

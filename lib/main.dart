@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bflow/app/bottom_nav_bar/bottom_navigation_pages.dart';
 import 'package:bflow/app/login/pages/login.dart';
-import 'package:bflow/app/settings/bloc/setting_bloc.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
 import 'package:bflow/utils/AppStrings.dart';
@@ -45,15 +44,12 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(seconds: 3), () {
       SharedPreferenceData.getlogin().then((value) {
         if (value == "true") {
-          // SettingBlock().getProfilePic();
           getLocalData();
           Navigator.pushReplacement(context,
               CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
         } else {
           Navigator.pushReplacement(
               context, CupertinoPageRoute(builder: (context) => LoginPage()));
-          // Navigator.pushReplacement(context,
-          //     CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
         }
       });
     });
@@ -75,10 +71,10 @@ class _SplashScreenState extends State<SplashScreen> {
     });
     SharedPreferenceData.getUserId().then((value) {
       AppStrings.userId = value;
-    });SharedPreferenceData.getEmailAddress().then((value) {
+    });
+    SharedPreferenceData.getEmailAddress().then((value) {
       AppStrings.emailAddress = value;
     });
-
   }
 
   @override

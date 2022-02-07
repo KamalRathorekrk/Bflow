@@ -2,14 +2,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class SizeConfig {
-  static double _screenWidth=0;
-  static double _screenHeight=0;
+  static double _screenWidth = 0;
+  static double _screenHeight = 0;
   static double _blockWidth = 0;
   static double _blockHeight = 0;
 
   static double? textMultiplier;
   static double? imageSizeMultiplier;
-  static double heightMultiplier=10;
+  static double heightMultiplier = 10;
   static double? widthMultiplier;
   static bool isPortrait = true;
   static bool isMobilePortrait = false;

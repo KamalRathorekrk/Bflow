@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-// ignore: must_be_immutable
+
 class CommonTextField extends StatefulWidget {
   final String prefixIcon;
   final Color color, borderColor;

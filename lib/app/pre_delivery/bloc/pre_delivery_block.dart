@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:bflow/app/pre_delivery/model/claim_id_response.dart';
-import 'package:bflow/app/pre_delivery/model/pre_claims_model.dart';
 import 'package:bflow/app/common/claims_details.dart';
+import 'package:bflow/app/pre_delivery/model/pre_claims_model.dart';
 import 'package:bflow/network/api_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
@@ -47,19 +46,22 @@ class PreDeliveryBloc {
     });
   }
 
-  void getClaims({
-    required String userName,
-    required String fullName,
-    required String corporateId,
-    required String userId,
-    required String emailAddress,
-    required BuildContext context}) {
+  void getClaims(
+      {required String userName,
+      required String fullName,
+      required String corporateId,
+      required String userId,
+      required String emailAddress,
+      required BuildContext context}) {
     progressSink.add(true);
-    apiRepository.claimPreApi(userId: userId,
-        fullName: fullName,
-        userName: userName,
-        corporateId: corporateId,
-        emailAddress: emailAddress).then((onResponse) {
+    apiRepository
+        .claimPreApi(
+            userId: userId,
+            fullName: fullName,
+            userName: userName,
+            corporateId: corporateId,
+            emailAddress: emailAddress)
+        .then((onResponse) {
       if (onResponse.responseType == "Ok") {
         claimsSink.add(onResponse.responseObject!);
       } else {

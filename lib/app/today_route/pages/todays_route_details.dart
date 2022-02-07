@@ -245,7 +245,8 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(flex: 2,
+            Expanded(
+              flex: 2,
               child: Row(
                 children: [
                   Visibility(
@@ -272,8 +273,6 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
                   visible: show ?? false,
                   child: InkWell(
                     onTap: () async {
-                      // await MapsLauncher.launchCoordinates(
-                      //     37.4220041, -122.0862462, 'Google Headquarters are here');
                       await MapsLauncher.launchQuery(address);
                     },
                     child: Text(AppStrings.view_on_map,

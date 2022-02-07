@@ -9,7 +9,8 @@ class CommonTextWidget extends StatelessWidget {
   late var text = "";
   var fontWeight;
   double fontSize;
-  var fontColor;var fontStyle;
+  var fontColor;
+  var fontStyle;
   var textAlignment;
   var height;
   var wordSpacing;
@@ -21,24 +22,19 @@ class CommonTextWidget extends StatelessWidget {
   CommonTextWidget(
       {required this.text,
       this.fontWeight,
-
       required this.fontSize,
       this.fontColor,
-
-        this.textAlignment,
+      this.textAlignment,
       this.height,
-      this.textDecoration=TextDecoration.none,
+      this.textDecoration = TextDecoration.none,
       this.wordSpacing,
       this.maxLines,
       this.overflow,
-      this.fontStyle}
-      );
+      this.fontStyle});
 
   @override
   Widget build(BuildContext context) {
-
     return Text(text,
-
         textScaleFactor: Platform.isIOS
             ? Utils.getIPhoneTextScaleFactor(context).toDouble()
             : Utils.getAndroidPhoneTextScaleFactor(context).toDouble(),
@@ -46,16 +42,14 @@ class CommonTextWidget extends StatelessWidget {
         maxLines: maxLines,
         overflow: overflow,
         softWrap: true,
-
         style: TextStyle(
-            fontStyle: fontStyle??FontStyle.normal,
+            fontStyle: fontStyle ?? FontStyle.normal,
             fontFamily: AppStrings.fontFamily,
             height: height != null ? height : 1.1,
             wordSpacing: wordSpacing,
             color: fontColor,
             fontWeight: fontWeight,
             decoration: textDecoration,
-
             fontSize: fontSize.toDouble()));
   }
 }

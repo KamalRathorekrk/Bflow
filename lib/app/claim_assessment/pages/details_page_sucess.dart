@@ -35,7 +35,6 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
   void initState() {
     _checkListBlock = CheckListBlock();
     _checkListBlock!.getCheckList(widget.responseRoutes.orderId);
-    // _nameController = TextEditingController(text:  widget.responseRoutes.);
     super.initState();
   }
 
@@ -330,60 +329,6 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
                       ),
                     ]);
               }),
-          // CommonTextWidget(
-          //   text: AppStrings.reviewed_patient,
-          //   fontSize: Dimens.forteen,
-          //   fontWeight: FontWeight.w600,
-          //   fontColor: AppColor.blackColor,
-          // ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(vertical: 8.0),
-          //   child:
-          //       ListReviewed(data.claimAssessmentCheckListDetails![0].options),
-          // ),
-          // SizedBox(
-          //   height: Dimens.ten,
-          // ),
-          // CommonTextWidget(
-          //   text: AppStrings.claim_check_list,
-          //   fontSize: Dimens.forteen,
-          //   fontWeight: FontWeight.w600,
-          //   fontColor: AppColor.blackColor,
-          // ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(vertical: 8.0),
-          //   child: ListClamedCheckList(
-          //       data.claimAssessmentCheckListDetails![1].options),
-          // ),
-          // SizedBox(
-          //   height: Dimens.ten,
-          // ),
-          // CommonTextWidget(
-          //   text: AppStrings.print_existing_notes_on_delivery_ticket,
-          //   fontSize: Dimens.forteen,
-          //   fontWeight: FontWeight.w600,
-          //   fontColor: AppColor.blackColor,
-          // ),
-          // Padding(
-          //     padding: EdgeInsets.symmetric(vertical: 8.0),
-          //     child: CheckListWidget(
-          //         valueString: AppStrings.patient_refused_supplies)),
-          // SizedBox(
-          //   height: Dimens.ten,
-          // ),
-          // CommonTextWidget(
-          //   text: AppStrings.insurance_verification,
-          //   fontSize: Dimens.forteen,
-          //   fontWeight: FontWeight.w600,
-          //   fontColor: AppColor.blackColor,
-          // ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(vertical: 8.0),
-          //   child: ListInsuranceVerification(),
-          // ),
-          // SizedBox(
-          //   height: Dimens.ten,
-          // ),
         ],
       ),
     );
@@ -505,23 +450,7 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
             height: Dimens.ten,
           ),
           imageContainer(data.signature),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Container(
-          //       width: 305,
-          //       height: 120,
-          //       color: AppColor.offWhite17Color,
-          //       child: Center(
-          //         child: Image(
-          //           image: AssetImage(AppImages.signature),
-          //           width: 166,
-          //           height: 103,
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
+
         ],
       ),
     );

@@ -95,8 +95,8 @@ class _CommonPasswordFieldState extends State<CommonPasswordField> {
           ),
           prefixIconConstraints: BoxConstraints(
               minHeight: Dimens.thirtyTwo, minWidth: Dimens.thirtyEight),
-          suffixIconConstraints:
-              BoxConstraints(minHeight: Dimens.twentyFive, minWidth: Dimens.twentyFive),
+          suffixIconConstraints: BoxConstraints(
+              minHeight: Dimens.twentyFive, minWidth: Dimens.twentyFive),
           suffixIcon: widget.suffixicon
               ? InkWell(
                   child: passwordfield == true
@@ -112,7 +112,8 @@ class _CommonPasswordFieldState extends State<CommonPasswordField> {
                             right: Dimens.fifteen,
                           ),
                           child: SvgPicture.asset(
-                            AppImages.eye,color: widget.color,
+                            AppImages.eye,
+                            color: widget.color,
                           ),
                         ),
                   onTap: () {

@@ -8,7 +8,7 @@ class SharedPreferenceData {
   static final String corporateId = "corporateId";
   static final String userId = "userId";
   static final String emailAddress = "emailAddress";
-  static final String imageUrl ="imageUrl";
+  static final String imageUrl = "imageUrl";
 
   static Future<String> getlogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -45,6 +45,7 @@ class SharedPreferenceData {
 
     return prefs.setString(userName, value);
   }
+
   static Future<String> getFullName() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -56,6 +57,7 @@ class SharedPreferenceData {
 
     return prefs.setString(fullName, value);
   }
+
   static Future<String> getCorporateId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -67,6 +69,7 @@ class SharedPreferenceData {
 
     return prefs.setString(corporateId, value);
   }
+
   static Future<String> getUserId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -78,6 +81,7 @@ class SharedPreferenceData {
 
     return prefs.setString(userId, value);
   }
+
   static Future<String> getEmailAddress() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -88,7 +92,9 @@ class SharedPreferenceData {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.setString(emailAddress, value);
-  }static Future<String> getProfileImageUrl() async {
+  }
+
+  static Future<String> getProfileImageUrl() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.getString(imageUrl) ?? '';

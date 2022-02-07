@@ -3,9 +3,8 @@ import 'package:bflow/utils/AppStrings.dart';
 import 'package:bflow/utils/Dimens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-// ignore: must_be_immutable
+
 class CommonTextFieldSimple extends StatefulWidget {
   final Color? color, borderColor;
 
@@ -26,11 +25,11 @@ class CommonTextFieldSimple extends StatefulWidget {
   CommonTextFieldSimple(
       {required this.textEditingController,
       this.color,
-        this.inputFormatters,
+      this.inputFormatters,
       this.borderColor,
-        this.focusNode,
+      this.focusNode,
       this.labelText = "",
-        this.onSubmit,
+      this.onSubmit,
       this.labelStyle = const TextStyle(color: const Color(0xFF666666)),
       this.keyboardType,
       this.maxLines = 1,
@@ -48,12 +47,11 @@ class CommonTextFieldSimple extends StatefulWidget {
 }
 
 class _CommonTextFieldSimpleState extends State<CommonTextFieldSimple> {
-
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       TextFormField(
-        inputFormatters:widget.inputFormatters,
+        inputFormatters: widget.inputFormatters,
         cursorColor: AppColor.primaryColor,
         maxLines: widget.maxLines,
         keyboardType: widget.keyboardType,
@@ -79,7 +77,6 @@ class _CommonTextFieldSimpleState extends State<CommonTextFieldSimple> {
               fontWeight: FontWeight.w400,
               fontSize: Dimens.sixteen,
               color: widget.color),
-
         ),
         style: TextStyle(
             fontFamily: AppStrings.fontFamily,
@@ -89,7 +86,6 @@ class _CommonTextFieldSimpleState extends State<CommonTextFieldSimple> {
             color: widget.color),
         onChanged: widget.onChange,
         onFieldSubmitted: widget.onSubmit,
-
       ),
       SizedBox(
         height: Dimens.ten,

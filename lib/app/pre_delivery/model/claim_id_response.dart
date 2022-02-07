@@ -65,7 +65,7 @@ class ResponseObject {
 
   ResponseObject.fromJson(dynamic json) {
     _claimId = json['claimId'];
-    _items = json['items'] != null ? Items.fromJson(json['items']):null;
+    _items = json['items'] != null ? Items.fromJson(json['items']) : null;
     _patientName = json['patientName'];
     _deliveryAddress = json['deliveryAddress'] != null
         ? DeliveryAddress.fromJson(json['deliveryAddress'])

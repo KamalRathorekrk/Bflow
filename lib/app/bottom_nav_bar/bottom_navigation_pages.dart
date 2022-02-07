@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
-
 class BottomNavigationPage extends StatefulWidget {
   BottomNavigationPage({Key? key}) : super(key: key);
 
@@ -32,12 +30,10 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   }
 
   Future<void> permissionAccess() async {
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.location
-    ].request();
+    Map<Permission, PermissionStatus> statuses =
+        await [Permission.location].request();
     print(statuses[Permission.location]);
   }
-
 
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[

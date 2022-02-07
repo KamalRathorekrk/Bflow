@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bflow/utils/AppStrings.dart';
 import 'package:bflow/utils/Dimens.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +73,8 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding:  EdgeInsets.symmetric(vertical: Dimens.eighteen,horizontal: Dimens.ten),
+      padding: EdgeInsets.symmetric(
+          vertical: Dimens.eighteen, horizontal: Dimens.ten),
       decoration: BoxDecoration(
         color: widget.backgroundColor,
         borderRadius: BorderRadius.all(Radius.circular(Dimens.five)),

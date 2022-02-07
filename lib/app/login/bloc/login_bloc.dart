@@ -30,26 +30,38 @@ class LoginBlock {
     required String corporateId,
   }) async {
     progressSink.add(true);
-    apiRepository.loginApi(
+    apiRepository
+        .loginApi(
       context: context,
       userName: userName,
       password: password,
       corporateId: corporateId,
-    ).then((onResponse) {
+    )
+        .then((onResponse) {
       progressSink.add(false);
-      loginModel = LoginModel(userName: userName, corporateId: corporateId, password: password);
+      loginModel = LoginModel(
+          userName: userName, corporateId: corporateId, password: password);
       print("onResponse $onResponse");
       if (onResponse.responseMessage != null) {
-        SnackBarUtils.showSuccessSnackBar(onResponse.responseMessage ?? "", context);
-        Navigator.push(context, CupertinoPageRoute(builder: (context) => Verification(loginModel: loginModel,)));
+        SnackBarUtils.showSuccessSnackBar(
+            onResponse.responseMessage ?? "", context);
+        Navigator.push(
+            context,
+            CupertinoPageRoute(
+                builder: (context) => Verification(
+                      loginModel: loginModel,
+                    )));
       } else {
-        SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
-      }}).catchError((onError) {
-        print(onError.toString());
+        SnackBarUtils.showErrorSnackBar(
+            AppStrings.something_went_wrong, context);
+      }
+    }).catchError((onError) {
+      print(onError.toString());
       progressSink.add(false);
       SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
     });
   }
+
   Future<void> resendApiCall({
     required BuildContext context,
     required String userName,
@@ -57,21 +69,27 @@ class LoginBlock {
     required String corporateId,
   }) async {
     progressSink.add(true);
-    apiRepository.resendOtp(
+    apiRepository
+        .resendOtp(
       context: context,
       userName: userName,
       password: password,
       corporateId: corporateId,
-    ).then((onResponse) {
+    )
+        .then((onResponse) {
       progressSink.add(false);
-      loginModel = LoginModel(userName: userName, corporateId: corporateId, password: password);
+      loginModel = LoginModel(
+          userName: userName, corporateId: corporateId, password: password);
       print("onResponse $onResponse");
       if (onResponse.responseType == "Ok") {
-        SnackBarUtils.showSuccessSnackBar(onResponse.responseMessage ?? "", context);
+        SnackBarUtils.showSuccessSnackBar(
+            onResponse.responseMessage ?? "", context);
         // Navigator.push(context, CupertinoPageRoute(builder: (context) => Verification(loginModel: loginModel,)));
       } else {
-        SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
-      }}).catchError((onError) {
+        SnackBarUtils.showErrorSnackBar(
+            AppStrings.something_went_wrong, context);
+      }
+    }).catchError((onError) {
       progressSink.add(false);
       SnackBarUtils.showErrorSnackBar(AppStrings.something_went_wrong, context);
     });
@@ -98,9 +116,9 @@ class LoginBlock {
       progressSink.add(false);
       if (onResponse != null) {
         setLocalData(validateResponse: onResponse);
-        Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => BottomNavigationPage()), (Route<dynamic> route) => false);
-        // Navigator.pushReplacement(context,
-        //     CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
+        Navigator.of(context).pushAndRemoveUntil(
+            CupertinoPageRoute(builder: (context) => BottomNavigationPage()),
+            (Route<dynamic> route) => false);
       } else {
         SnackBarUtils.showErrorSnackBar(
             AppStrings.something_went_wrong, context);
@@ -168,7 +186,10 @@ class LoginBlock {
     });
   }
 
-  Future<void> forgetPassword({required String userName,required String corporateId,required BuildContext context})async{
+  Future<void> forgetPassword(
+      {required String userName,
+      required String corporateId,
+      required BuildContext context}) async {
     progressSink.add(true);
     apiRepository
         .forgetPassword(
@@ -180,9 +201,10 @@ class LoginBlock {
       print("onResponse $onResponse");
       progressSink.add(false);
       if (onResponse != null) {
-        SnackBarUtils.showSuccessSnackBar(onResponse.responseMessage.toString(), context);
-        Navigator.push(context,
-            CupertinoPageRoute(builder: (context) => LoginPage()));
+        SnackBarUtils.showSuccessSnackBar(
+            onResponse.responseMessage.toString(), context);
+        Navigator.push(
+            context, CupertinoPageRoute(builder: (context) => LoginPage()));
       } else {
         SnackBarUtils.showErrorSnackBar(
             onResponse.responseMessage.toString(), context);

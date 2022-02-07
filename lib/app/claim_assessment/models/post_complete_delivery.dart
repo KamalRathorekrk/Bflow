@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:image_picker/image_picker.dart';
-
 /// claimId : 5655
 /// item : "Amazon Product"
 /// patientFullName : "Test Adam"

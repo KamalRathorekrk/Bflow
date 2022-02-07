@@ -4,7 +4,6 @@ import 'package:bflow/utils/AppStrings.dart';
 import 'package:bflow/utils/Dimens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -30,7 +29,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       // backgroundColor: Colors.transparent,
-      backgroundColor:  AppColor.offWhiteColor,
+      backgroundColor: AppColor.offWhiteColor,
       automaticallyImplyLeading: false,
       elevation: 0.0,
       centerTitle: false,
@@ -58,7 +57,6 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                     AppImages.back_arrow,
                     height: Dimens.twenty,
                     width: Dimens.twenty,
-
                   ),
                 ),
               ),
@@ -68,18 +66,17 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
             alignment: Alignment.center,
             child: Text(
               text,
-                overflow: TextOverflow.ellipsis,
+              overflow: TextOverflow.ellipsis,
               softWrap: true,
               maxLines: 2,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppColor.blackColor,
+                  color: AppColor.blackColor,
                   fontFamily: AppStrings.fontFamily,
                   fontSize: Dimens.eighteen,
                   fontWeight: FontWeight.w600),
             ),
           )
-
         ],
       ),
     );

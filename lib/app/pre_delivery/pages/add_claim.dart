@@ -407,7 +407,6 @@ class _AddClaimState extends State<AddClaim> {
               ),
               InkWell(
                 onTap: () {
-                  print("-----");
                   twoButtonCommonDialog(context);
                 },
                 child: Padding(
@@ -508,8 +507,8 @@ class _AddClaimState extends State<AddClaim> {
             buttonPadding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               side: BorderSide(color: AppColor.offWhite42Color),
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Dimens.fifteen)),),
+              borderRadius: BorderRadius.all(Radius.circular(Dimens.fifteen)),
+            ),
             title: CommonTextWidget(
               text: AppStrings.set_date_and_time_of_delivery,
               fontSize: Dimens.sixteen,

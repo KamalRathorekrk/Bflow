@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CommonActionButton extends StatelessWidget {
-
   final Color? backgroundColor;
   final String? title;
   final double? borderRadius;
@@ -15,24 +14,29 @@ class CommonActionButton extends StatelessWidget {
   final Color? shadowColor;
   final Color? textColor;
 
-  CommonActionButton(
-      {this.backgroundColor,
-        this.title,
-        this.borderRadius,
-        this.onPressed,
-        this.width,
-      this.fontWeight,
-      this.shadowColor,
-      this.textColor,});
+  CommonActionButton({
+    this.backgroundColor,
+    this.title,
+    this.borderRadius,
+    this.onPressed,
+    this.width,
+    this.fontWeight,
+    this.shadowColor,
+    this.textColor,
+  });
 
-  
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-
         borderRadius: BorderRadius.circular(Dimens.ten),
-        boxShadow:[BoxShadow(offset: Offset(1,1),spreadRadius: 1.0,color: shadowColor??AppColor.hintColor ,blurRadius:5.0)],
+        boxShadow: [
+          BoxShadow(
+              offset: Offset(1, 1),
+              spreadRadius: 1.0,
+              color: shadowColor ?? AppColor.hintColor,
+              blurRadius: 5.0)
+        ],
         color: AppColor.whiteColor,
       ),
       width: width,
@@ -40,7 +44,7 @@ class CommonActionButton extends StatelessWidget {
         padding: EdgeInsets.only(top: Dimens.twenty, bottom: Dimens.seventeen),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(borderRadius??0),
+            Radius.circular(borderRadius ?? 0),
           ),
         ),
         child: textWidget(),
@@ -57,10 +61,10 @@ class CommonActionButton extends StatelessWidget {
       title!.toUpperCase(),
       textAlign: TextAlign.center,
       style: TextStyle(
-          fontWeight: fontWeight??FontWeight.w700,
+          fontWeight: fontWeight ?? FontWeight.w700,
           fontSize: Dimens.sixteen,
           fontFamily: AppStrings.fontFamily,
-          color: textColor??AppColor.whiteColor),
+          color: textColor ?? AppColor.whiteColor),
     );
   }
 }

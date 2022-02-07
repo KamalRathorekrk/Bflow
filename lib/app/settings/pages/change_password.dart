@@ -56,8 +56,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                     color: AppColor.offWhite66Color,
                     borderColor: AppColor.offWhite97Color,
                     focusNode: _currentPasswordFocusNode,
-                    onSubmit: (val) =>
-                        FocusScope.of(context).requestFocus(_newPasswordFocusNode),
+                    onSubmit: (val) => FocusScope.of(context)
+                        .requestFocus(_newPasswordFocusNode),
                   ),
                   CommonTextFieldSimple(
                     textEditingController: newPasswordController,
@@ -65,9 +65,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                     color: AppColor.offWhite66Color,
                     borderColor: AppColor.offWhite97Color,
                     focusNode: _newPasswordFocusNode,
-                    onSubmit: (val) =>
-                        FocusScope.of(context)
-                            .requestFocus(_confirmPasswordFocusNode),
+                    onSubmit: (val) => FocusScope.of(context)
+                        .requestFocus(_confirmPasswordFocusNode),
                   ),
                   CommonTextFieldSimple(
                     textEditingController: confirmPasswordController,
@@ -83,8 +82,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                     title: AppStrings.submit,
                     onPressed: () {
                       if (validate(context)) {
-                        _settingBlock!.changePassword(context: context,
-                            currentPassword: currentPasswordController.text,newPassword: newPasswordController.text,confirmPassword: confirmPasswordController.text);
+                        _settingBlock!.changePassword(
+                            context: context,
+                            currentPassword: currentPasswordController.text,
+                            newPassword: newPasswordController.text,
+                            confirmPassword: confirmPasswordController.text);
                       }
                     },
                     borderRadius: Dimens.seven,

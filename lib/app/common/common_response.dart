@@ -2,9 +2,11 @@ class CommonResponse {
   String? responseType;
   String? responseMessage;
   String? responseObject;
+
   // "responseObject": null,
 
-  CommonResponse({this.responseType, this.responseMessage,this.responseObject});
+  CommonResponse(
+      {this.responseType, this.responseMessage, this.responseObject});
 
   CommonResponse.fromJson(Map<String, dynamic> json) {
     responseType = json['responseType'];

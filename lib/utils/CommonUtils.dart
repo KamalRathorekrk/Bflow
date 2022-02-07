@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -13,10 +14,12 @@ class Utils {
     }
     return result;
   }
+
   static bool checkNullOrEmpty(String value) {
     if (value == null || value.isEmpty) return true;
     return false;
   }
+
   static String validateEmail(String value) {
     Pattern pattern =
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
@@ -30,17 +33,19 @@ class Utils {
     else
       return '';
   }
+
   static bool validateEmailCheck(String value) {
     Pattern pattern =
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
         r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
         r"{0,253}[a-zA-Z0-9])?)*$";
     RegExp regex = new RegExp(pattern.toString());
-   if (!regex.hasMatch(value))
+    if (!regex.hasMatch(value))
       return true;
     else
       return false;
   }
+
   static Future<bool> checkConnectivity() async {
     bool isConnectd = false;
     try {

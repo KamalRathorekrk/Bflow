@@ -99,8 +99,6 @@ class _ClaimAssementStepThreeState extends State<ClaimAssementStepThree> {
             decoration: BoxDecoration(
               border: Border.all(color: AppColor.offWhiteC8Color),
               borderRadius: BorderRadius.circular(Dimens.ten),
-              // boxShadow: [BoxShadow(color: AppColor.offWhite3BColor,
-              //   blurRadius: 5.0,)],
               color: AppColor.whiteColor,
             ),
             child: SfSignaturePad(

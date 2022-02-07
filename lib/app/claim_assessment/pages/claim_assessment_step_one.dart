@@ -79,29 +79,6 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
                     SizedBox(
                       height: Dimens.ten,
                     ),
-                    // CommonTextWidget(
-                    //   text: AppStrings.print_existing_notes_on_delivery_ticket,
-                    //   fontSize: Dimens.forteen,
-                    //   fontWeight: FontWeight.w600,
-                    //   fontColor: AppColor.blackColor,
-                    // ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(vertical: 8.0),
-                    //   child: ListDileveryTicket(),
-                    // ),
-                    // SizedBox(
-                    //   height: Dimens.ten,
-                    // ),
-                    // CommonTextWidget(
-                    //   text: AppStrings.insurance_verification,
-                    //   fontSize: Dimens.forteen,
-                    //   fontWeight: FontWeight.w600,
-                    //   fontColor: AppColor.blackColor,
-                    // ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(vertical: 8.0),
-                    //   child: listInsuranceVerification(),
-                    // ),
                     SizedBox(
                       height: Dimens.ten,
                     ),
@@ -112,29 +89,29 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
                         onPressed: () {
                           var postCompleteDelivery = PostCompleteDelivery(
                               item:
-                              widget.postCompleteDelivery!.item.toString(),
+                                  widget.postCompleteDelivery!.item.toString(),
                               claimId: widget.postCompleteDelivery!.claimId,
                               phoneNumber:
-                              widget.postCompleteDelivery!.phoneNumber,
+                                  widget.postCompleteDelivery!.phoneNumber,
                               patientFullName:
-                              widget.postCompleteDelivery!.patientFullName,
+                                  widget.postCompleteDelivery!.patientFullName,
                               deliveryAddress:
-                              widget.postCompleteDelivery!.deliveryAddress,
+                                  widget.postCompleteDelivery!.deliveryAddress,
                               claimAssessmentCheckList:
-                              ClaimAssessmentCheckList(
-                                  claimAssessmentCheckListDetails:
-                                  [
+                                  ClaimAssessmentCheckList(
+                                      claimAssessmentCheckListDetails: [
                                     ClaimAssessmentCheckListDetails(
-                                        options:itemlistreviewed, header:AppStrings.reviewed_patient),
+                                        options: itemlistreviewed,
+                                        header: AppStrings.reviewed_patient),
                                     ClaimAssessmentCheckListDetails(
-                                        options:claimCheckList, header:AppStrings.claim_check_list)
+                                        options: claimCheckList,
+                                        header: AppStrings.claim_check_list)
                                   ]));
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) =>
-                                      ClaimAssementStepTwo(
-                                          postCompleteDelivery)));
+                                  builder: (context) => ClaimAssementStepTwo(
+                                      postCompleteDelivery)));
                         },
                         borderRadius: Dimens.seven,
                         backgroundColor: AppColor.primaryColor,
@@ -184,7 +161,9 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
 
   List<OptionsClaim> itemlistreviewed = [
     OptionsClaim(
-        id: 201, name: AppStrings.equipment_use_instructions, isSelected: false),
+        id: 201,
+        name: AppStrings.equipment_use_instructions,
+        isSelected: false),
     OptionsClaim(
         id: 202, name: AppStrings.costs_and_reimbursement, isSelected: false),
     OptionsClaim(
@@ -196,21 +175,21 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
     OptionsClaim(
         id: 205, name: AppStrings.patient_rights_research, isSelected: false),
     OptionsClaim(
-        id: 206, name: AppStrings.notice_of_privacy_practices, isSelected: false),
+        id: 206,
+        name: AppStrings.notice_of_privacy_practices,
+        isSelected: false),
     OptionsClaim(
         id: 207,
         name: AppStrings.infection_prevention_and_control,
         isSelected: false),
-    OptionsClaim(
-        id: 208, name: AppStrings.cms_standards, isSelected: false),
+    OptionsClaim(id: 208, name: AppStrings.cms_standards, isSelected: false),
     OptionsClaim(
         id: 209, name: AppStrings.patient_satisfaction, isSelected: false),
     OptionsClaim(
         id: 210, name: AppStrings.patient_falls_education, isSelected: false),
     OptionsClaim(
         id: 211, name: AppStrings.policy_notification, isSelected: false),
-    OptionsClaim(
-        id: 212, name: AppStrings.victim_abuse, isSelected: false),
+    OptionsClaim(id: 212, name: AppStrings.victim_abuse, isSelected: false),
   ];
   List<OptionsClaim> claimCheckList = [
     OptionsClaim(

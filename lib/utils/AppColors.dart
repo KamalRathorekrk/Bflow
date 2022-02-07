@@ -20,5 +20,5 @@ class AppColor {
 
 
   static const offWhite66Color = Color(0xFF666666);
-  static const offWhitef3Color = Color(0xFFF3F3F3);
+  static const offWhiteF3Color = Color(0xFFF3F3F3);
 }

@@ -4,13 +4,14 @@
 
 class WhoReceivedModel {
   WhoReceivedModel({
-      String? responseType, 
-      List<ReceiverData>? receiverData,
-      dynamic responseMessage,}){
+    String? responseType,
+    List<ReceiverData>? receiverData,
+    dynamic responseMessage,
+  }) {
     _responseType = responseType;
     _receiverData = receiverData;
     _responseMessage = responseMessage;
-}
+  }
 
   WhoReceivedModel.fromJson(dynamic json) {
     _responseType = json['responseType'];
@@ -22,12 +23,15 @@ class WhoReceivedModel {
     }
     _responseMessage = json['responseMessage'];
   }
+
   String? _responseType;
   List<ReceiverData>? _receiverData;
   dynamic _responseMessage;
 
   String? get responseType => _responseType;
+
   List<ReceiverData>? get receiverData => _receiverData;
+
   dynamic get responseMessage => _responseMessage;
 
   Map<String, dynamic> toJson() {
@@ -39,7 +43,6 @@ class WhoReceivedModel {
     map['responseMessage'] = _responseMessage;
     return map;
   }
-
 }
 
 /// id : 1
@@ -47,20 +50,23 @@ class WhoReceivedModel {
 
 class ReceiverData {
   ReceiverData({
-      int? id, 
-      String? value,}){
+    int? id,
+    String? value,
+  }) {
     _id = id;
     _value = value;
-}
+  }
 
   ReceiverData.fromJson(dynamic json) {
     _id = json['id'];
     _value = json['value'];
   }
+
   int? _id;
   String? _value;
 
   int? get id => _id;
+
   String? get value => _value;
 
   Map<String, dynamic> toJson() {
@@ -69,5 +75,4 @@ class ReceiverData {
     map['value'] = _value;
     return map;
   }
-
 }

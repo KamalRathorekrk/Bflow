@@ -1,7 +1,6 @@
 import 'package:bflow/app/common_widget/snackbar/tap_bounce_container.dart';
 import 'package:flutter/material.dart';
 
-
 /// Displays a widget that will be passed to [child] parameter above the current
 /// contents of the app, with transition animation
 ///

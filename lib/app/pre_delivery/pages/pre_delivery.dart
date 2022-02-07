@@ -17,17 +17,17 @@ class PreDelivery extends StatefulWidget {
 }
 
 class _PreDeliveryState extends State<PreDelivery> {
-
   PreDeliveryBloc? preDeliveryBloc;
 
   @override
   void initState() {
     preDeliveryBloc = PreDeliveryBloc();
-    preDeliveryBloc!.getClaims(corporateId: AppStrings.corporateId,
-        emailAddress:AppStrings.emailAddress,
-        fullName:AppStrings.fullname,
-        userName:AppStrings.userName,
-        userId:AppStrings.userId,
+    preDeliveryBloc!.getClaims(
+        corporateId: AppStrings.corporateId,
+        emailAddress: AppStrings.emailAddress,
+        fullName: AppStrings.fullname,
+        userName: AppStrings.userName,
+        userId: AppStrings.userId,
         context: context);
     super.initState();
   }
@@ -57,10 +57,7 @@ class _PreDeliveryState extends State<PreDelivery> {
                   return SingleChildScrollView(
                     controller: ScrollController(),
                     child: Container(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height,
+                      height: MediaQuery.of(context).size.height,
                       padding: EdgeInsets.symmetric(
                           vertical: Dimens.thirty,
                           horizontal: Dimens.twentyFive),
@@ -74,10 +71,10 @@ class _PreDeliveryState extends State<PreDelivery> {
                   );
                 } else {
                   return Container(
-                    child: Center(child: SvgPicture.asset(AppImages.list)),);
+                    child: Center(child: SvgPicture.asset(AppImages.list)),
+                  );
                 }
               }),
-          // bottomNavigationBar: BottomNavigationPage(),
         ),
         StreamBuilder<bool>(
             stream: preDeliveryBloc!.progressStream,
@@ -183,18 +180,15 @@ class _PreDeliveryState extends State<PreDelivery> {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) =>
-                          AddClaim(
+                      builder: (context) => AddClaim(
                             claimId: obj[position].claimId.toString(),
                           )));
             },
             child: CommonItemWidget(
               index: position + 1,
               id: obj[position].claimId.toString(),
-              location: "${obj[position].deliveryAddress!
-                  .address},${obj[position].deliveryAddress!
-                  .city},${obj[position].deliveryAddress!.state},${obj[position]
-                  .deliveryAddress!.zipCode}",
+              location:
+                  "${obj[position].deliveryAddress!.address},${obj[position].deliveryAddress!.city},${obj[position].deliveryAddress!.state},${obj[position].deliveryAddress!.zipCode}",
               name: obj[position].patientFullName.toString(),
             ),
           );

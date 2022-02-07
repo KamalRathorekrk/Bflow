@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppStrings.dart';
 import 'package:bflow/utils/CommonUtils.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,20 +40,16 @@ class CommonTextUnderLineWidget extends StatelessWidget {
         overflow: overflow,
         softWrap: true,
         style: TextStyle(
-            fontStyle: fontStyle ?? FontStyle.normal,
-            fontFamily: AppStrings.fontFamily,
-            height: height != null ? height : 1.1,
-            wordSpacing: wordSpacing,
-            color: Colors.transparent,
-            fontWeight: fontWeight,
-            decoration: textDecoration,
+          fontStyle: fontStyle ?? FontStyle.normal,
+          fontFamily: AppStrings.fontFamily,
+          height: height != null ? height : 1.1,
+          wordSpacing: wordSpacing,
+          color: Colors.transparent,
+          fontWeight: fontWeight,
+          decoration: textDecoration,
           decorationColor: fontColor,
-            fontSize: fontSize.toDouble(),
-            shadows: [
-            Shadow(
-            color: fontColor,
-            offset: Offset(0, -2))
-      ],
+          fontSize: fontSize.toDouble(),
+          shadows: [Shadow(color: fontColor, offset: Offset(0, -2))],
         ));
   }
 }

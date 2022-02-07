@@ -4,25 +4,31 @@
 
 class ChangeProfilePicModel {
   ChangeProfilePicModel({
-      String? responseType, 
-      ResponseObject? responseObject, 
-      String? responseMessage,}){
+    String? responseType,
+    ResponseObject? responseObject,
+    String? responseMessage,
+  }) {
     _responseType = responseType;
     _responseObject = responseObject;
     _responseMessage = responseMessage;
-}
+  }
 
   ChangeProfilePicModel.fromJson(dynamic json) {
     _responseType = json['responseType'];
-    _responseObject = json['responseObject'] != null ? ResponseObject.fromJson(json['responseObject']) : null;
+    _responseObject = json['responseObject'] != null
+        ? ResponseObject.fromJson(json['responseObject'])
+        : null;
     _responseMessage = json['responseMessage'];
   }
+
   String? _responseType;
   ResponseObject? _responseObject;
   String? _responseMessage;
 
   String? get responseType => _responseType;
+
   ResponseObject? get responseObject => _responseObject;
+
   String? get responseMessage => _responseMessage;
 
   Map<String, dynamic> toJson() {
@@ -34,7 +40,6 @@ class ChangeProfilePicModel {
     map['responseMessage'] = _responseMessage;
     return map;
   }
-
 }
 
 /// name : ""
@@ -44,15 +49,16 @@ class ChangeProfilePicModel {
 
 class ResponseObject {
   ResponseObject({
-      String? name, 
-      String? url, 
-      bool? isError, 
-      dynamic error,}){
+    String? name,
+    String? url,
+    bool? isError,
+    dynamic error,
+  }) {
     _name = name;
     _url = url;
     _isError = isError;
     _error = error;
-}
+  }
 
   ResponseObject.fromJson(dynamic json) {
     _name = json['name'];
@@ -60,14 +66,18 @@ class ResponseObject {
     _isError = json['isError'];
     _error = json['error'];
   }
+
   String? _name;
   String? _url;
   bool? _isError;
   dynamic _error;
 
   String? get name => _name;
+
   String? get url => _url;
+
   bool? get isError => _isError;
+
   dynamic get error => _error;
 
   Map<String, dynamic> toJson() {
@@ -78,5 +88,4 @@ class ResponseObject {
     map['error'] = _error;
     return map;
   }
-
 }

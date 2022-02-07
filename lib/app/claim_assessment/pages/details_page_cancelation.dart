@@ -14,7 +14,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 class DetailsCancelation extends StatefulWidget {
   ResponseRoutes? responseRoutes;
 
-
   DetailsCancelation(this.responseRoutes);
 
   @override
@@ -75,8 +74,9 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
                   ),
                 ),
               );
-            }),StreamBuilder<bool>(
-            stream:null,
+            }),
+        StreamBuilder<bool>(
+            stream: null,
             builder: (context, snapshot) {
               return Center(
                   child: CommmonProgressIndicator(
@@ -102,10 +102,7 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
           SizedBox(
             height: Dimens.fifteen,
           ),
-          RowElement(
-              title: AppStrings.description,
-              value: "",
-              show: true),
+          RowElement(title: AppStrings.description, value: "", show: true),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -117,7 +114,9 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
           SizedBox(
             height: Dimens.twenty,
           ),
-          RowElement(title: AppStrings.patient_name, value: responseRoutes.patientFullName),
+          RowElement(
+              title: AppStrings.patient_name,
+              value: responseRoutes.patientFullName),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -130,7 +129,8 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
           RowElement(
               icon: true,
               title: AppStrings.delivery_address,
-              value: "${responseRoutes.address}, ${responseRoutes.city}, ${responseRoutes.state}"),
+              value:
+                  "${responseRoutes.address}, ${responseRoutes.city}, ${responseRoutes.state}"),
           SizedBox(height: Dimens.twenty),
           Divider(
             thickness: 1,

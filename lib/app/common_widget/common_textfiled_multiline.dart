@@ -1,12 +1,9 @@
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppStrings.dart';
-import 'package:bflow/utils/CommonUtils.dart';
 import 'package:bflow/utils/Dimens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-// ignore: must_be_immutable
 class CommonTextFieldMultiLine extends StatefulWidget {
   final Color? color, borderColor;
   final String hintText;
@@ -18,7 +15,7 @@ class CommonTextFieldMultiLine extends StatefulWidget {
   final ValueChanged<String>? onChange;
   final ValueChanged<String>? onSubmit;
   final TextInputType? keyboardType;
-  final int maxLines,minLines;
+  final int maxLines, minLines;
   final bool readOnly;
   var focusNode;
 
@@ -27,11 +24,12 @@ class CommonTextFieldMultiLine extends StatefulWidget {
       this.color,
       this.borderColor,
       this.hintText = "",
-        this.onSubmit,
-        this.focusNode,
+      this.onSubmit,
+      this.focusNode,
       this.hintStyle = const TextStyle(color: AppColor.hintTextColor),
       this.keyboardType,
-      this.maxLines = 7,this.minLines=5,
+      this.maxLines = 7,
+      this.minLines = 5,
       this.border = const OutlineInputBorder(
         borderSide: const BorderSide(color: AppColor.hintTextColor),
       ),
@@ -57,7 +55,6 @@ class CommonTextFieldMultiLine extends StatefulWidget {
 }
 
 class _CommonTextFieldMultiLineState extends State<CommonTextFieldMultiLine> {
-
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -104,7 +101,6 @@ class _CommonTextFieldMultiLineState extends State<CommonTextFieldMultiLine> {
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.done,
         onFieldSubmitted: widget.onSubmit,
-
       ),
       SizedBox(
         height: Dimens.ten,

@@ -4,25 +4,31 @@
 
 class ClaimsDetails {
   ClaimsDetails({
-      String? responseType,
+    String? responseType,
     ClaimDetailData? claimDetailData,
-      String? responseMessage,}){
+    String? responseMessage,
+  }) {
     _responseType = responseType;
     _claimDetailData = claimDetailData;
     _responseMessage = responseMessage;
-}
+  }
 
   ClaimsDetails.fromJson(dynamic json) {
     _responseType = json['responseType'];
-    _claimDetailData = json['responseObject'] != null ? ClaimDetailData.fromJson(json['responseObject']) : null;
+    _claimDetailData = json['responseObject'] != null
+        ? ClaimDetailData.fromJson(json['responseObject'])
+        : null;
     _responseMessage = json['responseMessage'];
   }
+
   String? _responseType;
   ClaimDetailData? _claimDetailData;
   String? _responseMessage;
 
   String? get responseType => _responseType;
+
   ClaimDetailData? get claimDetailData => _claimDetailData;
+
   String? get responseMessage => _responseMessage;
 
   Map<String, dynamic> toJson() {
@@ -34,7 +40,6 @@ class ClaimsDetails {
     map['responseMessage'] = _responseMessage;
     return map;
   }
-
 }
 
 /// claimId : 5655
@@ -45,25 +50,29 @@ class ClaimsDetails {
 
 class ClaimDetailData {
   ClaimDetailData({
-      int? claimId, 
-      Items? items, 
-      String? patientFullName, 
-      DeliveryAddress? deliveryAddress, 
-      String? phoneNumber,}){
+    int? claimId,
+    Items? items,
+    String? patientFullName,
+    DeliveryAddress? deliveryAddress,
+    String? phoneNumber,
+  }) {
     _claimId = claimId;
     _items = items;
     _patientFullName = patientFullName;
     _deliveryAddress = deliveryAddress;
     _phoneNumber = phoneNumber;
-}
+  }
 
   ClaimDetailData.fromJson(dynamic json) {
     _claimId = json['claimId'];
     _items = json['items'] != null ? Items.fromJson(json['items']) : null;
     _patientFullName = json['patientFullName'];
-    _deliveryAddress = json['deliveryAddress'] != null ? DeliveryAddress.fromJson(json['deliveryAddress']) : null;
+    _deliveryAddress = json['deliveryAddress'] != null
+        ? DeliveryAddress.fromJson(json['deliveryAddress'])
+        : null;
     _phoneNumber = json['phoneNumber'];
   }
+
   int? _claimId;
   Items? _items;
   String? _patientFullName;
@@ -71,9 +80,13 @@ class ClaimDetailData {
   String? _phoneNumber;
 
   int? get claimId => _claimId;
+
   Items? get items => _items;
+
   String? get patientFullName => _patientFullName;
+
   DeliveryAddress? get deliveryAddress => _deliveryAddress;
+
   String? get phoneNumber => _phoneNumber;
 
   Map<String, dynamic> toJson() {
@@ -89,7 +102,6 @@ class ClaimDetailData {
     map['phoneNumber'] = _phoneNumber;
     return map;
   }
-
 }
 
 /// address : "10 Sie Ave"
@@ -99,15 +111,16 @@ class ClaimDetailData {
 
 class DeliveryAddress {
   DeliveryAddress({
-      String? address, 
-      String? city, 
-      String? state, 
-      String? zipCode,}){
+    String? address,
+    String? city,
+    String? state,
+    String? zipCode,
+  }) {
     _address = address;
     _city = city;
     _state = state;
     _zipCode = zipCode;
-}
+  }
 
   DeliveryAddress.fromJson(dynamic json) {
     _address = json['address'];
@@ -115,14 +128,18 @@ class DeliveryAddress {
     _state = json['state'];
     _zipCode = json['zipCode'];
   }
+
   String? _address;
   String? _city;
   String? _state;
   String? _zipCode;
 
   String? get address => _address;
+
   String? get city => _city;
+
   String? get state => _state;
+
   String? get zipCode => _zipCode;
 
   Map<String, dynamic> toJson() {
@@ -133,7 +150,6 @@ class DeliveryAddress {
     map['zipCode'] = _zipCode;
     return map;
   }
-
 }
 
 /// id : 178
@@ -146,13 +162,14 @@ class DeliveryAddress {
 
 class Items {
   Items({
-      int? id, 
-      String? name, 
-      String? hcpcCode, 
-      String? serial, 
-      int? qty, 
-      String? model, 
-      String? manufacturer,}){
+    int? id,
+    String? name,
+    String? hcpcCode,
+    String? serial,
+    int? qty,
+    String? model,
+    String? manufacturer,
+  }) {
     _id = id;
     _name = name;
     _hcpcCode = hcpcCode;
@@ -160,7 +177,7 @@ class Items {
     _qty = qty;
     _model = model;
     _manufacturer = manufacturer;
-}
+  }
 
   Items.fromJson(dynamic json) {
     _id = json['id'];
@@ -171,6 +188,7 @@ class Items {
     _model = json['model'];
     _manufacturer = json['manufacturer'];
   }
+
   int? _id;
   String? _name;
   String? _hcpcCode;
@@ -180,11 +198,17 @@ class Items {
   String? _manufacturer;
 
   int? get id => _id;
+
   String? get name => _name;
+
   String? get hcpcCode => _hcpcCode;
+
   String? get serial => _serial;
+
   int? get qty => _qty;
+
   String? get model => _model;
+
   String? get manufacturer => _manufacturer;
 
   Map<String, dynamic> toJson() {
@@ -198,5 +222,4 @@ class Items {
     map['manufacturer'] = _manufacturer;
     return map;
   }
-
 }

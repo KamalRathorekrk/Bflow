@@ -18,7 +18,6 @@ import 'package:pin_code_text_field/pin_code_text_field.dart';
 class Verification extends StatefulWidget {
   LoginModel loginModel;
 
-
   Verification({required this.loginModel});
 
   @override
@@ -39,11 +38,13 @@ class _VerificationState extends State<Verification> {
 
     super.initState();
   }
+
   @override
   void dispose() {
     authCodeController.dispose();
     super.dispose();
   }
+
   PinBoxDecoration pinBoxDecoration = (
     Color borderColor,
     Color pinBoxColor, {
@@ -61,8 +62,6 @@ class _VerificationState extends State<Verification> {
 
   @override
   Widget build(BuildContext context) {
-    //String authcode = widget.authCode.toString();
-   // authCodeController.text = authcode;
     return Stack(
       children: [
         Scaffold(
@@ -70,7 +69,7 @@ class _VerificationState extends State<Verification> {
           body: SingleChildScrollView(
             controller: ScrollController(),
             child: Container(
-              height:  MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height,
                 color: AppColor.backgroundColor,
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.symmetric(
@@ -112,27 +111,6 @@ class _VerificationState extends State<Verification> {
                     SizedBox(
                       height: Dimens.thirtyFive,
                     ),
-                    // PinPut(
-                    //   // eachFieldConstraints: BoxConstraints(
-                    //   //     minHeight: Dimens.sixtyFour, minWidth: Dimens.sixtyFour),
-                    //   fieldsCount: 8,
-                    //   controller: authCodeController,
-                    //   focusNode: FocusNode(),
-                    //   submittedFieldDecoration: BoxDecoration(
-                    //     border: Border.all(color: AppColor.whiteColor),
-                    //     borderRadius: BorderRadius.circular(5.0),
-                    //   ),
-                    //   selectedFieldDecoration: BoxDecoration(
-                    //     border: Border.all(color: AppColor.whiteColor),
-                    //     borderRadius: BorderRadius.circular(5.0),
-                    //   ),
-                    //   followingFieldDecoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(5.0),
-                    //     border: Border.all(
-                    //       color: AppColor.whiteColor,
-                    //     ),
-                    //   ),inputDecoration: InputDecoration(fillColor: Colors.white) ,
-                    // ),
                     PinCodeTextField(
                       autofocus: true,
                       controller: authCodeController,
@@ -143,14 +121,10 @@ class _VerificationState extends State<Verification> {
                       highlightColor: AppColor.whiteColor,
                       defaultBorderColor: Colors.white,
                       pinBoxBorderWidth: 1,
-                      // hasError: hasError,
                       maxLength: 8,
                       hasTextBorderColor: Colors.white,
-                      // maskCharacter: "*",
+
                       onTextChanged: (text) {
-                        // setState(() {
-                        //   hasError = false;
-                        // });
                       },
                       onDone: (text) {
                         print("DONE $text");
@@ -160,11 +134,12 @@ class _VerificationState extends State<Verification> {
                       hasUnderline: false,
                       wrapAlignment: WrapAlignment.spaceAround,
                       pinBoxDecoration: pinBoxDecoration,
-                      pinTextStyle:
-                          TextStyle(fontSize: Dimens.sixteen, color: AppColor.whiteColor),
+                      pinTextStyle: TextStyle(
+                          fontSize: Dimens.sixteen, color: AppColor.whiteColor),
                       pinTextAnimatedSwitcherTransition:
                           ProvidedPinBoxTextAnimation.scalingTransition,
-                      pinTextAnimatedSwitcherDuration: Duration(milliseconds: 200),
+                      pinTextAnimatedSwitcherDuration:
+                          Duration(milliseconds: 200),
                       highlightAnimationEndColor: Colors.white12,
                       keyboardType: TextInputType.number,
                     ),
@@ -174,15 +149,12 @@ class _VerificationState extends State<Verification> {
                     CommonActionButton(
                       title: AppStrings.submit,
                       onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     CupertinoPageRoute(
-                        //         builder: (context) => BottomNavigationPage()));
                         if (formValidation(context)) {
                           loginblock!.validateApiCall(
                               authCode: authCodeController.text,
                               password: widget.loginModel.password.toString(),
-                              corporateId: widget.loginModel.corporateId.toString(),
+                              corporateId:
+                                  widget.loginModel.corporateId.toString(),
                               userName: widget.loginModel.userName.toString(),
                               context: context);
                         }
@@ -195,12 +167,13 @@ class _VerificationState extends State<Verification> {
                     SizedBox(height: Dimens.thirty),
                     Center(
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           loginblock!.resendApiCall(
                               context: context,
                               userName: widget.loginModel.userName.toString(),
                               password: widget.loginModel.password.toString(),
-                              corporateId: widget.loginModel.corporateId.toString());
+                              corporateId:
+                                  widget.loginModel.corporateId.toString());
                         },
                         child: CommonTextUnderLineWidget(
                           textDecoration: TextDecoration.underline,
@@ -228,7 +201,8 @@ class _VerificationState extends State<Verification> {
 
   bool formValidation(BuildContext context) {
     if (Utils.checkNullOrEmpty(authCodeController.text)) {
-      SnackBarUtils.showErrorSnackBar(AppStrings.please_enter_valid_OTP, context);
+      SnackBarUtils.showErrorSnackBar(
+          AppStrings.please_enter_valid_OTP, context);
       return false;
     } else if (authCodeController.text.length != 8) {
       SnackBarUtils.showErrorSnackBar(

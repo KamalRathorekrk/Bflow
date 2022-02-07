@@ -18,7 +18,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
       appBar: CommonAppBar(
         text: AppStrings.privacy_policy,
       ),
-       body: SingleChildScrollView(
+      body: SingleChildScrollView(
         controller: ScrollController(),
         child: Container(
           color: AppColor.offWhiteColor,

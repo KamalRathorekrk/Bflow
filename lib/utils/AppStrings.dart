@@ -2,15 +2,14 @@ class AppStrings {
   static String appName = "Bflow";
   static String loading = "loading...";
   static const String something_went_wrong = "Something went wrong";
-  static  String islogin="islogin";
-  static  String token="token";
-  static  String fullname="fullname";
-  static  String userName="userName";
-  static  String corporateId="corporateId";
-  static  String userId="userId";
-  static  String emailAddress="emailAddress";
-  static String imageUrl="imageUrl";
-
+  static String islogin = "islogin";
+  static String token = "token";
+  static String fullname = "fullname";
+  static String userName = "userName";
+  static String corporateId = "corporateId";
+  static String userId = "userId";
+  static String emailAddress = "emailAddress";
+  static String imageUrl = "imageUrl";
 
   // settings
   static const String logout = "logout";
@@ -36,9 +35,12 @@ class AppStrings {
 
   //verification
   static const String verification = "Verification";
-  static const String otp_send ="Please enter the OTP sent on your mobile number";
-      // "OTP has been sent to your mobile number please enter it below";
+  static const String otp_send =
+      "Please enter the OTP sent on your mobile number";
+
+  // "OTP has been sent to your mobile number please enter it below";
   static const String resend_otp = "Resend OTP";
+
   // static const String submit = "submit";
 
   //Login validation
@@ -48,20 +50,15 @@ class AppStrings {
       "Please enter a valid Password";
   static const String please_enter_valid_corporate_id =
       "Please enter a valid Corporate Id";
-  static const String please_enter_valid_OTP =
-      "Please enter a valid OTP";
-  static const String please_enter_valid_name =
-      "Please enter a valid Name";
-  static const String please_enter_valid_title =
-      "Please enter a valid Title";
+  static const String please_enter_valid_OTP = "Please enter a valid OTP";
+  static const String please_enter_valid_name = "Please enter a valid Name";
+  static const String please_enter_valid_title = "Please enter a valid Title";
   static const String please_enter_valid_signed_phone =
       "Please enter a valid Signed Phone";
   static const String please_enter_valid_reason_signed =
       "Please enter a valid Reason Signed";
-  static const String please_add_claim_note =
-      "Please add claim note";
-  static const String please_select_who_recived=
-      "Please select Who Received";
+  static const String please_add_claim_note = "Please add claim note";
+  static const String please_select_who_recived = "Please select Who Received";
 
   //forget password
   static const String enter_username =

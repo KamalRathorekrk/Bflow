@@ -71,12 +71,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       height: Dimens.ten,
                     ),
                     CommonTextWidget(
-                      height:1.5,
+                      height: 1.5,
                       text: AppStrings.enter_username,
                       fontSize: Dimens.forteen,
                       fontWeight: FontWeight.w500,
                       fontColor: AppColor.whiteColor,
-
                     ),
                     SizedBox(
                       height: Dimens.thirty,
@@ -110,10 +109,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               userName: userNameController.text,
                               corporateId: corporateIdController.text,
                               context: context);
-                          // Navigator.push(
-                          //     context,
-                          //     CupertinoPageRoute(
-                          //         builder: (context) => LoginPage()));
                         }
                       },
                       borderRadius: Dimens.ten,

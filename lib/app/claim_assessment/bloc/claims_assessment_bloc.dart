@@ -36,10 +36,8 @@ class ClaimAssementsBloc {
       if (onResponse.responseType == 'Ok') {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);
-        Navigator.pushReplacement(
-            context,
-            CupertinoPageRoute(
-                builder: (context) => BottomNavigationPage()));
+        Navigator.pushReplacement(context,
+            CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
         // Navigator.push(context,
         //     CupertinoPageRoute(builder: (context) => DetailsCancelation()));
       } else {
@@ -73,10 +71,8 @@ class ClaimAssementsBloc {
       if (onResponse.responseType == 'Ok') {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);
-        Navigator.pushReplacement(
-            context,
-            CupertinoPageRoute(
-                builder: (context) => BottomNavigationPage()));
+        Navigator.pushReplacement(context,
+            CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
       } else {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);

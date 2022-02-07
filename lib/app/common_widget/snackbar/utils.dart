@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -21,11 +19,11 @@ class SnackBarUtils {
     return result;
   }
 
-  static void showInfoSnackBar({required String message, required BuildContext context}) {
+  static void showInfoSnackBar(
+      {required String message, required BuildContext context}) {
     showTopSnackBar(
       context,
       CustomSnackBar.info(
-
         message: message,
       ),
     );
@@ -35,13 +33,10 @@ class SnackBarUtils {
     showTopSnackBar(
       context,
       CustomSnackBar.error(
-
         message: message,
       ),
     );
   }
-
-
 
   static void showSuccessSnackBar(String message, BuildContext context) {
     showTopSnackBar(
@@ -51,8 +46,4 @@ class SnackBarUtils {
       ),
     );
   }
-
-
-
-
 }

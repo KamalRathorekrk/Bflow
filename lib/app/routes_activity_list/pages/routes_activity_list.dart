@@ -191,10 +191,13 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
                                     ),
                                   )
                                 : SizedBox(
-                              height: 103,
-                                  child: SvgPicture.asset(
-                                      AppImages.signaturePlaceHolder,width: 50,height: 50,),
-                                ),
+                                    height: 103,
+                                    child: SvgPicture.asset(
+                                      AppImages.signaturePlaceHolder,
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                  ),
 
                             // Image(
                             //         image: AssetImage(AppImages.signature),

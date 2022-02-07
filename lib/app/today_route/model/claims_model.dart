@@ -4,13 +4,14 @@
 
 class ClaimsModel {
   ClaimsModel({
-      String? responseType,
-      List<ClaimList>? responseObject,
-      dynamic responseMessage,}){
+    String? responseType,
+    List<ClaimList>? responseObject,
+    dynamic responseMessage,
+  }) {
     _responseType = responseType;
     _responseObject = responseObject;
     _responseMessage = responseMessage;
-}
+  }
 
   ClaimsModel.fromJson(dynamic json) {
     _responseType = json['responseType'];
@@ -22,12 +23,15 @@ class ClaimsModel {
     }
     _responseMessage = json['responseMessage'];
   }
+
   String? _responseType;
   List<ClaimList>? _responseObject;
   dynamic _responseMessage;
 
   String? get responseType => _responseType;
+
   List<ClaimList>? get responseObject => _responseObject;
+
   dynamic get responseMessage => _responseMessage;
 
   Map<String, dynamic> toJson() {
@@ -39,7 +43,6 @@ class ClaimsModel {
     map['responseMessage'] = _responseMessage;
     return map;
   }
-
 }
 
 /// claimId : 5653
@@ -53,14 +56,15 @@ class ClaimsModel {
 
 class ClaimList {
   ClaimList({
-      int? claimId,
-      String? patientFullName,
-      String? phoneNumber,
+    int? claimId,
+    String? patientFullName,
+    String? phoneNumber,
     DeliveryAddress? deliveryAddress,
-      String? driverName,
-      String? deliveryStatus,
-      dynamic deliveryDate,
-      dynamic deliveryTime,}){
+    String? driverName,
+    String? deliveryStatus,
+    dynamic deliveryDate,
+    dynamic deliveryTime,
+  }) {
     _claimId = claimId;
     _patientFullName = patientFullName;
     _phoneNumber = phoneNumber;
@@ -69,18 +73,21 @@ class ClaimList {
     _deliveryStatus = deliveryStatus;
     _deliveryDate = deliveryDate;
     _deliveryTime = deliveryTime;
-}
+  }
 
   ClaimList.fromJson(dynamic json) {
     _claimId = json['claimId'];
     _patientFullName = json['patientFullName'];
     _phoneNumber = json['phoneNumber'];
-    _deliveryAddress = json['deliveryAddress'] != null ? DeliveryAddress.fromJson(json['deliveryAddress']) : null;
+    _deliveryAddress = json['deliveryAddress'] != null
+        ? DeliveryAddress.fromJson(json['deliveryAddress'])
+        : null;
     _driverName = json['driverName'];
     _deliveryStatus = json['deliveryStatus'];
     _deliveryDate = json['deliveryDate'];
     _deliveryTime = json['deliveryTime'];
   }
+
   int? _claimId;
   String? _patientFullName;
   String? _phoneNumber;
@@ -91,12 +98,19 @@ class ClaimList {
   dynamic _deliveryTime;
 
   int? get claimId => _claimId;
+
   String? get patientFullName => _patientFullName;
+
   String? get phoneNumber => _phoneNumber;
+
   DeliveryAddress? get deliveryAddress => _deliveryAddress;
+
   String? get driverName => _driverName;
+
   String? get deliveryStatus => _deliveryStatus;
+
   dynamic get deliveryDate => _deliveryDate;
+
   dynamic get deliveryTime => _deliveryTime;
 
   Map<String, dynamic> toJson() {
@@ -111,8 +125,8 @@ class ClaimList {
     map['deliveryTime'] = _deliveryTime;
     return map;
   }
-
 }
+
 class DeliveryAddress {
   String? _address;
   String? _city;
@@ -120,15 +134,15 @@ class DeliveryAddress {
   String? _zipCode;
 
   String? get address => _address;
+
   String? get city => _city;
+
   String? get state => _state;
+
   String? get zipCode => _zipCode;
 
-  DeliveryAddress({
-    String? address,
-    String? city,
-    String? state,
-    String? zipCode}){
+  DeliveryAddress(
+      {String? address, String? city, String? state, String? zipCode}) {
     _address = address;
     _city = city;
     _state = state;
@@ -150,5 +164,4 @@ class DeliveryAddress {
     map['zipCode'] = _zipCode;
     return map;
   }
-
 }

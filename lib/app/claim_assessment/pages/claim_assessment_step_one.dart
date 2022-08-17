@@ -1,15 +1,17 @@
 import 'dart:ui';
 
-import 'package:bflow/app/claim_assessment/models/claim_assements_model.dart';
+import 'package:bflow/app/claim_assessment/bloc/getCheckListBlock.dart';
 import 'package:bflow/app/claim_assessment/models/post_complete_delivery.dart';
 import 'package:bflow/app/claim_assessment/pages/claim_assessment_step_two.dart';
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_app_bar.dart';
 import 'package:bflow/app/common_widget/common_header.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
+import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
 import 'package:bflow/utils/AppStrings.dart';
+import 'package:bflow/utils/CommonCheckListModel.dart';
 import 'package:bflow/utils/Dimens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +29,13 @@ class ClaimAssementStepOne extends StatefulWidget {
 
 class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
   String icon = AppImages.check;
+  CheckListBlock? _checkListBlock;
 
   @override
   void initState() {
     super.initState();
+    _checkListBlock = CheckListBlock();
+    _checkListBlock!.getPreClaims(widget.postCompleteDelivery!.claimId);
   }
 
   @override
@@ -47,80 +52,176 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
                 postCompleteDelivery: widget.postCompleteDelivery,
                 step: 1,
               ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: Dimens.twenty, horizontal: Dimens.thirty),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CommonTextWidget(
-                      text: AppStrings.reviewed_patient,
-                      fontSize: Dimens.forteen,
-                      fontWeight: FontWeight.w600,
-                      fontColor: AppColor.blackColor,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child: listReviewed(),
-                    ),
-                    SizedBox(
-                      height: Dimens.ten,
-                    ),
-                    CommonTextWidget(
-                      text: AppStrings.claim_check_list,
-                      fontSize: Dimens.forteen,
-                      fontWeight: FontWeight.w600,
-                      fontColor: AppColor.blackColor,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child: listClamedCheckList(),
-                    ),
-                    SizedBox(
-                      height: Dimens.ten,
-                    ),
-                    SizedBox(
-                      height: Dimens.ten,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: Dimens.twenty),
-                      child: CommonActionButton(
-                        title: AppStrings.next,
-                        onPressed: () {
-                          var postCompleteDelivery = PostCompleteDelivery(
-                              item:
-                                  widget.postCompleteDelivery!.item.toString(),
-                              claimId: widget.postCompleteDelivery!.claimId,
-                              phoneNumber:
-                                  widget.postCompleteDelivery!.phoneNumber,
-                              patientFullName:
-                                  widget.postCompleteDelivery!.patientFullName,
-                              deliveryAddress:
-                                  widget.postCompleteDelivery!.deliveryAddress,
-                              claimAssessmentCheckList:
-                                  ClaimAssessmentCheckList(
-                                      claimAssessmentCheckListDetails: [
-                                    ClaimAssessmentCheckListDetails(
-                                        options: itemlistreviewed,
-                                        header: AppStrings.reviewed_patient),
-                                    ClaimAssessmentCheckListDetails(
-                                        options: claimCheckList,
-                                        header: AppStrings.claim_check_list)
-                                  ]));
-                          Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => ClaimAssementStepTwo(
-                                      postCompleteDelivery)));
-                        },
-                        borderRadius: Dimens.seven,
-                        backgroundColor: AppColor.primaryColor,
-                        width: double.maxFinite,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              StreamBuilder<CheckListObject>(
+                  stream: _checkListBlock!.checkListTRStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: Dimens.twenty,
+                                horizontal: Dimens.thirty),
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                itemCount:
+                                    snapshot.data!.checkListDetails!.length,
+                                itemBuilder: (context, position) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CommonTextWidget(
+                                        text: snapshot.data!
+                                            .checkListDetails![position].header
+                                            .toString(),
+                                        fontSize: Dimens.forteen,
+                                        fontWeight: FontWeight.w600,
+                                        fontColor: AppColor.blackColor,
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 8.0),
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              padding: EdgeInsets.zero,
+                                              itemCount: snapshot
+                                                  .data!
+                                                  .checkListDetails![position]
+                                                  .options!
+                                                  .length,
+                                              itemBuilder: (context, index) {
+                                                return checkListWidget(
+                                                    valueString: snapshot
+                                                        .data!
+                                                        .checkListDetails![
+                                                            position]
+                                                        .options![index]
+                                                        .name,
+                                                    isChecked: snapshot
+                                                        .data!
+                                                        .checkListDetails![
+                                                            position]
+                                                        .options![index]
+                                                        .isSelected,
+                                                    onTap: () {
+                                                      setState(() {
+                                                        if (snapshot
+                                                                .data!
+                                                                .checkListDetails![
+                                                                    position]
+                                                                .options![index]
+                                                                .isSelected ==
+                                                            false) {
+                                                          snapshot
+                                                              .data!
+                                                              .checkListDetails![
+                                                                  position]
+                                                              .options![index]
+                                                            ..isSelectedSet =
+                                                                true;
+                                                        } else
+                                                          snapshot
+                                                              .data!
+                                                              .checkListDetails![
+                                                                  position]
+                                                              .options![index]
+                                                            ..isSelectedSet =
+                                                                false;
+                                                      });
+                                                    });
+                                              }))
+                                    ],
+                                  );
+                                }),
+                            /*Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CommonTextWidget(
+                              text: AppStrings.reviewed_patient,
+                              fontSize: Dimens.forteen,
+                              fontWeight: FontWeight.w600,
+                              fontColor: AppColor.blackColor,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.0),
+                              child: listReviewed(),
+                            ),
+                            SizedBox(
+                              height: Dimens.ten,
+                            ),
+                            CommonTextWidget(
+                              text: AppStrings.claim_check_list,
+                              fontSize: Dimens.forteen,
+                              fontWeight: FontWeight.w600,
+                              fontColor: AppColor.blackColor,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.0),
+                              child: listClamedCheckList(),
+                            ),
+                            SizedBox(
+                              height: Dimens.ten,
+                            ),
+                            SizedBox(
+                              height: Dimens.ten,
+                            ),
+
+                            ),
+                          ],
+                    ),*/
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsets.symmetric(vertical: Dimens.twenty,horizontal: Dimens.thirty),
+                            child: CommonActionButton(
+                              title: AppStrings.next,
+                              onPressed: () {
+                                var postCompleteDelivery = PostCompleteDelivery(
+                                    item: widget.postCompleteDelivery!.item
+                                        .toString(),
+                                    claimId:
+                                        widget.postCompleteDelivery!.claimId,
+                                    phoneNumber: widget
+                                        .postCompleteDelivery!.phoneNumber,
+                                    patientFullName: widget
+                                        .postCompleteDelivery!.patientFullName,
+                                    deliveryAddress: widget
+                                        .postCompleteDelivery!.deliveryAddress,
+                                    claimAssessmentCheckList:snapshot.data
+                                        // ClaimAssessmentCheckList(
+                                        //     claimAssessmentCheckListDetails: [
+                                        //   ClaimAssessmentCheckListDetails(
+                                        //       options: snapshot.data.checkListDetails.,
+                                        //       header:
+                                        //           AppStrings.reviewed_patient),
+                                        //   ClaimAssessmentCheckListDetails(
+                                        //       options: claimCheckList,
+                                        //       header:
+                                        //           AppStrings.claim_check_list)
+                                        // ])
+                                );
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) =>
+                                            ClaimAssementStepTwo(
+                                                postCompleteDelivery)));
+                              },
+                              borderRadius: Dimens.seven,
+                              backgroundColor: AppColor.primaryColor,
+                              width: double.maxFinite,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else
+                      return CommmonProgressIndicator(true);
+                  }),
             ]),
           ),
         ));
@@ -159,152 +260,152 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
     );
   }
 
-  List<OptionsClaim> itemlistreviewed = [
-    OptionsClaim(
-        id: 201,
-        name: AppStrings.equipment_use_instructions,
-        isSelected: false),
-    OptionsClaim(
-        id: 202, name: AppStrings.costs_and_reimbursement, isSelected: false),
-    OptionsClaim(
-        id: 203,
-        name: AppStrings.home_safety_home_fire_safety,
-        isSelected: false),
-    OptionsClaim(
-        id: 204, name: AppStrings.complaint_process, isSelected: false),
-    OptionsClaim(
-        id: 205, name: AppStrings.patient_rights_research, isSelected: false),
-    OptionsClaim(
-        id: 206,
-        name: AppStrings.notice_of_privacy_practices,
-        isSelected: false),
-    OptionsClaim(
-        id: 207,
-        name: AppStrings.infection_prevention_and_control,
-        isSelected: false),
-    OptionsClaim(id: 208, name: AppStrings.cms_standards, isSelected: false),
-    OptionsClaim(
-        id: 209, name: AppStrings.patient_satisfaction, isSelected: false),
-    OptionsClaim(
-        id: 210, name: AppStrings.patient_falls_education, isSelected: false),
-    OptionsClaim(
-        id: 211, name: AppStrings.policy_notification, isSelected: false),
-    OptionsClaim(id: 212, name: AppStrings.victim_abuse, isSelected: false),
-  ];
-  List<OptionsClaim> claimCheckList = [
-    OptionsClaim(
-        id: 220, name: AppStrings.equipment_delivered, isSelected: false),
-    OptionsClaim(
-        id: 221,
-        name: AppStrings.patient_training_and_home_evaluation_completed,
-        isSelected: false),
-    OptionsClaim(
-        id: 222,
-        name: AppStrings.vehicle_inspection_completed_for_delivery_date,
-        isSelected: false),
-  ];
-  List<ClaimAssementsModel> itemDeliveryTicket = [
-    ClaimAssementsModel(
-        name: AppStrings.patient_refused_supplies, isSelected: false),
-  ];
-  List<ClaimAssementsModel> itemInsuranceVerification = [
-    ClaimAssementsModel(name: AppStrings.date, isSelected: false),
-    ClaimAssementsModel(name: AppStrings.time, isSelected: false),
-    ClaimAssementsModel(name: AppStrings.insurance, isSelected: false),
-    ClaimAssementsModel(name: AppStrings.spoke_with, isSelected: false),
-    ClaimAssementsModel(name: AppStrings.hcpc_description, isSelected: false),
-    ClaimAssementsModel(name: AppStrings.in_out_of_network, isSelected: false),
-    ClaimAssementsModel(name: AppStrings.deductible, isSelected: false),
-    ClaimAssementsModel(name: AppStrings.coinsurance, isSelected: false),
-    ClaimAssementsModel(name: AppStrings.oop, isSelected: false),
-  ];
-
-  Widget listReviewed() {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemCount: itemlistreviewed.length,
-        itemBuilder: (context, position) {
-          return checkListWidget(
-            valueString: itemlistreviewed[position].name,
-            isChecked: itemlistreviewed[position].isSelected,
-            onTap: () {
-              setState(() {
-                if (itemlistreviewed[position].isSelected == false) {
-                  itemlistreviewed[position].setIsSelected = true;
-                } else
-                  itemlistreviewed[position].setIsSelected = false;
-              });
-            },
-          );
-        });
-  }
-
-  Widget listClamedCheckList() {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemCount: claimCheckList.length,
-        itemBuilder: (context, position) {
-          return checkListWidget(
-              valueString: claimCheckList[position].name,
-              isChecked: claimCheckList[position].isSelected,
-              onTap: () {
-                setState(() {
-                  if (claimCheckList[position].isSelected == false) {
-                    claimCheckList[position].setIsSelected = true;
-                  } else
-                    claimCheckList[position].setIsSelected = false;
-                });
-              });
-        });
-  }
-
-  Widget listInsuranceVerification() {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemCount: itemInsuranceVerification.length,
-        itemBuilder: (context, position) {
-          return checkListWidget(
-            valueString: itemInsuranceVerification[position].name,
-            isChecked: itemInsuranceVerification[position].isSelected,
-            onTap: () {
-              setState(() {
-                if (itemInsuranceVerification[position].isSelected == false) {
-                  itemInsuranceVerification[position].setIsSelected = true;
-                } else
-                  itemInsuranceVerification[position].setIsSelected = false;
-              });
-            },
-          );
-        });
-  }
-
-  Widget ListDileveryTicket() {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemCount: itemDeliveryTicket.length,
-        itemBuilder: (context, position) {
-          return GestureDetector(
-            child: checkListWidget(
-              valueString: itemDeliveryTicket[position].name,
-              isChecked: itemDeliveryTicket[position].isSelected,
-              onTap: () {
-                setState(() {
-                  if (itemDeliveryTicket[position].isSelected == false) {
-                    itemDeliveryTicket[position].setIsSelected = true;
-                  } else
-                    itemDeliveryTicket[position].setIsSelected = false;
-                });
-              },
-            ),
-          );
-        });
-  }
+// List<OptionsClaim> itemlistreviewed = [
+//   OptionsClaim(
+//       id: 201,
+//       name: AppStrings.equipment_use_instructions,
+//       isSelected: false),
+//   OptionsClaim(
+//       id: 202, name: AppStrings.costs_and_reimbursement, isSelected: false),
+//   OptionsClaim(
+//       id: 203,
+//       name: AppStrings.home_safety_home_fire_safety,
+//       isSelected: false),
+//   OptionsClaim(
+//       id: 204, name: AppStrings.complaint_process, isSelected: false),
+//   OptionsClaim(
+//       id: 205, name: AppStrings.patient_rights_research, isSelected: false),
+//   OptionsClaim(
+//       id: 206,
+//       name: AppStrings.notice_of_privacy_practices,
+//       isSelected: false),
+//   OptionsClaim(
+//       id: 207,
+//       name: AppStrings.infection_prevention_and_control,
+//       isSelected: false),
+//   OptionsClaim(id: 208, name: AppStrings.cms_standards, isSelected: false),
+//   OptionsClaim(
+//       id: 209, name: AppStrings.patient_satisfaction, isSelected: false),
+//   OptionsClaim(
+//       id: 210, name: AppStrings.patient_falls_education, isSelected: false),
+//   OptionsClaim(
+//       id: 211, name: AppStrings.policy_notification, isSelected: false),
+//   OptionsClaim(id: 212, name: AppStrings.victim_abuse, isSelected: false),
+// ];
+// List<OptionsClaim> claimCheckList = [
+//   OptionsClaim(
+//       id: 220, name: AppStrings.equipment_delivered, isSelected: false),
+//   OptionsClaim(
+//       id: 221,
+//       name: AppStrings.patient_training_and_home_evaluation_completed,
+//       isSelected: false),
+//   OptionsClaim(
+//       id: 222,
+//       name: AppStrings.vehicle_inspection_completed_for_delivery_date,
+//       isSelected: false),
+// ];
+// List<ClaimAssementsModel> itemDeliveryTicket = [
+//   ClaimAssementsModel(
+//       name: AppStrings.patient_refused_supplies, isSelected: false),
+// ];
+// List<ClaimAssementsModel> itemInsuranceVerification = [
+//   ClaimAssementsModel(name: AppStrings.date, isSelected: false),
+//   ClaimAssementsModel(name: AppStrings.time, isSelected: false),
+//   ClaimAssementsModel(name: AppStrings.insurance, isSelected: false),
+//   ClaimAssementsModel(name: AppStrings.spoke_with, isSelected: false),
+//   ClaimAssementsModel(name: AppStrings.hcpc_description, isSelected: false),
+//   ClaimAssementsModel(name: AppStrings.in_out_of_network, isSelected: false),
+//   ClaimAssementsModel(name: AppStrings.deductible, isSelected: false),
+//   ClaimAssementsModel(name: AppStrings.coinsurance, isSelected: false),
+//   ClaimAssementsModel(name: AppStrings.oop, isSelected: false),
+// ];
+//
+// Widget listReviewed() {
+//   return ListView.builder(
+//       shrinkWrap: true,
+//       physics: NeverScrollableScrollPhysics(),
+//       padding: EdgeInsets.zero,
+//       itemCount: itemlistreviewed.length,
+//       itemBuilder: (context, position) {
+//         return checkListWidget(
+//           valueString: itemlistreviewed[position].name,
+//           isChecked: itemlistreviewed[position].isSelected,
+//           onTap: () {
+//             setState(() {
+//               if (itemlistreviewed[position].isSelected == false) {
+//                 itemlistreviewed[position].setIsSelected = true;
+//               } else
+//                 itemlistreviewed[position].setIsSelected = false;
+//             });
+//           },
+//         );
+//       });
+// }
+//
+// Widget listClamedCheckList() {
+//   return ListView.builder(
+//       shrinkWrap: true,
+//       physics: NeverScrollableScrollPhysics(),
+//       padding: EdgeInsets.zero,
+//       itemCount: claimCheckList.length,
+//       itemBuilder: (context, position) {
+//         return checkListWidget(
+//             valueString: claimCheckList[position].name,
+//             isChecked: claimCheckList[position].isSelected,
+//             onTap: () {
+//               setState(() {
+//                 if (claimCheckList[position].isSelected == false) {
+//                   claimCheckList[position].setIsSelected = true;
+//                 } else
+//                   claimCheckList[position].setIsSelected = false;
+//               });
+//             });
+//       });
+// }
+//
+// Widget listInsuranceVerification() {
+//   return ListView.builder(
+//       shrinkWrap: true,
+//       physics: NeverScrollableScrollPhysics(),
+//       padding: EdgeInsets.zero,
+//       itemCount: itemInsuranceVerification.length,
+//       itemBuilder: (context, position) {
+//         return checkListWidget(
+//           valueString: itemInsuranceVerification[position].name,
+//           isChecked: itemInsuranceVerification[position].isSelected,
+//           onTap: () {
+//             setState(() {
+//               if (itemInsuranceVerification[position].isSelected == false) {
+//                 itemInsuranceVerification[position].setIsSelected = true;
+//               } else
+//                 itemInsuranceVerification[position].setIsSelected = false;
+//             });
+//           },
+//         );
+//       });
+// }
+//
+// Widget ListDileveryTicket() {
+//   return ListView.builder(
+//       shrinkWrap: true,
+//       physics: NeverScrollableScrollPhysics(),
+//       padding: EdgeInsets.zero,
+//       itemCount: itemDeliveryTicket.length,
+//       itemBuilder: (context, position) {
+//         return GestureDetector(
+//           child: checkListWidget(
+//             valueString: itemDeliveryTicket[position].name,
+//             isChecked: itemDeliveryTicket[position].isSelected,
+//             onTap: () {
+//               setState(() {
+//                 if (itemDeliveryTicket[position].isSelected == false) {
+//                   itemDeliveryTicket[position].setIsSelected = true;
+//                 } else
+//                   itemDeliveryTicket[position].setIsSelected = false;
+//               });
+//             },
+//           ),
+//         );
+//       });
+// }
 }

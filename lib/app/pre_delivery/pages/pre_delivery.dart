@@ -1,6 +1,7 @@
 import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/pre_delivery/bloc/pre_delivery_block.dart';
+import 'package:bflow/app/pre_delivery/model/PreDeliveryModel.dart';
 import 'package:bflow/app/pre_delivery/model/pre_claims_model.dart';
 import 'package:bflow/app/pre_delivery/pages/add_claim.dart';
 import 'package:bflow/utils/AppColors.dart';
@@ -22,13 +23,7 @@ class _PreDeliveryState extends State<PreDelivery> {
   @override
   void initState() {
     preDeliveryBloc = PreDeliveryBloc();
-    preDeliveryBloc!.getClaims(
-        corporateId: AppStrings.corporateId,
-        emailAddress: AppStrings.emailAddress,
-        fullName: AppStrings.fullname,
-        userName: AppStrings.userName,
-        userId: AppStrings.userId,
-        context: context);
+    preDeliveryBloc!.getPreClaims();
     super.initState();
   }
 
@@ -48,19 +43,20 @@ class _PreDeliveryState extends State<PreDelivery> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          body: StreamBuilder<List<ClaimDetails>>(
-              stream: preDeliveryBloc!.claimsStream,
+          body: StreamBuilder<List<PreDeliveryobject>>(
+              stream: preDeliveryBloc!.claimspreStream,
               builder: (context, snapshot) {
                 if (snapshot.hasData &&
                     snapshot.data != null &&
                     snapshot.data!.length > 0) {
-                  return SingleChildScrollView(
-                    controller: ScrollController(),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height,
-                      padding: EdgeInsets.symmetric(
-                          vertical: Dimens.thirty,
-                          horizontal: Dimens.twentyFive),
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    padding: EdgeInsets.symmetric(
+                        // vertical: Dimens.thirty,
+                        horizontal: Dimens.twentyFive
+                    ),
+                    child: SingleChildScrollView(
+                      controller: ScrollController(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -168,7 +164,7 @@ class _PreDeliveryState extends State<PreDelivery> {
   }
 
   Widget ListData(
-      {required BuildContext context, required List<ClaimDetails> obj}) {
+      {required BuildContext context, required List<PreDeliveryobject> obj}) {
     return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -188,7 +184,7 @@ class _PreDeliveryState extends State<PreDelivery> {
               index: position + 1,
               id: obj[position].claimId.toString(),
               location:
-                  "${obj[position].deliveryAddress!.address},${obj[position].deliveryAddress!.city},${obj[position].deliveryAddress!.state},${obj[position].deliveryAddress!.zipCode}",
+                  "${obj[position].address},${obj[position].city},${obj[position].state},${obj[position].zipcode}",
               name: obj[position].patientFullName.toString(),
             ),
           );

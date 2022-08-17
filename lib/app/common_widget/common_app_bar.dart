@@ -35,9 +35,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: false,
       title: Stack(
         children: <Widget>[
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
+           InkWell(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               hoverColor: Colors.transparent,
@@ -61,7 +59,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
-          ),
+
           Align(
             alignment: Alignment.center,
             child: Text(

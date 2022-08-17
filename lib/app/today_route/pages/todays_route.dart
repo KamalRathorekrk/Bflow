@@ -20,7 +20,7 @@ class TodaysRoute extends StatefulWidget {
 }
 
 class _TodaysRouteState extends State<TodaysRoute> {
-  List<DataModel> itemList = [];
+  // List<DataModel> itemList = [];
   TodaysRouteBloc? todaysRouteBloc;
   DateTime? _dateTime;
   var formatter = DateFormat('EE, MMM dd');
@@ -30,49 +30,49 @@ class _TodaysRouteState extends State<TodaysRoute> {
     todaysRouteBloc!.getClaims(context: context);
     _dateTime = DateTime.now();
 
-    itemList.add(DataModel(
-        id: "#53434",
-        location: "1700 Cheddar Ln ,TN",
-        name: "Skywalker Diana",
-        time: "3:10PM",
-        check: true));
-    itemList.add(DataModel(
-        id: "#77434",
-        location: "3400 Cheddar Ln ,TN",
-        name: "Albert Smith",
-        time: "",
-        check: false));
-    itemList.add(DataModel(
-        id: "#88434",
-        location: "4400 Cheddar Ln ,TN",
-        name: "Johnson Park",
-        time: "",
-        check: false));
-    itemList
-      ..add(DataModel(
-          id: "#99434",
-          location: "6700 Cheddar Ln ,TN",
-          name: "Penny Rick",
-          time: "",
-          check: false))
-      ..add(DataModel(
-          id: "#55434",
-          location: "6700 Cheddar Ln ,TN",
-          name: "Penny Rick",
-          time: "",
-          check: false))
-      ..add(DataModel(
-          id: "#99434s",
-          location: "6700 Cheddar Ln ,TN",
-          name: "Penny Rick",
-          time: "",
-          check: false))
-      ..add(DataModel(
-          id: "#99434s",
-          location: "6700 Cheddar Ln ,TN",
-          name: "Penny Rick",
-          time: "",
-          check: false));
+    // itemList.add(DataModel(
+    //     id: "#53434",
+    //     location: "1700 Cheddar Ln ,TN",
+    //     name: "Skywalker Diana",
+    //     time: "3:10PM",
+    //     check: true));
+    // itemList.add(DataModel(
+    //     id: "#77434",
+    //     location: "3400 Cheddar Ln ,TN",
+    //     name: "Albert Smith",
+    //     time: "",
+    //     check: false));
+    // itemList.add(DataModel(
+    //     id: "#88434",
+    //     location: "4400 Cheddar Ln ,TN",
+    //     name: "Johnson Park",
+    //     time: "",
+    //     check: false));
+    // itemList
+    //   ..add(DataModel(
+    //       id: "#99434",
+    //       location: "6700 Cheddar Ln ,TN",
+    //       name: "Penny Rick",
+    //       time: "",
+    //       check: false))
+    //   ..add(DataModel(
+    //       id: "#55434",
+    //       location: "6700 Cheddar Ln ,TN",
+    //       name: "Penny Rick",
+    //       time: "",
+    //       check: false))
+    //   ..add(DataModel(
+    //       id: "#99434s",
+    //       location: "6700 Cheddar Ln ,TN",
+    //       name: "Penny Rick",
+    //       time: "",
+    //       check: false))
+    //   ..add(DataModel(
+    //       id: "#99434s",
+    //       location: "6700 Cheddar Ln ,TN",
+    //       name: "Penny Rick",
+    //       time: "",
+    //       check: false));
   }
 
   @override
@@ -94,47 +94,52 @@ class _TodaysRouteState extends State<TodaysRoute> {
           ),
           body: StreamBuilder<List<ClaimList>>(
               stream: todaysRouteBloc!.claimsStream,
+
               builder: (context, snapshot) {
                 if (snapshot.hasData &&
                     snapshot.data != null &&
                     snapshot.data!.length > 0) {
                   return Container(
                     padding: EdgeInsets.symmetric(
-                      vertical: Dimens.thirty,
+                      // vertical: Dimens.thirty,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Dimens.twentyFive),
-                          child: CommonTextWidget(
-                            text: formatter.format(_dateTime!).toString(),
-                            fontSize: Dimens.twenty,
-                            fontWeight: FontWeight.w700,
-                            fontColor: AppColor.backgroundColor,
+                    child: SingleChildScrollView(
+                      controller: ScrollController(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: Dimens.thirty,),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: Dimens.twentyFive),
+                            child: CommonTextWidget(
+                              text: formatter.format(_dateTime!).toString(),
+                              fontSize: Dimens.twenty,
+                              fontWeight: FontWeight.w700,
+                              fontColor: AppColor.backgroundColor,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: Dimens.ten,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Dimens.twentyFive),
-                          child: CommonTextWidget(
-                            text: snapshot.data!.length > 1
-                                ? "${snapshot.data!.length} Stops"
-                                : "${snapshot.data!.length} Stop",
-                            fontSize: Dimens.forteen,
-                            fontWeight: FontWeight.w500,
-                            fontColor: AppColor.backgroundColor,
+                          SizedBox(
+                            height: Dimens.ten,
                           ),
-                        ),
-                        SizedBox(
-                          height: Dimens.twenty,
-                        ),
-                        ListData(context: context, data: snapshot.data),
-                      ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: Dimens.twentyFive),
+                            child: CommonTextWidget(
+                              text: snapshot.data!.length > 1
+                                  ? "${snapshot.data!.length} Stops"
+                                  : "${snapshot.data!.length} Stop",
+                              fontSize: Dimens.forteen,
+                              fontWeight: FontWeight.w500,
+                              fontColor: AppColor.backgroundColor,
+                            ),
+                          ),
+                          SizedBox(
+                            height: Dimens.twenty,
+                          ),
+                          ListData(context: context, data: snapshot.data),
+                        ],
+                      ),
                     ),
 
                     // bottomNavigationBar: BottomNavigationPage(),
@@ -274,7 +279,7 @@ class _TodaysRouteState extends State<TodaysRoute> {
     ResponseRoutes responseRoutes = ResponseRoutes();
     return ListView.builder(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics:NeverScrollableScrollPhysics() ,
         padding: EdgeInsets.zero,
         itemCount: data!.length,
         itemBuilder: (context, position) {

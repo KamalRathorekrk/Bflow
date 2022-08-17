@@ -1,3 +1,4 @@
+import 'package:bflow/app/bottom_nav_bar/bottom_navigation_pages.dart';
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_password_textfield.dart';
 import 'package:bflow/app/common_widget/common_text_underLine_widget.dart';
@@ -168,6 +169,10 @@ class _LoginPageState extends State<LoginPage> {
           CommonActionButton(
             title: AppStrings.login,
             onPressed: () async {
+              // Navigator.of(context).pushAndRemoveUntil(
+              //     CupertinoPageRoute(
+              //         builder: (context) => BottomNavigationPage()),
+              //     (Route<dynamic> route) => false);
               if (formValidation(context)) {
                 await loginblock!.loginUpApiCall(
                     context: context,

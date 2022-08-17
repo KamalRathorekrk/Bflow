@@ -25,8 +25,8 @@ class CommmonProgressIndicator extends StatelessWidget {
                 child: isLoading
                     ? Container(
                         child: spinkit,
-                        decoration: BoxDecoration(
-                            color: Colors.transparent.withOpacity(0.5)),
+                        // decoration: BoxDecoration(
+                            // color: Colors.transparent.withOpacity(0.5)),
                       )
                     : Container()),
           )

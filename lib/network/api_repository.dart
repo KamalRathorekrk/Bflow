@@ -8,13 +8,16 @@ import 'package:bflow/app/claim_assessment/models/who_received_model.dart';
 import 'package:bflow/app/common/claims_details.dart';
 import 'package:bflow/app/common/common_response.dart';
 import 'package:bflow/app/login/model/validate_response.dart';
+import 'package:bflow/app/pre_delivery/model/PreDeliveryModel.dart';
 import 'package:bflow/app/pre_delivery/model/claim_id_response.dart';
 import 'package:bflow/app/pre_delivery/model/pre_claims_model.dart';
 import 'package:bflow/app/routes_activity_list/model/get_routes_list.dart';
 import 'package:bflow/app/settings/model/change_profile_pic_model.dart';
 import 'package:bflow/app/settings/model/get_profile_pic_model.dart';
+
 import 'package:bflow/app/today_route/model/claims_model.dart';
 import 'package:bflow/utils/AppStrings.dart';
+import 'package:bflow/utils/CommonCheckListModel.dart';
 import 'package:bflow/utils/SharedPreferences.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -197,6 +200,30 @@ class ApiRepository {
     Map<String, dynamic> data = jsonDecode(response.toString());
     return ClaimsModel.fromJson(data);
   }
+
+  /*................... claim api ..........*/
+  Future<PreDeliveryModel> claimsPreDeliveryApi() async {
+    await getDioOptions(_dio);
+    var response = await _dio!.get(
+      ApiEndPoints.base_url + ApiEndPoints.preDeliveryByDriver,
+    );
+    print("preDeliveryByDriver" + response.toString());
+    Map<String, dynamic> data = jsonDecode(response.toString());
+    return PreDeliveryModel.fromJson(data);
+  }
+
+  /*................... claim get check list api ..........*/
+  Future<CommonCheckListModel> claimsCheckListApi({String? claimId}) async {
+    await getDioOptions(_dio);
+    print(ApiEndPoints.base_url +"claims/${claimId}/"+ApiEndPoints.checklist);
+    var response = await _dio!.get(
+      ApiEndPoints.base_url +"claims/${claimId}/"+ApiEndPoints.checklist,
+    );
+    print("checklist" + response.toString());
+    Map<String, dynamic> data = jsonDecode(response.toString());
+    return CommonCheckListModel.fromJson(data);
+  }
+
 
 /*................... claim Id api ..........*/
   Future<ClaimsDetails> claimIdDetailsApi({required String claimId}) async {

@@ -124,10 +124,16 @@ class _VerificationState extends State<Verification> {
                       maxLength: 8,
                       hasTextBorderColor: Colors.white,
 
-                      onTextChanged: (text) {
-                      },
+                      onTextChanged: (text) {},
                       onDone: (text) {
-                        print("DONE $text");
+                        loginblock!.validateApiCall(
+                            authCode: authCodeController.text,
+                            password: widget.loginModel.password.toString(),
+                            corporateId:
+                            widget.loginModel.corporateId.toString(),
+                            userName: widget.loginModel.userName.toString(),
+                            context: context);
+                        // print("DONE $text");
                       },
                       pinBoxWidth: MediaQuery.of(context).size.width * 0.083,
                       pinBoxHeight: 50,

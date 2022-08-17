@@ -347,7 +347,7 @@ class _SettingsState extends State<Settings> {
   Future cropProfileImage(
     imageFile,
   ) async {
-    File? croppedFile = await ImageCropper.cropImage(
+    var croppedFile = await ImageCropper().cropImage(
       sourcePath: imageFile.path,
       cropStyle: CropStyle.circle,
       aspectRatio: CropAspectRatio(
@@ -357,19 +357,20 @@ class _SettingsState extends State<Settings> {
       aspectRatioPresets: [
         CropAspectRatioPreset.original,
       ],
-      iosUiSettings: IOSUiSettings(
-        aspectRatioLockEnabled: true,
-        rotateButtonsHidden: true,
-        minimumAspectRatio: 1.0,
-      ),
-      androidUiSettings: AndroidUiSettings(
-          toolbarTitle: 'Crop Image',
-          toolbarColor: AppColor.backgroundColor,
-          toolbarWidgetColor: Colors.white,
-          hideBottomControls: true,
-          showCropGrid: false,
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: true),
+      // uiSettings: buildUiSettings(context),
+      // iosUiSettings: IOSUiSettings(
+      //   aspectRatioLockEnabled: true,
+      //   rotateButtonsHidden: true,
+      //   minimumAspectRatio: 1.0,
+      // ),
+      // androidUiSettings: AndroidUiSettings(
+      //     toolbarTitle: 'Crop Image',
+      //     toolbarColor: AppColor.backgroundColor,
+      //     toolbarWidgetColor: Colors.white,
+      //     hideBottomControls: true,
+      //     showCropGrid: false,
+      //     initAspectRatio: CropAspectRatioPreset.original,
+      //     lockAspectRatio: true),
     );
 
     if (croppedFile != null) {

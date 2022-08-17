@@ -23,7 +23,7 @@ class RoutesBloc {
       routesListController.sink;
 
   getCompletedRoutes({context}) {
-    print(AppStrings.userId);
+
     progressSink.add(true);
 
     _apiRepository

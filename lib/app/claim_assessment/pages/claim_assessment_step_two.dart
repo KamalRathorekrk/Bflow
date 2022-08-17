@@ -57,7 +57,6 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
     _claimAssementsBloc = ClaimAssementsBloc();
     _claimAssementsBloc!.whoReceived(context: context);
     permissionAccess();
-
     super.initState();
   }
 
@@ -169,9 +168,11 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
             focusNode: _signedPhoneFocusNode,
             keyboardType: TextInputType.phone,
             inputFormatters: [
-            // MaskedInputFormatter('+# (###) ### ####')
-            PhoneInputFormatter(allowEndlessPhone: true, onCountrySelected: _onCountrySelected,
-            )
+              // MaskedInputFormatter('+# (###) ### ####')
+              PhoneInputFormatter(
+                allowEndlessPhone: true,
+                onCountrySelected: _onCountrySelected,
+              )
             ],
           ),
           SizedBox(
@@ -207,7 +208,8 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
                         widget.postCompleteDelivery!.patientFullName,
                     deliveryAddress:
                         widget.postCompleteDelivery!.deliveryAddress,
-                    claimAssessmentCheckList: widget.postCompleteDelivery!.claimAssessmentCheckList,
+                    claimAssessmentCheckList:
+                        widget.postCompleteDelivery!.claimAssessmentCheckList,
                     orderReceiverOptions: [
                       OrderReceiverOptions(
                           title: _titleController.text,

@@ -35,8 +35,10 @@ class AppStrings {
 
   //verification
   static const String verification = "Verification";
+  // static const String otp_send =
+  //     "Please enter the OTP sent on your mobile number";
   static const String otp_send =
-      "Please enter the OTP sent on your mobile number";
+      "Please enter the OTP sent on your email";
 
   // "OTP has been sent to your mobile number please enter it below";
   static const String resend_otp = "Resend OTP";

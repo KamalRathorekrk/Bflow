@@ -5,9 +5,11 @@ import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/app/common_widget/common_textfiled_multiline.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/pre_delivery/bloc/pre_delivery_block.dart';
+import 'package:bflow/app/pre_delivery/model/CompletePreDelivery.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
 import 'package:bflow/utils/AppStrings.dart';
+import 'package:bflow/utils/CommonCheckListModel.dart';
 import 'package:bflow/utils/Dimens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +49,8 @@ class _AddClaimState extends State<AddClaim> {
 
   callApi() async {
     preDeliveryBloc!.getClaimDetails(context: context, claimID: widget.claimId);
+    preDeliveryBloc!
+        .getClaimPreChecklist(context: context, claimID: widget.claimId);
   }
 
   @override
@@ -111,7 +115,10 @@ class _AddClaimState extends State<AddClaim> {
                               CommonActionButton(
                                 title: AppStrings.submit_and_schedule_delivery,
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  CompletePreDelivery _completeDelivery=CompletePreDelivery(claimId: ,claimAssessmentCheckList: ,deliveryAddress: ,item: ,orderReceiverOptions: ,patientFullName: ,phoneNumber: );
+                                  preDeliveryBloc!.completePreDelivery(completeClaimAssessment: ,context: );
+
+                                  // Navigator.pop(context);
                                 },
                                 borderRadius: Dimens.seven,
                                 backgroundColor: AppColor.primaryColor,
@@ -428,36 +435,54 @@ class _AddClaimState extends State<AddClaim> {
   }
 
   Widget checkListWidget() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CommonTextWidget(
-          text: AppStrings.complete_checklist,
-          fontSize: Dimens.forteen,
-          fontWeight: FontWeight.w600,
-          fontColor: AppColor.blackColor,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: Dimens.fifteen),
-          child: ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.zero,
-              itemCount: checkListItem.length,
-              itemBuilder: (context, position) {
-                return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isCheckedClaim[position] = !_isCheckedClaim[position];
-                      });
-                    },
-                    child: rowElement(
-                        valueString: checkListItem[position],
-                        isChecked: _isCheckedClaim[position]));
-              }),
-        ),
-      ],
-    );
+    return StreamBuilder<CheckListObject>(
+        stream: preDeliveryBloc!.claimChecklistStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CommonTextWidget(
+                  text: AppStrings.complete_checklist,
+                  fontSize: Dimens.forteen,
+                  fontWeight: FontWeight.w600,
+                  fontColor: AppColor.blackColor,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: Dimens.fifteen),
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      itemCount:
+                          snapshot.data!.checkListDetails![0].options!.length,
+                      itemBuilder: (context, position) {
+                        return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if( snapshot.data!.checkListDetails![0]
+                                    .options![position].isSelected==true){
+                                  snapshot.data!.checkListDetails![0]
+                                      .options![position].isSelectedSet = false;
+                                }else
+                                  {
+                                    snapshot.data!.checkListDetails![0]
+                                        .options![position].isSelectedSet=true;
+                                  }
+                              });
+                            },
+                            child: rowElement(
+                                valueString: snapshot.data!.checkListDetails![0]
+                                    .options![position].name,
+                                isChecked: _isCheckedClaim[position]));
+                      }),
+                ),
+              ],
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 
   Widget rowElement({String? valueString, bool? isChecked}) {

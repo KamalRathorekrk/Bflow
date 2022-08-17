@@ -11,7 +11,9 @@ class ApiEndPoints {
   static const String claimDelivery = "claims/claimdelivery";
   static const String claimsCancel = "claims/cancel";
   static const String whoReceivedDropdown = "claims/whoreceiveddropdown";
-  static const String routeActivityList = "claims/routeacivitylist/";
+  static const String routeActivityList = "claims/routeacivitylist";
   static const String completeDelivery = "claims/completedelivery/";
   static const String assessment = "claims/assessment";
+  static const String preDeliveryByDriver = "claims/PreDeliveryByDriver";
+  static const String checklist = "checklist";
 }

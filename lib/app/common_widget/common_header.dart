@@ -68,7 +68,7 @@ class CommonHeader extends StatelessWidget{
                 child: SvgPicture.asset(AppImages.location),
               ),
               CommonTextWidget(
-                text: "${postCompleteDelivery!.deliveryAddress!.address.toString()}, ${postCompleteDelivery!.deliveryAddress!.city.toString()}, ${postCompleteDelivery!.deliveryAddress!.state.toString()}",
+                text: "${postCompleteDelivery!.address}",
                 fontSize: Dimens.forteen,
                 fontColor: AppColor.blackColor,
                 fontWeight: FontWeight.w500,

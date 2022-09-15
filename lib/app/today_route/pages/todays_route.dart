@@ -3,7 +3,6 @@ import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/routes_activity_list/model/get_routes_list.dart';
 import 'package:bflow/app/today_route/bloc/todays_route_bloc.dart';
 import 'package:bflow/app/today_route/model/claims_model.dart';
-import 'package:bflow/app/today_route/model/datamodel.dart';
 import 'package:bflow/app/today_route/pages/todays_route_details.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
@@ -20,7 +19,6 @@ class TodaysRoute extends StatefulWidget {
 }
 
 class _TodaysRouteState extends State<TodaysRoute> {
-  // List<DataModel> itemList = [];
   TodaysRouteBloc? todaysRouteBloc;
   DateTime? _dateTime;
   var formatter = DateFormat('EE, MMM dd');
@@ -29,50 +27,6 @@ class _TodaysRouteState extends State<TodaysRoute> {
     todaysRouteBloc = TodaysRouteBloc();
     todaysRouteBloc!.getClaims(context: context);
     _dateTime = DateTime.now();
-
-    // itemList.add(DataModel(
-    //     id: "#53434",
-    //     location: "1700 Cheddar Ln ,TN",
-    //     name: "Skywalker Diana",
-    //     time: "3:10PM",
-    //     check: true));
-    // itemList.add(DataModel(
-    //     id: "#77434",
-    //     location: "3400 Cheddar Ln ,TN",
-    //     name: "Albert Smith",
-    //     time: "",
-    //     check: false));
-    // itemList.add(DataModel(
-    //     id: "#88434",
-    //     location: "4400 Cheddar Ln ,TN",
-    //     name: "Johnson Park",
-    //     time: "",
-    //     check: false));
-    // itemList
-    //   ..add(DataModel(
-    //       id: "#99434",
-    //       location: "6700 Cheddar Ln ,TN",
-    //       name: "Penny Rick",
-    //       time: "",
-    //       check: false))
-    //   ..add(DataModel(
-    //       id: "#55434",
-    //       location: "6700 Cheddar Ln ,TN",
-    //       name: "Penny Rick",
-    //       time: "",
-    //       check: false))
-    //   ..add(DataModel(
-    //       id: "#99434s",
-    //       location: "6700 Cheddar Ln ,TN",
-    //       name: "Penny Rick",
-    //       time: "",
-    //       check: false))
-    //   ..add(DataModel(
-    //       id: "#99434s",
-    //       location: "6700 Cheddar Ln ,TN",
-    //       name: "Penny Rick",
-    //       time: "",
-    //       check: false));
   }
 
   @override
@@ -94,21 +48,22 @@ class _TodaysRouteState extends State<TodaysRoute> {
           ),
           body: StreamBuilder<List<ClaimList>>(
               stream: todaysRouteBloc!.claimsStream,
-
               builder: (context, snapshot) {
                 if (snapshot.hasData &&
                     snapshot.data != null &&
                     snapshot.data!.length > 0) {
                   return Container(
                     padding: EdgeInsets.symmetric(
-                      // vertical: Dimens.thirty,
-                    ),
+                        // vertical: Dimens.thirty,
+                        ),
                     child: SingleChildScrollView(
                       controller: ScrollController(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: Dimens.thirty,),
+                          SizedBox(
+                            height: Dimens.thirty,
+                          ),
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: Dimens.twentyFive),
@@ -279,19 +234,19 @@ class _TodaysRouteState extends State<TodaysRoute> {
     ResponseRoutes responseRoutes = ResponseRoutes();
     return ListView.builder(
         shrinkWrap: true,
-        physics:NeverScrollableScrollPhysics() ,
+        physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         itemCount: data!.length,
         itemBuilder: (context, position) {
-          print(data[position].toString());
           return GestureDetector(
             onTap: () {
-              if (position == 1) {
+              // if (position == 1) {
                 // Navigator.push(
                 //     context,
                 //     CupertinoPageRoute(
                 //         builder: (context) => DetailsPageSucess(responseRoutes: responseRoutes,)));
-              } else {
+              //}
+              if(data[position].deliveryStatus == 'InTransit') {
                 Navigator.push(
                     context,
                     CupertinoPageRoute(

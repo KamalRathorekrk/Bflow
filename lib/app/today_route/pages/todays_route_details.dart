@@ -1,12 +1,12 @@
 import 'package:bflow/app/claim_assessment/models/post_complete_delivery.dart';
 import 'package:bflow/app/claim_assessment/pages/claim_assessment_step_one.dart';
 import 'package:bflow/app/claim_assessment/pages/reason_for_cancellation.dart';
-import 'package:bflow/app/common/claims_details.dart';
 import 'package:bflow/app/common_widget/common_action_button.dart';
 import 'package:bflow/app/common_widget/common_app_bar.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/today_route/bloc/todays_route_bloc.dart';
+import 'package:bflow/app/today_route/model/TRClaimModel.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
 import 'package:bflow/utils/AppStrings.dart';
@@ -47,25 +47,20 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
         SystemUiOverlayStyle(statusBarColor: AppColor.offWhiteColor));
     return Stack(
       children: [
-        StreamBuilder<ClaimDetailData>(
+        StreamBuilder<TrClaimModel>(
             stream: todaysRouteBloc!.claimDetailStream,
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data != null) {
                 _postCompleteDelivery = PostCompleteDelivery(
-                    claimId: snapshot.data!.claimId,
-                    deliveryAddress: DeliveryAddressPost(
-                        address: snapshot.data!.deliveryAddress!.address,
-                        state: snapshot.data!.deliveryAddress!.state,
-                        zipCode: snapshot.data!.deliveryAddress!.zipCode,
-                        city: snapshot.data!.deliveryAddress!.city),
-                    patientFullName: snapshot.data!.patientFullName.toString(),
-                    phoneNumber: snapshot.data!.phoneNumber.toString(),
-                    item: snapshot.data!.items!.name.toString());
+                    claimId: snapshot.data!.orderId,
+                    address: snapshot.data!.deliveryDisplayAddress,
+                    patientFullName: snapshot.data!.patientName,
+                    );
 
                 return Scaffold(
                   // backgroundColor: AppColor.offWhiteColor,
                   appBar: CommonAppBar(
-                    text: "Claim:#${snapshot.data!.claimId}",
+                    text: "Claim:#${snapshot.data!.orderId}",
                   ),
                   body: SingleChildScrollView(
                     controller: ScrollController(),
@@ -79,14 +74,12 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
                       child: Column(
                         children: [
                           centerContainer(
-                            zipCode: snapshot.data!.deliveryAddress!.zipCode
-                                .toString(),
-                            phone: snapshot.data!.phoneNumber.toString(),
+                            zipCode: snapshot.data!.zip.toString(),
+                            phone: snapshot.data!.phoneCall.toString(),
                             deliveryAddress:
-                                "${snapshot.data!.deliveryAddress!.address.toString()}, ${snapshot.data!.deliveryAddress!.city.toString()}, ${snapshot.data!.deliveryAddress!.state.toString()}",
-                            description: snapshot.data!.items!.name.toString(),
-                            patientName:
-                                snapshot.data!.patientFullName.toString(),
+                                "${snapshot.data!.deliveryDisplayAddress}",
+                            description: snapshot.data!.patientInsuranceName,
+                            patientName: snapshot.data!.patientName,
                           ),
                           SizedBox(
                             height: Dimens.thirty,

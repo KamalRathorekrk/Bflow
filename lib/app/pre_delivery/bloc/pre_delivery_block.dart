@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:bflow/app/bottom_nav_bar/bottom_navigation_pages.dart';
-import 'package:bflow/app/claim_assessment/models/post_complete_delivery.dart';
-import 'package:bflow/app/common/claims_details.dart';
 import 'package:bflow/app/common_widget/snackbar/utils.dart';
+import 'package:bflow/app/pre_delivery/model/CompletePreDelivery.dart';
+import 'package:bflow/app/pre_delivery/model/PreDeliveryIdModel.dart';
 import 'package:bflow/app/pre_delivery/model/PreDeliveryModel.dart';
+import 'package:bflow/app/pre_delivery/model/PreDeliverySaveModel.dart';
 import 'package:bflow/app/pre_delivery/model/pre_claims_model.dart';
 import 'package:bflow/network/api_repository.dart';
 import 'package:bflow/utils/AppStrings.dart';
@@ -21,13 +22,13 @@ class PreDeliveryBloc {
 
   StreamSink<bool> get progressSink => progressController.sink;
 
-  final claimDetailsController = BehaviorSubject<ClaimDetailData>();
+  final preClaimDetailsController = BehaviorSubject<PreDeliveryIdModel>();
 
-  Stream<ClaimDetailData> get claimDetailsStream =>
-      claimDetailsController.stream;
+  Stream<PreDeliveryIdModel> get preClaimDetailsStream =>
+      preClaimDetailsController.stream;
 
-  StreamSink<ClaimDetailData> get claimDetailsSink =>
-      claimDetailsController.sink;
+  StreamSink<PreDeliveryIdModel> get preClaimDetailsSink =>
+      preClaimDetailsController.sink;
 
   final claimChecklistController = BehaviorSubject<CheckListObject>();
 
@@ -36,11 +37,13 @@ class PreDeliveryBloc {
 
   StreamSink<CheckListObject> get claimChecklistSink =>
       claimChecklistController.sink;
+
   final claimsController = BehaviorSubject<List<ClaimDetails>>();
 
   Stream<List<ClaimDetails>> get claimsStream => claimsController.stream;
 
   StreamSink<List<ClaimDetails>> get claimsSink => claimsController.sink;
+
   final claimsPreController = BehaviorSubject<List<PreDeliveryobject>>();
 
   Stream<List<PreDeliveryobject>> get claimspreStream =>
@@ -49,12 +52,12 @@ class PreDeliveryBloc {
   StreamSink<List<PreDeliveryobject>> get claimspreSink =>
       claimsPreController.sink;
 
-  void getClaimDetails(
+  void getPreClaimDetails(
       {required BuildContext context, required String claimID}) {
     progressSink.add(true);
-    apiRepository.claimIdDetailsApi(claimId: claimID).then((onResponse) {
+    apiRepository.preClaimIdDetailsApi(claimId: claimID).then((onResponse) {
       if (onResponse.responseType == "Ok") {
-        claimDetailsSink.add(onResponse.claimDetailData!);
+        preClaimDetailsSink.add(onResponse);
       } else {
         // Utils.showErrorSnackBar(
         //     message: onResponse.message.toString(), context: context);
@@ -133,17 +136,18 @@ class PreDeliveryBloc {
   }
 
   void completePreDelivery(
-      {required CompleteClaimAssessment completeClaimAssessment, context}) {
+      {PreDeliverySave? preDeliverySave, context}) {
     progressSink.add(true);
     apiRepository
-        .completeDelivery(completeClaimAssessment: completeClaimAssessment)
+        .completePreDelivery(preDeliverySave: preDeliverySave)
         .then((onResponse) {
       progressSink.add(false);
       if (onResponse.responseType == 'Ok') {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);
-        Navigator.pushReplacement(context,
-            CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
+        Navigator.pop(context);
+        // Navigator.pushReplacement(context,
+        //     CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
       } else {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);

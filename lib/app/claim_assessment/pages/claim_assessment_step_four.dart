@@ -206,14 +206,21 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
                   claimAssementsBloc!.completeDelivery(
                       completeClaimAssessment: widget.completeClaimAssessment!,
                       context: context);
-                  // var completeClaimAssessment = CompleteClaimAssessment(
-                  //     signature: widget.completeClaimAssessment!.signature,
-                  //     attachments: widget.completeClaimAssessment!.attachments,
-                  // // postCompleteDelivery: PostCompleteDelivery(claimAssessmentCheckList: ,claimId:,phoneNumber: ,item: ,orderReceiverOptions: ,patientFullName: ,deliveryAddress: ));
-                  // claimAssementsBloc!.completeDelivery(
-                  //     completeClaimAssessment: completeClaimAssessment,
-                  //     context: context);
                 } else if (validate(context)) {
+                  var completeClaimAssessment = CompleteClaimAssessment(
+                      signature: widget.completeClaimAssessment!.signature,
+                      attachments: widget.completeClaimAssessment!.attachments,
+                      postCompleteDelivery: PostCompleteDelivery(
+                        paymentDetails: PaymentDetails(cardHolderName: _cardHolderNameController.text.trim(),cardNumber: _cardNumberController.text.trim(),
+                          cvc:_cvcController.text.trim() ,exp:_expController.text.trim() ,
+                        ),notes: widget.completeClaimAssessment!.postCompleteDelivery!.notes,checkListDetails: widget.completeClaimAssessment!.postCompleteDelivery!.checkListDetails ,careGiverTitle:  widget.completeClaimAssessment!.postCompleteDelivery!.careGiverTitle,
+                          careGiverName:  widget.completeClaimAssessment!.postCompleteDelivery!.careGiverName,careGiverReasonSigned:  widget.completeClaimAssessment!.postCompleteDelivery!.careGiverReasonSigned,
+                          careGiverSignedPhone: widget.completeClaimAssessment!.postCompleteDelivery!.careGiverSignedPhone ,whoReceived: widget.completeClaimAssessment!.postCompleteDelivery!.whoReceived,
+                        claimId:widget.completeClaimAssessment!.postCompleteDelivery!.claimId ,patientFullName:widget.completeClaimAssessment!.postCompleteDelivery!.patientFullName ,address: widget.completeClaimAssessment!.postCompleteDelivery!.address,
+                      ),
+                  );
+                  // postCompleteDelivery: PostCompleteDelivery(claimAssessmentCheckList: ,claimId:,phoneNumber: ,item: ,orderReceiverOptions: ,patientFullName: ,deliveryAddress: ));
+
                   claimAssementsBloc!.completeDelivery(
                       completeClaimAssessment: widget.completeClaimAssessment!,
                       context: context);

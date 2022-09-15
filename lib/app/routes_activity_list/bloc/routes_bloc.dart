@@ -27,7 +27,7 @@ class RoutesBloc {
     progressSink.add(true);
 
     _apiRepository
-        .routeAcivityList(userId: AppStrings.userId)
+        .routeAcivityList()
         .then((onResponse) {
       progressSink.add(false);
       if (onResponse.responseType == "Ok") {

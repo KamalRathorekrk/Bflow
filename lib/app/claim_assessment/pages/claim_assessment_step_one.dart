@@ -181,29 +181,22 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
                             child: CommonActionButton(
                               title: AppStrings.next,
                               onPressed: () {
-                                var postCompleteDelivery = PostCompleteDelivery(
-                                    item: widget.postCompleteDelivery!.item
-                                        .toString(),
+                                var postCompleteDelivery = //widget.postCompleteDelivery!;
+                                PostCompleteDelivery(
+                                    address: widget.postCompleteDelivery!.address,
+                                    whoReceived:widget.postCompleteDelivery!.whoReceived ,
+                                    careGiverSignedPhone:widget.postCompleteDelivery!.careGiverSignedPhone ,
+                                    careGiverReasonSigned:widget.postCompleteDelivery!.careGiverReasonSigned ,
+                                    careGiverName:widget.postCompleteDelivery!.careGiverName ,
+                                    careGiverTitle: widget.postCompleteDelivery!.careGiverTitle,
+                                    checkListDetails: snapshot.data!.checkListDetails![0],
+                                  notes:widget.postCompleteDelivery!.notes ,
+
+                                    paymentDetails:widget.postCompleteDelivery!.paymentDetails ,
                                     claimId:
                                         widget.postCompleteDelivery!.claimId,
-                                    phoneNumber: widget
-                                        .postCompleteDelivery!.phoneNumber,
                                     patientFullName: widget
                                         .postCompleteDelivery!.patientFullName,
-                                    deliveryAddress: widget
-                                        .postCompleteDelivery!.deliveryAddress,
-                                    claimAssessmentCheckList:snapshot.data
-                                        // ClaimAssessmentCheckList(
-                                        //     claimAssessmentCheckListDetails: [
-                                        //   ClaimAssessmentCheckListDetails(
-                                        //       options: snapshot.data.checkListDetails.,
-                                        //       header:
-                                        //           AppStrings.reviewed_patient),
-                                        //   ClaimAssessmentCheckListDetails(
-                                        //       options: claimCheckList,
-                                        //       header:
-                                        //           AppStrings.claim_check_list)
-                                        // ])
                                 );
                                 Navigator.push(
                                     context,

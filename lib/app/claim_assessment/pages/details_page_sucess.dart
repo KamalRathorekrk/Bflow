@@ -60,9 +60,12 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
                     child: Column(
                       children: [
                         CenterContainer(widget.responseRoutes),
-                        snapshot.data != null
-                            ? reviewedServices(snapshot.data!)
-                            : Container(),
+                        // snapshot.data != null
+                        //     ? reviewedServices(snapshot.data!)
+                        //     : Container(),
+                        SizedBox(
+                          height: Dimens.fifteen,
+                        ),
                         ReciverDetailsConatiner(context),
                         photoContainer(widget.responseRoutes)
                       ],

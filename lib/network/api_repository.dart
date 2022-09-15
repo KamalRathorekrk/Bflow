@@ -5,16 +5,17 @@ import 'dart:io';
 import 'package:bflow/app/claim_assessment/models/get_check_list_model.dart';
 import 'package:bflow/app/claim_assessment/models/post_complete_delivery.dart';
 import 'package:bflow/app/claim_assessment/models/who_received_model.dart';
-import 'package:bflow/app/common/claims_details.dart';
 import 'package:bflow/app/common/common_response.dart';
 import 'package:bflow/app/login/model/validate_response.dart';
+import 'package:bflow/app/pre_delivery/model/PreDeliveryIdModel.dart';
 import 'package:bflow/app/pre_delivery/model/PreDeliveryModel.dart';
+import 'package:bflow/app/pre_delivery/model/PreDeliverySaveModel.dart';
 import 'package:bflow/app/pre_delivery/model/claim_id_response.dart';
 import 'package:bflow/app/pre_delivery/model/pre_claims_model.dart';
 import 'package:bflow/app/routes_activity_list/model/get_routes_list.dart';
 import 'package:bflow/app/settings/model/change_profile_pic_model.dart';
 import 'package:bflow/app/settings/model/get_profile_pic_model.dart';
-
+import 'package:bflow/app/today_route/model/TRClaimModel.dart';
 import 'package:bflow/app/today_route/model/claims_model.dart';
 import 'package:bflow/utils/AppStrings.dart';
 import 'package:bflow/utils/CommonCheckListModel.dart';
@@ -190,22 +191,42 @@ class ApiRepository {
     return PreClaimsModel.fromJson(data);
   }
 
-/*................... claim api ..........*/
-  Future<ClaimsModel> claimsApi() async {
+// /*................... claim api ..........*/
+//   Future<ClaimsModel> claimsApi() async {
+//     await getDioOptions(_dio);
+//     var response = await _dio!.get(
+//       ApiEndPoints.base_url + ApiEndPoints.claims,
+//     );
+//     print("ClaimsResponse" + response.toString());
+//     Map<String, dynamic> data = jsonDecode(response.toString());
+//     return ClaimsModel.fromJson(data);
+//   }
+  /*................... claim api ..........*/
+  Future<ClaimsModel> getTodayRoutesApi() async {
     await getDioOptions(_dio);
     var response = await _dio!.get(
-      ApiEndPoints.base_url + ApiEndPoints.claims,
+      ApiEndPoints.base_url + ApiEndPoints.todaysroute,
     );
     print("ClaimsResponse" + response.toString());
     Map<String, dynamic> data = jsonDecode(response.toString());
     return ClaimsModel.fromJson(data);
   }
 
+  // /*................... claim api ..........*/
+  // Future<PreDeliveryModel> claimsPreDeliveryApi() async {
+  //   await getDioOptions(_dio);
+  //   var response = await _dio!.get(
+  //     ApiEndPoints.base_url + ApiEndPoints.preDeliveryByDriver,
+  //   );
+  //   print("preDeliveryByDriver" + response.toString());
+  //   Map<String, dynamic> data = jsonDecode(response.toString());
+  //   return PreDeliveryModel.fromJson(data);
+  // }
   /*................... claim api ..........*/
   Future<PreDeliveryModel> claimsPreDeliveryApi() async {
     await getDioOptions(_dio);
     var response = await _dio!.get(
-      ApiEndPoints.base_url + ApiEndPoints.preDeliveryByDriver,
+      ApiEndPoints.base_url + ApiEndPoints.predelivery,
     );
     print("preDeliveryByDriver" + response.toString());
     Map<String, dynamic> data = jsonDecode(response.toString());
@@ -215,25 +236,48 @@ class ApiRepository {
   /*................... claim get check list api ..........*/
   Future<CommonCheckListModel> claimsCheckListApi({String? claimId}) async {
     await getDioOptions(_dio);
-    print(ApiEndPoints.base_url +"claims/${claimId}/"+ApiEndPoints.checklist);
+    print(
+        ApiEndPoints.base_url + "claims/${claimId}/" + ApiEndPoints.checklist);
     var response = await _dio!.get(
-      ApiEndPoints.base_url +"claims/${claimId}/"+ApiEndPoints.checklist,
+      ApiEndPoints.base_url + "claims/${claimId}/" + ApiEndPoints.checklist,
     );
     print("checklist" + response.toString());
     Map<String, dynamic> data = jsonDecode(response.toString());
     return CommonCheckListModel.fromJson(data);
   }
 
-
-/*................... claim Id api ..........*/
-  Future<ClaimsDetails> claimIdDetailsApi({required String claimId}) async {
+// /*................... claim Id api ..........*/
+//   Future<ClaimsDetails> claimIdDetailsApi({required String claimId}) async {
+//     await getDioOptions(_dio);
+//     var response = await _dio!.post(
+//       ApiEndPoints.base_url + ApiEndPoints.claims + "/$claimId",
+//     );
+//     print("ClaimsResponse" + response.toString());
+//     Map<String, dynamic> data = jsonDecode(response.toString());
+//     return ClaimsDetails.fromJson(data);
+  //}
+  /*................... claim Id api ..........*/
+  Future<TrClaimModel> todaysrouteIdDetailsApi(
+      {required String claimId}) async {
     await getDioOptions(_dio);
     var response = await _dio!.post(
-      ApiEndPoints.base_url + ApiEndPoints.claims + "/$claimId",
+      ApiEndPoints.base_url + ApiEndPoints.todaysroute + "/$claimId",
     );
-    print("ClaimsResponse" + response.toString());
+    print("TR Cliam Detail" + response.toString());
     Map<String, dynamic> data = jsonDecode(response.toString());
-    return ClaimsDetails.fromJson(data);
+    return TrClaimModel.fromJson(data);
+  }
+
+  /*...................Pre delivery claim by Id api ..........*/
+  Future<PreDeliveryIdModel> preClaimIdDetailsApi(
+      {required String claimId}) async {
+    await getDioOptions(_dio);
+    var response = await _dio!.post(
+      ApiEndPoints.base_url + ApiEndPoints.predelivery + "/$claimId",
+    );
+    print("TR Cliam Detail" + response.toString());
+    Map<String, dynamic> data = jsonDecode(response.toString());
+    return PreDeliveryIdModel.fromJson(data);
   }
 
 /*................... claim cancel ..........*/
@@ -260,10 +304,10 @@ class ApiRepository {
   }
 
 /*................... routes activity list ..........*/
-  Future<GetRoutesList> routeAcivityList({userId}) async {
+  Future<GetRoutesList> routeAcivityList() async {
     await getDioOptions(_dio);
     var response = await _dio!.get(
-      ApiEndPoints.base_url + ApiEndPoints.routeActivityList + userId,
+      ApiEndPoints.base_url + ApiEndPoints.routeActivityList,
     );
     print(" Routes" + response.toString());
     Map<String, dynamic> data = jsonDecode(response.toString());
@@ -273,8 +317,9 @@ class ApiRepository {
 /*................... complete delivery ..........*/
   Future<CommonResponse> completeDelivery(
       {required CompleteClaimAssessment completeClaimAssessment}) async {
-    print(jsonEncode(completeClaimAssessment.postCompleteDelivery!.toJson()));
     List imageFiles = [];
+    print(jsonEncode(completeClaimAssessment.postCompleteDelivery!));
+    print(jsonEncode(completeClaimAssessment.postCompleteDelivery!.toJson()));
     for (int i = 0; i < completeClaimAssessment.attachments!.length; i++) {
       imageFiles.add(
         await MultipartFile.fromFile(
@@ -287,15 +332,36 @@ class ApiRepository {
       "Signature": await MultipartFile.fromFile(
         completeClaimAssessment.signature!.path,
       ),
-      "model":
-          jsonEncode(completeClaimAssessment.postCompleteDelivery!.toJson())
+      "ClaimDetails":
+          jsonEncode(completeClaimAssessment.postCompleteDelivery!.toJson()).toString(),
+          // "{\"claimId\":${completeClaimAssessment.postCompleteDelivery!.claimId},\"checkListDetails\":[{\"header\":\"Claimchecklist.\",\"options\":[{\"id\":220,\"name\":\"Equipment delivered\",\"isSelected\":true},{\"id\":221,\"name\":\"Patient trainingandhomeevaluationcompleted\",\"isSelected\":true},{\"id\":222,\"name\":\"Vehicleinspectioncompletedfordeliverydate\",\"isSelected\":true},{\"id\":223,\"name\":\"ClaimreviewedandDOSfieldupdatedandconsistentwithDateonthesigneddeliveryticket\",\"isSelected\":true},{\"id\":224,\"name\":\"Claimmeetsallrequiredcomplianceandbillingguidelinesandisreadyforsubmission\",\"isSelected\":true}]}],"
+          //     "\"whoReceived\":{\"id\":1,\"name\":\"POA\"},"
+          //     "\"careGiverName\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverName}\",\"careGiverTitle\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverTitle}\","
+          //     "\"careGiverReasonSigned\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverReasonSigned}\","
+          //     "\"careGiverSignedPhone\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverSignedPhone}\",\"notes\":\"${completeClaimAssessment.postCompleteDelivery!.notes}\","
+          //     "\"paymentDetails\":{\"cardHolderName\":\"Developer\",\"cardNumber\":\"1234567812345678\",\"cvc\":\"123\",\"exp\":\"25/12\"}}",
     });
     await getDioOptions(_dio);
     var response = await _dio!.post(
-        ApiEndPoints.base_url + ApiEndPoints.completeDelivery,
-        data: formData);
+      ApiEndPoints.base_url + ApiEndPoints.todaysroute + ApiEndPoints.save,
+      data: formData,
+    );
     print("Completed Routes" + response.toString());
     Map<String, dynamic> data = jsonDecode(response.toString());
+    return CommonResponse.fromJson(data);
+  }
+
+  /*................... complete pre delivery ..........*/
+  Future<CommonResponse> completePreDelivery({PreDeliverySave? preDeliverySave}) async {
+
+    await getDioOptions(_dio);
+print(jsonEncode(preDeliverySave!.toJson()));
+    var response = await _dio!.post(
+        ApiEndPoints.base_url + ApiEndPoints.predelivery + ApiEndPoints.save,
+        data: jsonEncode(preDeliverySave!.toJson()));
+
+    Map<String, dynamic> data = jsonDecode(response.toString());
+    print(response.toString());
     return CommonResponse.fromJson(data);
   }
 

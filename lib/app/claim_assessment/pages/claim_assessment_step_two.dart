@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bflow/app/claim_assessment/bloc/claims_assessment_bloc.dart';
@@ -36,7 +37,8 @@ class ClaimAssementStepTwo extends StatefulWidget {
 class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
   final ImagePicker _picker = ImagePicker();
   List<File> imageList = [];
-  String whoRecived = "";
+  ReceiverData? whoRecived;
+  String whoRecivedString = "";
   final _nameController = TextEditingController();
   final _titleController = TextEditingController();
   final _reasonSignedController = TextEditingController();
@@ -105,7 +107,7 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
   Widget innerConatiner(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-          vertical: Dimens.twenty, horizontal: Dimens.thirty),
+          vertical: Dimens.twenty, horizontal: Dimens.twenty),
       color: AppColor.offWhiteColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,9 +118,9 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
                 if (snapshot.hasData &&
                     snapshot.data != null &&
                     snapshot.data!.length > 0) {
-                  return dropDownWidget(data: snapshot.data);
+                  return dropDownWidget(receiverData: snapshot.data);
                 } else {
-                  return Container();
+                  return dropDownWidget(receiverData: []);
                 }
               }),
           SizedBox(
@@ -201,24 +203,41 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
               title: AppStrings.next,
               onPressed: () async {
                 var postCompleteDelivery = PostCompleteDelivery(
-                    item: widget.postCompleteDelivery!.item.toString(),
-                    claimId: widget.postCompleteDelivery!.claimId,
-                    phoneNumber: widget.postCompleteDelivery!.phoneNumber,
+                    address: widget.postCompleteDelivery!.address,
                     patientFullName:
                         widget.postCompleteDelivery!.patientFullName,
-                    deliveryAddress:
-                        widget.postCompleteDelivery!.deliveryAddress,
-                    claimAssessmentCheckList:
-                        widget.postCompleteDelivery!.claimAssessmentCheckList,
-                    orderReceiverOptions: [
-                      OrderReceiverOptions(
-                          title: _titleController.text,
-                          name: _nameController.text,
-                          claimNotes: _addClaimNotesController.text,
-                          reasonSigned: _reasonSignedController.text,
-                          signedPhone: _signedPhoneController.text,
-                          whoReceived: whoRecived)
-                    ]);
+                    claimId: widget.postCompleteDelivery!.claimId,
+                    careGiverSignedPhone: _signedPhoneController.text,
+                    careGiverReasonSigned: _reasonSignedController.text,
+                    careGiverName: _nameController.text,
+                    careGiverTitle: _titleController.text,
+                    checkListDetails:
+                        widget.postCompleteDelivery!.checkListDetails,
+                    notes: _addClaimNotesController.text,
+                    paymentDetails: null,
+                    whoReceived: WhoReceived(
+                        id: whoRecived!.id,
+                        name: whoRecived!.value.toString()));
+                // var postCompleteDelivery = PostCompleteDelivery(
+                //     item: widget.postCompleteDelivery!.item.toString(),
+                //     claimId: widget.postCompleteDelivery!.claimId,
+                //     phoneNumber: widget.postCompleteDelivery!.phoneNumber,
+                //     patientFullName:
+                //         widget.postCompleteDelivery!.patientFullName,
+                //     deliveryAddress:
+                //         widget.postCompleteDelivery!.deliveryAddress,
+                //     claimAssessmentCheckList:
+                //         widget.postCompleteDelivery!.claimAssessmentCheckList,
+                //     orderReceiverOptions: [
+                //       OrderReceiverOptions(
+                //           title: _titleController.text,
+                //           name: _nameController.text,
+                //           claimNotes: _addClaimNotesController.text,
+                //           reasonSigned: _reasonSignedController.text,
+                //           signedPhone: _signedPhoneController.text,
+                //           whoReceived: whoRecived)
+                //     ]);
+                print(jsonEncode(postCompleteDelivery));
                 completeClaimAssessment = CompleteClaimAssessment(
                     attachments: imageList,
                     postCompleteDelivery: postCompleteDelivery);
@@ -240,11 +259,11 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
     );
   }
 
-  Widget dropDownWidget({List<ReceiverData>? data}) {
-    List<String> datalist = [];
-    for (int i = 0; i < data!.length; i++) {
-      datalist.add(data[i].value.toString());
-    }
+  Widget dropDownWidget({List<ReceiverData>? receiverData}) {
+    // List<String> datalist = [];
+    // for (int i = 0; i < data!.length; i++) {
+    //   datalist.add(data[i].value.toString());
+    // }
 
     return Container(
       child: DropdownButtonFormField(
@@ -254,19 +273,18 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
           fontWeight: FontWeight.w600,
           fontColor: AppColor.blackColor,
         ),
-        items: datalist.map((label) {
+        items: receiverData!.map((label) {
           return DropdownMenuItem(
-            child: Container(
-              child: CommonTextWidget(
-                text: label.toString(),
-                fontSize: Dimens.forteen,
-                fontColor: AppColor.blackColor,
-                fontWeight: FontWeight.w500,
-                textAlignment: TextAlign.left,
+              child: Container(
+                child: CommonTextWidget(
+                  text: label.value.toString(),
+                  fontSize: Dimens.forteen,
+                  fontColor: AppColor.blackColor,
+                  fontWeight: FontWeight.w500,
+                  textAlignment: TextAlign.left,
+                ),
               ),
-            ),
-            value: label,
-          );
+              value: label);
         }).toList(),
         dropdownColor: AppColor.whiteColor,
         decoration: InputDecoration(
@@ -285,10 +303,10 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
               borderSide: BorderSide(
                   color: AppColor.offWhite97Color, width: Dimens.one)),
         ),
-        onChanged: (value) {
+        onChanged: (ReceiverData? value) {
           setState(() {
-            whoRecived = value.toString();
-            print(whoRecived);
+            whoRecived = value;
+            whoRecivedString = value!.value.toString();
           });
         },
       ),
@@ -363,7 +381,10 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
 
   _openGallery(BuildContext context) async {
     XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery, maxHeight: 480, maxWidth: 640);
+      source: ImageSource.gallery,
+      maxHeight: 480,
+      maxWidth: 640,
+    );
 
     setState(() {
       if (image != null) {
@@ -431,7 +452,7 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
   }
 
   bool validate(context) {
-    if (Utils.checkNullOrEmpty(whoRecived)) {
+    if (Utils.checkNullOrEmpty(whoRecivedString)) {
       SnackBarUtils.showErrorSnackBar(
           AppStrings.please_select_who_recived, context);
       return false;

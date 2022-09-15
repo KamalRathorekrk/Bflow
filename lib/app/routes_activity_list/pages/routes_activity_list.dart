@@ -26,7 +26,6 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
     _routesBloc = RoutesBloc();
     _routesBloc!.getCompletedRoutes(context: context);
     super.initState();
-    print(DateTime.now());
   }
 
   @override
@@ -93,7 +92,6 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
         padding: EdgeInsets.zero,
         itemCount: data!.length,
         itemBuilder: (context, position) {
-          print(data[position].toString());
           if (data[position].isCancelled == false) {
             return detailCardSucessWidget(data[position]);
           } else {

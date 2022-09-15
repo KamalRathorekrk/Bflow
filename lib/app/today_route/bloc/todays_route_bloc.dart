@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bflow/app/common/claims_details.dart';
+import 'package:bflow/app/today_route/model/TRClaimModel.dart';
 import 'package:bflow/app/today_route/model/claims_model.dart';
 import 'package:bflow/network/api_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,18 +22,18 @@ class TodaysRouteBloc {
 
   StreamSink<List<ClaimList>> get claimsSink => claimsController.sink;
 
-  final claimDetailController = BehaviorSubject<ClaimDetailData>();
+  final claimDetailController = BehaviorSubject<TrClaimModel>();
 
-  Stream<ClaimDetailData> get claimDetailStream => claimDetailController.stream;
+  Stream<TrClaimModel> get claimDetailStream => claimDetailController.stream;
 
-  StreamSink<ClaimDetailData> get claimDetailSink => claimDetailController.sink;
+  StreamSink<TrClaimModel> get claimDetailSink => claimDetailController.sink;
 
   void getClaimDetails(
       {required BuildContext context, required String claimID}) {
     progressSink.add(true);
-    apiRepository.claimIdDetailsApi(claimId: claimID).then((onResponse) {
-      if (onResponse.responseType == "Ok") {
-        claimDetailSink.add(onResponse.claimDetailData!);
+    apiRepository.todaysrouteIdDetailsApi(claimId: claimID).then((onResponse) {
+      if (onResponse != null) {
+        claimDetailSink.add(onResponse);
       } else {
         // Utils.showErrorSnackBar(
         //     message: onResponse.message.toString(), context: context);
@@ -47,7 +48,7 @@ class TodaysRouteBloc {
 
   Future<void> getClaims({required BuildContext context}) async {
     progressSink.add(true);
-    apiRepository.claimsApi().then((onResponse) {
+    apiRepository.getTodayRoutesApi().then((onResponse) {
       if (onResponse.responseType == "Ok") {
         claimsSink.add(onResponse.responseObject!);
       } else {

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bflow/utils/CommonCheckListModel.dart';
 
+
 /// claimId : 5655
 /// item : "Amazon Product"
 /// patientFullName : "Test Adam"
@@ -31,306 +32,222 @@ class CompleteClaimAssessment {
 class PostCompleteDelivery {
   PostCompleteDelivery({
     int? claimId,
-    String? item,
+    String? address,
     String? patientFullName,
-    DeliveryAddressPost? deliveryAddress,
-    String? phoneNumber,
-
-    CheckListObject? claimAssessmentCheckList,
-    List<OrderReceiverOptions>? orderReceiverOptions,
+    CheckListDetails? checkListDetails,
+    WhoReceived? whoReceived,
+    String? careGiverName,
+    String? careGiverTitle,
+    String? careGiverReasonSigned,
+    String? careGiverSignedPhone,
+    String? notes,
+    PaymentDetails? paymentDetails,
   }) {
     _claimId = claimId;
-    _item = item;
-    _patientFullName = patientFullName;
-    _deliveryAddress = deliveryAddress;
-    _phoneNumber = phoneNumber;
-    _claimAssessmentCheckList = claimAssessmentCheckList;
-    _orderReceiverOptions = orderReceiverOptions;
+    _checkListDetails = checkListDetails;
+    _whoReceived = whoReceived;
+    _careGiverName = careGiverName;
+    _careGiverTitle = careGiverTitle;
+    _careGiverReasonSigned = careGiverReasonSigned;
+    _careGiverSignedPhone = careGiverSignedPhone;
+    _notes = notes;
+    _paymentDetails = paymentDetails;
+    _address=address;
+    _patientFullName=patientFullName;
   }
 
   PostCompleteDelivery.fromJson(dynamic json) {
     _claimId = json['claimId'];
-    _item = json['item'];
-    _patientFullName = json['patientFullName'];
-    _deliveryAddress = json['deliveryAddress'] != null
-        ? DeliveryAddressPost.fromJson(json['deliveryAddress'])
+    _checkListDetails = json['checkListDetails'];
+    _whoReceived = json['whoReceived'] != null
+        ? WhoReceived.fromJson(json['whoReceived'])
         : null;
-    _phoneNumber = json['phoneNumber'];
-    _claimAssessmentCheckList = json['claimAssessmentCheckList'];
-    if (json['orderReceiverOptions'] != null) {
-      _orderReceiverOptions = [];
-      json['orderReceiverOptions'].forEach((v) {
-        _orderReceiverOptions?.add(OrderReceiverOptions.fromJson(v));
-      });
-    }
+    _careGiverName = json['careGiverName'];
+    _careGiverTitle = json['careGiverTitle'];
+    _careGiverReasonSigned = json['careGiverReasonSigned'];
+    _careGiverSignedPhone = json['careGiverSignedPhone'];
+    _notes = json['notes'];
+    _paymentDetails = json['paymentDetails'] != null
+        ? PaymentDetails.fromJson(json['paymentDetails'])
+        : null;
   }
 
   int? _claimId;
-  String? _item;
+  CheckListDetails? _checkListDetails;
+  WhoReceived? _whoReceived;
+  String? _careGiverName;
+  String? _careGiverTitle;
+  String? _careGiverReasonSigned;
+  String? _careGiverSignedPhone;
+  String? _notes;
+  String? _address;
   String? _patientFullName;
-  DeliveryAddressPost? _deliveryAddress;
-  String? _phoneNumber;
-  CheckListObject? _claimAssessmentCheckList;
-  List<OrderReceiverOptions>? _orderReceiverOptions;
+  PaymentDetails? _paymentDetails;
+
+  PostCompleteDelivery copyWith({
+    int? claimId,
+    CheckListDetails? checkListDetails,
+    WhoReceived? whoReceived,
+    String? careGiverName,
+    String? careGiverTitle,
+    String? careGiverReasonSigned,
+    String? careGiverSignedPhone,
+    String? notes,
+    PaymentDetails? paymentDetails,
+  }) =>
+      PostCompleteDelivery(
+        claimId: claimId ?? _claimId,
+        checkListDetails: checkListDetails ?? _checkListDetails,
+        whoReceived: whoReceived ?? _whoReceived,
+        careGiverName: careGiverName ?? _careGiverName,
+        careGiverTitle: careGiverTitle ?? _careGiverTitle,
+        careGiverReasonSigned: careGiverReasonSigned ?? _careGiverReasonSigned,
+        careGiverSignedPhone: careGiverSignedPhone ?? _careGiverSignedPhone,
+        notes: notes ?? _notes,
+        paymentDetails: paymentDetails ?? _paymentDetails,
+      );
 
   int? get claimId => _claimId;
 
-  String? get item => _item;
+  CheckListDetails? get checkListDetails => _checkListDetails;
 
+  WhoReceived? get whoReceived => _whoReceived;
+
+  String? get careGiverName => _careGiverName;
+
+  String? get careGiverTitle => _careGiverTitle;
+
+  String? get careGiverReasonSigned => _careGiverReasonSigned;
+
+  String? get careGiverSignedPhone => _careGiverSignedPhone;
+
+  String? get notes => _notes;
+  String? get address => _address;
   String? get patientFullName => _patientFullName;
 
-  DeliveryAddressPost? get deliveryAddress => _deliveryAddress;
-
-  String? get phoneNumber => _phoneNumber;
-
-  CheckListObject? get claimAssessmentCheckList =>
-      _claimAssessmentCheckList;
-
-  List<OrderReceiverOptions>? get orderReceiverOptions => _orderReceiverOptions;
+  PaymentDetails? get paymentDetails => _paymentDetails;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['claimId'] = _claimId;
-    map['item'] = _item;
-    map['patientFullName'] = _patientFullName;
-    if (_deliveryAddress != null) {
-      map['deliveryAddress'] = _deliveryAddress?.toJson();
+    map['checkListDetails'] = _checkListDetails?.toJson();
+    if (_whoReceived != null) {
+      map['whoReceived'] = _whoReceived?.toJson();
     }
-    map['phoneNumber'] = _phoneNumber;
-    map['claimAssessmentCheckList'] = _claimAssessmentCheckList;
-    if (_orderReceiverOptions != null) {
-      map['orderReceiverOptions'] =
-          _orderReceiverOptions?.map((v) => v.toJson()).toList();
+    map['careGiverName'] = _careGiverName;
+    map['careGiverTitle'] = _careGiverTitle;
+    map['careGiverReasonSigned'] = _careGiverReasonSigned;
+    map['careGiverSignedPhone'] = _careGiverSignedPhone;
+    map['notes'] = _notes;
+    if (_paymentDetails != null) {
+      map['paymentDetails'] = _paymentDetails?.toJson();
     }
     return map;
   }
 }
 
-/// whoReceived : "1"
-/// name : "test"
-/// title : "test-title"
-/// reasonSigned : "No Reason"
-/// signedPhone : "7329832"
-/// claimNotes : "test notes"
 
-class OrderReceiverOptions {
-  OrderReceiverOptions({
-    String? whoReceived,
-    String? name,
-    String? title,
-    String? reasonSigned,
-    String? signedPhone,
-    String? claimNotes,
+/// cardHolderName : "Developer"
+/// cardNumber : "1234 5678 1234 5678"
+/// cvc : "123"
+/// exp : "25/12"
+
+class PaymentDetails {
+  PaymentDetails({
+    String? cardHolderName,
+    String? cardNumber,
+    String? cvc,
+    String? exp,
   }) {
-    _whoReceived = whoReceived;
-    _name = name;
-    _title = title;
-    _reasonSigned = reasonSigned;
-    _signedPhone = signedPhone;
-    _claimNotes = claimNotes;
+    _cardHolderName = cardHolderName;
+    _cardNumber = cardNumber;
+    _cvc = cvc;
+    _exp = exp;
   }
 
-  OrderReceiverOptions.fromJson(dynamic json) {
-    _whoReceived = json['whoReceived'];
-    _name = json['name'];
-    _title = json['title'];
-    _reasonSigned = json['reasonSigned'];
-    _signedPhone = json['signedPhone'];
-    _claimNotes = json['claimNotes'];
+  PaymentDetails.fromJson(dynamic json) {
+    _cardHolderName = json['cardHolderName'];
+    _cardNumber = json['cardNumber'];
+    _cvc = json['cvc'];
+    _exp = json['exp'];
   }
 
-  String? _whoReceived;
-  String? _name;
-  String? _title;
-  String? _reasonSigned;
-  String? _signedPhone;
-  String? _claimNotes;
+  String? _cardHolderName;
+  String? _cardNumber;
+  String? _cvc;
+  String? _exp;
 
-  String? get whoReceived => _whoReceived;
+  PaymentDetails copyWith({
+    String? cardHolderName,
+    String? cardNumber,
+    String? cvc,
+    String? exp,
+  }) =>
+      PaymentDetails(
+        cardHolderName: cardHolderName ?? _cardHolderName,
+        cardNumber: cardNumber ?? _cardNumber,
+        cvc: cvc ?? _cvc,
+        exp: exp ?? _exp,
+      );
 
-  String? get name => _name;
+  String? get cardHolderName => _cardHolderName;
 
-  String? get title => _title;
+  String? get cardNumber => _cardNumber;
 
-  String? get reasonSigned => _reasonSigned;
+  String? get cvc => _cvc;
 
-  String? get signedPhone => _signedPhone;
-
-  String? get claimNotes => _claimNotes;
+  String? get exp => _exp;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['whoReceived'] = _whoReceived;
-    map['name'] = _name;
-    map['title'] = _title;
-    map['reasonSigned'] = _reasonSigned;
-    map['signedPhone'] = _signedPhone;
-    map['claimNotes'] = _claimNotes;
+    map['cardHolderName'] = _cardHolderName;
+    map['cardNumber'] = _cardNumber;
+    map['cvc'] = _cvc;
+    map['exp'] = _exp;
     return map;
   }
 }
 
-/// claimAssessmentCheckListDetails : [{"header":"The following has been explained/reviewed with patient.","options":[{"id":201,"name":"Equipment use instructions","isSelected":false},{"id":202,"name":"Costs and reimbursement","isSelected":false},{"id":203,"name":"Home safety & home fire safety","isSelected":false}]},{"header":"Claim check list.","options":[{"id":220,"name":"Equipment Delivered","isSelected":false},{"id":221,"name":"Patient training and home evaluation completed.","isSelected":false},{"id":222,"name":"Vehicle inspection completed for delivery date.","isSelected":false}]}]
+/// id : 1
+/// name : "POA"
 
-class ClaimAssessmentCheckList {
-  ClaimAssessmentCheckList({
-    List<ClaimAssessmentCheckListDetails>? claimAssessmentCheckListDetails,
-  }) {
-    _claimAssessmentCheckListDetails = claimAssessmentCheckListDetails;
-  }
-
-  ClaimAssessmentCheckList.fromJson(dynamic json) {
-    if (json['claimAssessmentCheckListDetails'] != null) {
-      _claimAssessmentCheckListDetails = [];
-      json['claimAssessmentCheckListDetails'].forEach((v) {
-        _claimAssessmentCheckListDetails
-            ?.add(ClaimAssessmentCheckListDetails.fromJson(v));
-      });
-    }
-  }
-
-  List<ClaimAssessmentCheckListDetails>? _claimAssessmentCheckListDetails;
-
-  List<ClaimAssessmentCheckListDetails>? get claimAssessmentCheckListDetails =>
-      _claimAssessmentCheckListDetails;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (_claimAssessmentCheckListDetails != null) {
-      map['claimAssessmentCheckListDetails'] =
-          _claimAssessmentCheckListDetails?.map((v) => v.toJson()).toList();
-    }
-    return map;
-  }
-}
-
-/// header : "The following has been explained/reviewed with patient."
-/// options : [{"id":201,"name":"Equipment use instructions","isSelected":false},{"id":202,"name":"Costs and reimbursement","isSelected":false},{"id":203,"name":"Home safety & home fire safety","isSelected":false}]
-
-class ClaimAssessmentCheckListDetails {
-  ClaimAssessmentCheckListDetails({
-    String? header,
-    List<OptionsClaim>? options,
-  }) {
-    _header = header;
-    _options = options;
-  }
-
-  ClaimAssessmentCheckListDetails.fromJson(dynamic json) {
-    _header = json['header'];
-    if (json['options'] != null) {
-      _options = [];
-      json['options'].forEach((v) {
-        _options?.add(OptionsClaim.fromJson(v));
-      });
-    }
-  }
-
-  String? _header;
-  List<OptionsClaim>? _options;
-
-  String? get header => _header;
-
-  List<OptionsClaim>? get options => _options;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['header'] = _header;
-    if (_options != null) {
-      map['options'] = _options?.map((v) => v.toJson()).toList();
-    }
-    return map;
-  }
-}
-
-/// id : 201
-/// name : "Equipment use instructions"
-/// isSelected : false
-
-class OptionsClaim {
-  OptionsClaim({
+class WhoReceived {
+  WhoReceived({
     int? id,
     String? name,
-    bool? isSelected,
   }) {
     _id = id;
     _name = name;
-    _isSelected = isSelected;
   }
 
-  OptionsClaim.fromJson(dynamic json) {
+  WhoReceived.fromJson(dynamic json) {
     _id = json['id'];
     _name = json['name'];
-    _isSelected = json['isSelected'];
   }
 
   int? _id;
   String? _name;
-  bool? _isSelected;
+
+  WhoReceived copyWith({
+    int? id,
+    String? name,
+  }) =>
+      WhoReceived(
+        id: id ?? _id,
+        name: name ?? _name,
+      );
 
   int? get id => _id;
 
   String? get name => _name;
 
-  bool? get isSelected => _isSelected;
-
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
     map['name'] = _name;
-    map['isSelected'] = _isSelected;
-    return map;
-  }
-
-  set setIsSelected(bool value) {
-    _isSelected = value;
-  }
-}
-
-/// address : "10 Sie Ave"
-/// city : "Jersey City"
-/// state : "NJ"
-/// zipCode : "07306"
-
-class DeliveryAddressPost {
-  DeliveryAddressPost({
-    String? address,
-    String? city,
-    String? state,
-    String? zipCode,
-  }) {
-    _address = address;
-    _city = city;
-    _state = state;
-    _zipCode = zipCode;
-  }
-
-  DeliveryAddressPost.fromJson(dynamic json) {
-    _address = json['address'];
-    _city = json['city'];
-    _state = json['state'];
-    _zipCode = json['zipCode'];
-  }
-
-  String? _address;
-  String? _city;
-  String? _state;
-  String? _zipCode;
-
-  String? get address => _address;
-
-  String? get city => _city;
-
-  String? get state => _state;
-
-  String? get zipCode => _zipCode;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['address'] = _address;
-    map['city'] = _city;
-    map['state'] = _state;
-    map['zipCode'] = _zipCode;
     return map;
   }
 }
+
+/// header : "Claim check list."
+/// options : [{"id":220,"name":"Equipment delivered","isSelected":true},{"id":221,"name":"Patient training and home evaluation completed","isSelected":true},{"id":222,"name":"Vehicle inspection completed for delivery date","isSelected":true},{"id":223,"name":"Claim reviewed and DOS field updated and consistent with Date on the signed delivery ticket","isSelected":true},{"id":224,"name":"Claim meets all required compliance and billing guidelines and is ready for submission","isSelected":true}]

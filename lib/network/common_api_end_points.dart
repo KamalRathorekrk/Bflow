@@ -16,4 +16,8 @@ class ApiEndPoints {
   static const String assessment = "claims/assessment";
   static const String preDeliveryByDriver = "claims/PreDeliveryByDriver";
   static const String checklist = "checklist";
+
+  static const String todaysroute = "claims/todaysroute";
+  static const String predelivery = "claims/predelivery";
+  static const String save = "/save";
 }

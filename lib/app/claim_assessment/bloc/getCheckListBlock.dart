@@ -34,18 +34,17 @@ class CheckListBlock {
   void getPreClaims(orderid) {
     print("Hello $orderid");
     progressSink.add(true);
-    _apiRepository.claimsCheckListApi(claimId: orderid.toString()).then((onResponse) {
+    _apiRepository
+        .claimsCheckListApi(claimId: orderid.toString())
+        .then((onResponse) {
       if (onResponse.responseType == "Ok") {
         checkListTRSink.add(onResponse.responseObject!);
-      } else {
-        // Utils.showErrorSnackBar(
-        //     message: onResponse.message.toString(), context: context);
       }
       progressSink.add(false);
     }).catchError((onError) {
       progressSink.add(false);
       print("On_Error" + onError.toString());
-      // Utils.showErrorSnackBar(message: onError.toString(), context: context);
+
     });
   }
 }

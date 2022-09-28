@@ -79,7 +79,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
                             deliveryAddress:
                                 "${snapshot.data!.deliveryDisplayAddress}",
                             description: snapshot.data!.patientInsuranceName,
-                            patientName: snapshot.data!.patientName,
+                            patientName: snapshot.data!.patientName.toString(),
                           ),
                           SizedBox(
                             height: Dimens.thirty,
@@ -92,7 +92,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
                                   context,
                                   CupertinoPageRoute(
                                       builder: (context) =>
-                                          ReasonforCancellation()));
+                                          ReasonforCancellation(claimid:"${snapshot.data!.orderId}")));
                             },
                             borderRadius: Dimens.seven,
                             backgroundColor: AppColor.redColor,
@@ -161,7 +161,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           ),
           RowElement(
               title: AppStrings.description,
-              value: description,
+              value: description??"",
               show: true,
               address: deliveryAddress),
           SizedBox(
@@ -175,7 +175,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           SizedBox(
             height: Dimens.twenty,
           ),
-          RowElement(title: AppStrings.patient_name, value: patientName),
+          RowElement(title: AppStrings.patient_name, value: patientName??""),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -188,7 +188,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           RowElement(
               icon: true,
               title: AppStrings.delivery_address,
-              value: deliveryAddress),
+              value: deliveryAddress??""),
           SizedBox(height: Dimens.twenty),
           Divider(
             thickness: 1,
@@ -198,7 +198,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           SizedBox(
             height: Dimens.twenty,
           ),
-          RowElement(title: AppStrings.zip_code, value: zipCode),
+          RowElement(title: AppStrings.zip_code, value: zipCode??""),
           SizedBox(
             height: Dimens.twenty,
           ),

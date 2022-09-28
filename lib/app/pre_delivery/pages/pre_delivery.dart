@@ -178,7 +178,7 @@ class _PreDeliveryState extends State<PreDelivery> {
                   CupertinoPageRoute(
                       builder: (context) => AddClaim(
                             claimId: obj[position].claimId.toString(),
-                          )));
+                          ))).then((value) => preDeliveryBloc!.getPreClaims());
             },
             child: CommonItemWidget(
               index: position + 1,

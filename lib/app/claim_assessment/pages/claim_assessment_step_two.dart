@@ -169,13 +169,13 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
             color: AppColor.hintTextColor,
             focusNode: _signedPhoneFocusNode,
             keyboardType: TextInputType.phone,
-            inputFormatters: [
-              // MaskedInputFormatter('+# (###) ### ####')
-              PhoneInputFormatter(
-                allowEndlessPhone: true,
-                onCountrySelected: _onCountrySelected,
-              )
-            ],
+            // inputFormatters: [
+            //   // MaskedInputFormatter('+# (###) ### ####')
+            //   PhoneInputFormatter(
+            //     allowEndlessPhone: true,
+            //     onCountrySelected: _onCountrySelected,
+            //   )
+            // ],
           ),
           SizedBox(
             height: Dimens.ten,
@@ -218,26 +218,6 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
                     whoReceived: WhoReceived(
                         id: whoRecived!.id,
                         name: whoRecived!.value.toString()));
-                // var postCompleteDelivery = PostCompleteDelivery(
-                //     item: widget.postCompleteDelivery!.item.toString(),
-                //     claimId: widget.postCompleteDelivery!.claimId,
-                //     phoneNumber: widget.postCompleteDelivery!.phoneNumber,
-                //     patientFullName:
-                //         widget.postCompleteDelivery!.patientFullName,
-                //     deliveryAddress:
-                //         widget.postCompleteDelivery!.deliveryAddress,
-                //     claimAssessmentCheckList:
-                //         widget.postCompleteDelivery!.claimAssessmentCheckList,
-                //     orderReceiverOptions: [
-                //       OrderReceiverOptions(
-                //           title: _titleController.text,
-                //           name: _nameController.text,
-                //           claimNotes: _addClaimNotesController.text,
-                //           reasonSigned: _reasonSignedController.text,
-                //           signedPhone: _signedPhoneController.text,
-                //           whoReceived: whoRecived)
-                //     ]);
-                print(jsonEncode(postCompleteDelivery));
                 completeClaimAssessment = CompleteClaimAssessment(
                     attachments: imageList,
                     postCompleteDelivery: postCompleteDelivery);

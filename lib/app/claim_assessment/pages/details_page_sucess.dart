@@ -24,16 +24,21 @@ class DetailsPageSucess extends StatefulWidget {
 }
 
 class _DetailsPageSucessState extends State<DetailsPageSucess> {
-  final _nameController = TextEditingController(text: "");
-  final _titleController = TextEditingController(text: '');
-  final _reasonSignedController = TextEditingController(text: '');
-  final _phoneNumberController = TextEditingController(text: '');
-  final _whoReceviedController = TextEditingController(text: '');
+  var _nameController = TextEditingController(text: "");
+  var _titleController = TextEditingController(text: '');
+  var _reasonSignedController = TextEditingController(text: '');
+  var _phoneNumberController = TextEditingController(text: '');
+  var _whoReceviedController = TextEditingController(text: '');
   CheckListBlock? _checkListBlock;
 
   @override
   void initState() {
     _checkListBlock = CheckListBlock();
+    _whoReceviedController = TextEditingController(text: "${widget.responseRoutes.careGiverId??""}");
+    _nameController = TextEditingController(text: "${widget.responseRoutes.careGiverName??""}");
+    _phoneNumberController = TextEditingController(text: "${widget.responseRoutes.careGiverSignedPhone??""}");
+    _titleController = TextEditingController(text: "${widget.responseRoutes.careGiverTitle??""}");
+    _reasonSignedController = TextEditingController(text: "${widget.responseRoutes.careGiverReasonSigned??""}");
     _checkListBlock!.getCheckList(widget.responseRoutes.orderId);
     super.initState();
   }
@@ -152,7 +157,7 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
           ),
           RowElement(
               title: AppStrings.phone_number,
-              value: "".replaceAllMapped(RegExp(r'(\d{3})(\d{3})(\d+)'),
+              value: "${data.careGiverSignedPhone??""}".replaceAllMapped(RegExp(r'(\d{3})(\d{3})(\d+)'),
                   (Match m) => "(${m[1]}) ${m[2]}-${m[3]}")),
           SizedBox(
             height: Dimens.twenty,
@@ -486,6 +491,9 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
                   child: Image.network(
                     imageList[position].url,
                     fit: BoxFit.fill,
+                    errorBuilder: (c,s,e){
+                      return SizedBox();
+                    },
                   ),
                 ));
           }),

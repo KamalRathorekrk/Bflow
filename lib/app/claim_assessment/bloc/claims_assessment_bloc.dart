@@ -27,10 +27,10 @@ class ClaimAssementsBloc {
 
   ApiRepository apiRepository = ApiRepository();
 
-  void claimCancel({claimId, reason, context}) {
+  void       claimCancel({claimId, reason, context}) {
     progressSink.add(true);
     apiRepository
-        .claimsCancel(claimId: claimId, reason: reason)
+        .claimsCancel(claimId: int.parse(claimId.toString()), reason: reason)
         .then((onResponse) {
       progressSink.add(false);
       if (onResponse.responseType == 'Ok') {
@@ -38,8 +38,6 @@ class ClaimAssementsBloc {
             onResponse.responseMessage ?? "", context);
         Navigator.pushReplacement(context,
             CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
-        // Navigator.push(context,
-        //     CupertinoPageRoute(builder: (context) => DetailsCancelation()));
       } else {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);

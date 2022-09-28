@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:bflow/utils/CommonCheckListModel.dart';
 
-
 /// claimId : 5655
 /// item : "Amazon Product"
 /// patientFullName : "Test Adam"
@@ -52,8 +51,8 @@ class PostCompleteDelivery {
     _careGiverSignedPhone = careGiverSignedPhone;
     _notes = notes;
     _paymentDetails = paymentDetails;
-    _address=address;
-    _patientFullName=patientFullName;
+    _address = address;
+    _patientFullName = patientFullName;
   }
 
   PostCompleteDelivery.fromJson(dynamic json) {
@@ -122,7 +121,9 @@ class PostCompleteDelivery {
   String? get careGiverSignedPhone => _careGiverSignedPhone;
 
   String? get notes => _notes;
+
   String? get address => _address;
+
   String? get patientFullName => _patientFullName;
 
   PaymentDetails? get paymentDetails => _paymentDetails;
@@ -145,7 +146,6 @@ class PostCompleteDelivery {
     return map;
   }
 }
-
 
 /// cardHolderName : "Developer"
 /// cardNumber : "1234 5678 1234 5678"

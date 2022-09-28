@@ -16,7 +16,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class ClaimAssementStepThree extends StatefulWidget {
-  // PostCompleteDelivery? postCompleteDelivery;
   CompleteClaimAssessment? completeClaimAssessment;
 
   ClaimAssementStepThree(this.completeClaimAssessment);
@@ -169,7 +168,6 @@ class _ClaimAssementStepThreeState extends State<ClaimAssementStepThree> {
               child: Container(
                 color: Colors.grey[300],
                 child: Image.file(file),
-                // child: Image.memory(bytes!.buffer.asUint8List()),
               ),
             ),
           );

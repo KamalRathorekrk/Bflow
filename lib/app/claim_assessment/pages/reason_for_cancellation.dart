@@ -12,6 +12,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ReasonforCancellation extends StatefulWidget {
+  final String? claimid;
+
+
+  ReasonforCancellation({this.claimid});
+
   @override
   _ReasonforCancellationState createState() => _ReasonforCancellationState();
 }
@@ -55,9 +60,10 @@ class _ReasonforCancellationState extends State<ReasonforCancellation> {
                   CommonActionButton(
                     title: AppStrings.submit,
                     onPressed: () {
+                      print(widget.claimid);
                       if (validate()) {
                         _claimAssementsBloc!.claimCancel(
-                            claimId: 12712,
+                            claimId: widget.claimid,
                             context: context,
                             reason: _addReasonController.text);
                       }

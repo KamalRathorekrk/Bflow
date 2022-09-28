@@ -25,65 +25,47 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: AppColor.offWhiteColor));
-    return Stack(
-      children: [
-        StreamBuilder<dynamic>(
-            stream: null,
-            builder: (context, snapshot) {
-              return Scaffold(
-                appBar: CommonAppBar(
-                  text: "Claim: #${widget.responseRoutes!.orderId}",
-                ),
-                body: SingleChildScrollView(
-                  controller: ScrollController(),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Dimens.twenty, vertical: Dimens.ten),
-                    color: AppColor.offWhiteColor,
-
-                    // width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CenterContainer(widget.responseRoutes!),
-                        SizedBox(
-                          height: Dimens.twentyFive,
-                        ),
-                        CommonTextWidget(
-                          text: AppStrings.reason_for_cancellation,
-                          fontSize: Dimens.forteen,
-                          fontColor: AppColor.blackColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        SizedBox(
-                          height: Dimens.twenty,
-                        ),
-                        Expanded(
-                          child: CommonTextWidget(
-                            text:
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                            fontSize: Dimens.forteen,
-                            fontColor: AppColor.blackColor,
-                            fontWeight: FontWeight.w400,
-                            height: 1.6,
-                          ),
-                        ),
-                      ],
+    return Scaffold(
+            appBar: CommonAppBar(
+              text: "Claim: #${widget.responseRoutes!.orderId}",
+            ),
+            body: SingleChildScrollView(
+              controller: ScrollController(),
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                padding: EdgeInsets.symmetric(
+                    horizontal: Dimens.twenty, vertical: Dimens.ten),
+                color: AppColor.offWhiteColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CenterContainer(widget.responseRoutes!),
+                    SizedBox(
+                      height: Dimens.twentyFive,
                     ),
-                  ),
+                    CommonTextWidget(
+                      text: AppStrings.reason_for_cancellation,
+                      fontSize: Dimens.forteen,
+                      fontColor: AppColor.blackColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    SizedBox(
+                      height: Dimens.twenty,
+                    ),
+                    Expanded(
+                      child: CommonTextWidget(
+                        text: "${widget.responseRoutes!.comments??""}",
+                        fontSize: Dimens.forteen,
+                        fontColor: AppColor.blackColor,
+                        fontWeight: FontWeight.w400,
+                        height: 1.6,
+                      ),
+                    ),
+                  ],
                 ),
-              );
-            }),
-        StreamBuilder<bool>(
-            stream: null,
-            builder: (context, snapshot) {
-              return Center(
-                  child: CommmonProgressIndicator(
-                      snapshot.hasData ? snapshot.data! : false));
-            })
-      ],
-    );
+              ),
+            ),
+          );
   }
 
   Widget CenterContainer(ResponseRoutes responseRoutes) {

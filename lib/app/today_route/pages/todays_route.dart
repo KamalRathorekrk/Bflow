@@ -133,11 +133,13 @@ class _TodaysRouteState extends State<TodaysRoute> {
       decoration: BoxDecoration(
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: shadowColor ?? AppColor.offWhiteColor,
+              // color: shadowColor ?? AppColor.offWhiteColor,
+              color: AppColor.offWhiteColor,
               blurRadius: 10.0,
               offset: Offset(0.0, 0.75))
         ],
-        color: color ?? AppColor.offWhiteColor,
+        color: AppColor.offWhiteColor,
+        // color: color ?? AppColor.offWhiteColor,
       ),
       child: Row(
         children: [
@@ -232,12 +234,14 @@ class _TodaysRouteState extends State<TodaysRoute> {
 
   Widget ListData({context, List<ClaimList>? data}) {
     ResponseRoutes responseRoutes = ResponseRoutes();
+
     return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         itemCount: data!.length,
         itemBuilder: (context, position) {
+          print("${data[position].claimId} deliveryStatus ${data[position].deliveryStatus}");
           return GestureDetector(
             onTap: () {
               // if (position == 1) {
@@ -259,7 +263,7 @@ class _TodaysRouteState extends State<TodaysRoute> {
                 index: position + 1,
                 id: data[position].claimId.toString(),
                 location:
-                    "${data[position].deliveryAddress!.address}, ${data[position].deliveryAddress!.city}, ${data[position].deliveryAddress!.state}",
+                    "${data[position].deliveryAddress!.address??""}, ${data[position].deliveryAddress!.city??""}, ${data[position].deliveryAddress!.state??""}",
                 name: data[position].patientFullName ?? "",
                 time: data[position].deliveryTime ?? "",
                 status:

@@ -51,15 +51,11 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //     statusBarColor: AppColor.primaryColor.withOpacity(0.2),
-    //     statusBarBrightness: Brightness.light));
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: SizedBox(
-        // height: Platform.isIOS ? 120 : 60,
         child: BottomNavigationBar(
           backgroundColor: AppColor.whiteColor,
           elevation: 4,
@@ -102,7 +98,6 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                 ),
                 label: ""),
             BottomNavigationBarItem(
-                //  tooltip: AppStrings.rent,
                 icon: Padding(
                   padding:
                       EdgeInsets.only(top: Platform.isIOS ? Dimens.ten : 0.0),
@@ -119,13 +114,11 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                 ),
                 label: ""),
             BottomNavigationBarItem(
-                //  tooltip: AppStrings.hire,
                 icon: Padding(
                   padding:
                       EdgeInsets.only(top: Platform.isIOS ? Dimens.ten : 0.0),
                   child: SvgPicture.asset(
                     AppImages.settings,
-                    // color: AppColor.offWhite60Color,
                   ),
                 ),
                 activeIcon: Padding(
@@ -133,7 +126,6 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                       EdgeInsets.only(top: Platform.isIOS ? Dimens.ten : 0.0),
                   child: SvgPicture.asset(
                     AppImages.settings_select,
-                    // color: AppColor.primaryColor,
                   ),
                 ),
                 label: ""),
@@ -142,45 +134,8 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
           onTap: _onItemTapped,
           showSelectedLabels: true,
           showUnselectedLabels: true,
-          // unselectedItemColor: AppColor.offWhite60Color,
-          // selectedItemColor: AppColor.primaryColor,
-          // selectedLabelStyle: TextStyle(
-          //     fontFamily: AppStrings.fontFamily, color: AppColor.primaryColor),
-          // unselectedLabelStyle: TextStyle(
-          //     fontFamily: AppStrings.fontFamily,
-          //     color: AppColor.offWhite60Color),
         ),
       ),
     );
   }
-
-// void showPermissionDialog(BuildContext context) async {
-//   return showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//             title: CommonTextWidget(text: AppStrings.dialog_message,
-//             fontSize: Dimens.fifteen,fontWeight: FontWeight.w500,fontColor: AppColor.hintTextColor,),
-//             content: Row(
-//               mainAxisAlignment: MainAxisAlignment.end,
-//               children: [
-//                 GestureDetector(
-//                   child: CommonTextWidget(text: AppStrings.cancel.toUpperCase(), fontSize: Dimens.fifteen,fontColor: AppColor.primaryColor,fontWeight: FontWeight.w600,),
-//                   onTap: () {
-//                     Navigator.pop(context);
-//                   },
-//                 ),
-//                 Padding(padding: EdgeInsets.all(8.0)),
-//                 GestureDetector(
-//                   child: CommonTextWidget(text: AppStrings.ok.toUpperCase(), fontSize: Dimens.fifteen,fontColor: AppColor.primaryColor,fontWeight: FontWeight.w600,),
-//                   onTap: () async{
-//                     PermissionStatus permission = await LocationPermissions().requestPermissions();
-//
-//                     Navigator.pop(context);
-//                   },
-//                 )
-//               ],
-//             ));
-//       });
-// }
 }

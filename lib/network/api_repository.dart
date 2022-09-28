@@ -358,7 +358,7 @@ class ApiRepository {
 print(jsonEncode(preDeliverySave!.toJson()));
     var response = await _dio!.post(
         ApiEndPoints.base_url + ApiEndPoints.predelivery + ApiEndPoints.save,
-        data: jsonEncode(preDeliverySave!.toJson()));
+        data: jsonEncode(preDeliverySave.toJson()));
 
     Map<String, dynamic> data = jsonDecode(response.toString());
     print(response.toString());

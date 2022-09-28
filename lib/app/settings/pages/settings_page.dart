@@ -221,6 +221,11 @@ class _SettingsState extends State<Settings> {
                         child: Image.network(
                           data.toString(),
                           fit: BoxFit.cover,
+                          errorBuilder: (c,s,e){
+                            return CircleAvatar(
+                              backgroundImage: AssetImage(AppImages.bg),
+                            );
+                          },
                         ),
                       )
                     : CircleAvatar(

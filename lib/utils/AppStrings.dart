@@ -181,7 +181,7 @@ class AppStrings {
   //routes activity list
   static const String receivers_signature = "Receiver’s Signature";
   static const String signed = "Signed : ";
-  static const String openpdf = "Open Pdf";
+  static const String openpdf = "Open PDF";
   static const String delivered = "Delivered";
   static const String route_activity_list = "Route Activity List";
 }

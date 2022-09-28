@@ -176,27 +176,35 @@ class _ClaimAssementStepOneState extends State<ClaimAssementStepOne> {
                     ),*/
                           ),
                           Padding(
-                            padding:
-                                EdgeInsets.symmetric(vertical: Dimens.twenty,horizontal: Dimens.thirty),
+                            padding: EdgeInsets.symmetric(
+                                vertical: Dimens.twenty,
+                                horizontal: Dimens.thirty),
                             child: CommonActionButton(
                               title: AppStrings.next,
                               onPressed: () {
                                 var postCompleteDelivery = //widget.postCompleteDelivery!;
-                                PostCompleteDelivery(
-                                    address: widget.postCompleteDelivery!.address,
-                                    whoReceived:widget.postCompleteDelivery!.whoReceived ,
-                                    careGiverSignedPhone:widget.postCompleteDelivery!.careGiverSignedPhone ,
-                                    careGiverReasonSigned:widget.postCompleteDelivery!.careGiverReasonSigned ,
-                                    careGiverName:widget.postCompleteDelivery!.careGiverName ,
-                                    careGiverTitle: widget.postCompleteDelivery!.careGiverTitle,
-                                    checkListDetails: snapshot.data!.checkListDetails![0],
-                                  notes:widget.postCompleteDelivery!.notes ,
-
-                                    paymentDetails:widget.postCompleteDelivery!.paymentDetails ,
-                                    claimId:
-                                        widget.postCompleteDelivery!.claimId,
-                                    patientFullName: widget
-                                        .postCompleteDelivery!.patientFullName,
+                                    PostCompleteDelivery(
+                                  address: widget.postCompleteDelivery!.address,
+                                  whoReceived:
+                                      widget.postCompleteDelivery!.whoReceived,
+                                  careGiverSignedPhone: widget
+                                      .postCompleteDelivery!
+                                      .careGiverSignedPhone,
+                                  careGiverReasonSigned: widget
+                                      .postCompleteDelivery!
+                                      .careGiverReasonSigned,
+                                  careGiverName: widget
+                                      .postCompleteDelivery!.careGiverName,
+                                  careGiverTitle: widget
+                                      .postCompleteDelivery!.careGiverTitle,
+                                  checkListDetails:
+                                      snapshot.data!.checkListDetails![0],
+                                  notes: widget.postCompleteDelivery!.notes,
+                                  paymentDetails: widget
+                                      .postCompleteDelivery!.paymentDetails,
+                                  claimId: widget.postCompleteDelivery!.claimId,
+                                  patientFullName: widget
+                                      .postCompleteDelivery!.patientFullName,
                                 );
                                 Navigator.push(
                                     context,

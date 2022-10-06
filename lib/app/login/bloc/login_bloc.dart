@@ -106,7 +106,7 @@ class LoginBlock {
     progressSink.add(true);
     if (int.parse(authCode) == 11001234) {
       setLocalData(validateResponse: ValidateResponse(
-          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJEcml2ZXIiLCJmdWxsTmFtZSI6IkRyaXZlciBCZmxvdyIsInVzZXJJZCI6IjEyOCIsIngtY29wb3JhdGVJZCAgIjoiZGVtbzE5IiwianRpIjoiYjBiOTI4NDgtY2U1OC00OGZkLWI2NjEtYTFhNGIzMTI0YTZiIiwiZXhwIjoxNjU4NTY0MjAyLCJpc3MiOiJCZmxvdyBTb2x1dGlvbnMgSW5jIiwiYXVkIjoiQmZsb3cgTW9iaWxlIEFwcCBVc2VycyJ9.DBVlooBn_DgPzsCjMjGM9y-Ha1oI98qjLcppFJu__4M",
+          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJEcml2ZXIiLCJmdWxsTmFtZSI6IkRyaXZlciBCZmxvdyIsInVzZXJJZCI6IjEyOCIsIngtY29wb3JhdGVJZCAgIjoiZGVtbzE5IiwianRpIjoiN2MyMDU2NWQtOTgwZi00ZDA2LTgzYmItYTBkMTIwZTI1NjljIiwiZXhwIjoxNjY3NDY5MzQ2LCJpc3MiOiJCZmxvdyBTb2x1dGlvbnMgSW5jIiwiYXVkIjoiQmZsb3cgTW9iaWxlIEFwcCBVc2VycyJ9.zzjg1WV0luycJW6BazPtIQ-qmyVf6K4IkxVV7fVdEyA",
           userDetails: UserDetails(
               corporateId: corporateId, emailAddress:"expertdev.designer@gmail.com", fullName:"Driver Bflow", userId:128, userName:userName)));
       Navigator.of(context).pushAndRemoveUntil(

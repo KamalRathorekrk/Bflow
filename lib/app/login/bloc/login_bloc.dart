@@ -110,7 +110,7 @@ class LoginBlock {
           userDetails: UserDetails(
               corporateId: corporateId, emailAddress:"expertdev.designer@gmail.com", fullName:"Driver Bflow", userId:128, userName:userName)));
       Navigator.of(context).pushAndRemoveUntil(
-          CupertinoPageRoute(builder: (context) => BottomNavigationPage()),
+          CupertinoPageRoute(builder: (context) => BottomNavigationPage(selectedIndex: 0,)),
               (Route<dynamic> route) => false);
     } else {
       apiRepository
@@ -128,7 +128,7 @@ class LoginBlock {
         if (onResponse != null) {
           setLocalData(validateResponse: onResponse);
           Navigator.of(context).pushAndRemoveUntil(
-              CupertinoPageRoute(builder: (context) => BottomNavigationPage()),
+              CupertinoPageRoute(builder: (context) => BottomNavigationPage(selectedIndex: 0,)),
                   (Route<dynamic> route) => false);
         } else {
           SnackBarUtils.showErrorSnackBar(

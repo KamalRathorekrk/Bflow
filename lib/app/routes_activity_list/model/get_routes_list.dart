@@ -123,6 +123,7 @@ class ResponseRoutes {
     num? orderStateID,
     num? claimDelayReasonCode,
     dynamic comments,
+    List<dynamic>? notes,
     String? driverName,
     String? birthDate,
     String? patientFullName,
@@ -131,6 +132,8 @@ class ResponseRoutes {
     String? city,
     String? state,
     String? zipcode,
+    String? phoneNumber,
+    String? cancelReason,
     List<Attachments>? attachments,
     List<Signature>? signature,
   }) {
@@ -164,16 +167,19 @@ class ResponseRoutes {
     _orderStateID = orderStateID;
     _claimDelayReasonCode = claimDelayReasonCode;
     _comments = comments;
+    _notes = notes;
     _driverName = driverName;
     _birthDate = birthDate;
     _patientFullName = patientFullName;
     _pCompanyName = pCompanyName;
     _address = address;
     _city = city;
+    _cancelReason = cancelReason;
     _state = state;
     _zipcode = zipcode;
     _attachments = attachments;
     _signature = signature;
+    _phoneNumber = phoneNumber;
   }
 
   ResponseRoutes.fromJson(dynamic json) {
@@ -187,6 +193,7 @@ class ResponseRoutes {
     _assignedToId = json['assignedToId'];
     _amountPaid = json['amountPaid'];
     _totalAmount = json['totalAmount'];
+    _phoneNumber = json['phoneNumber'];
     _driverId = json['driverId'];
     _signatureOnFile = json['signatureOnFile'];
     _isCancelled = json['isCancelled'];
@@ -207,6 +214,7 @@ class ResponseRoutes {
     _orderStateID = json['orderStateID'];
     _claimDelayReasonCode = json['claimDelayReasonCode'];
     _comments = json['comments'];
+    _notes = json['notes'];
     _driverName = json['driverName'];
     _birthDate = json['birthDate'];
     _patientFullName = json['patientFullName'];
@@ -214,6 +222,7 @@ class ResponseRoutes {
     _address = json['address'];
     _city = json['city'];
     _state = json['state'];
+    _cancelReason = json['cancelReason'];
     _zipcode = json['zipcode'];
     _careGiverId = json['careGiverId'];
     _careGiverName = json['careGiverName'];
@@ -232,6 +241,12 @@ class ResponseRoutes {
         _signature?.add(Signature.fromJson(v));
       });
     }
+    if (json['items'] != null) {
+      _items = [];
+      json['items'].forEach((v) {
+        _items?.add(Items.fromJson(v));
+      });
+    }
   }
 
   num? _orderId;
@@ -244,6 +259,7 @@ class ResponseRoutes {
   num? _assignedToId;
   num? _amountPaid;
   num? _totalAmount;
+  String? _phoneNumber;
   num? _driverId;
   bool? _signatureOnFile;
   bool? _isCancelled;
@@ -265,6 +281,7 @@ class ResponseRoutes {
   num? _claimDelayReasonCode;
   dynamic _comments;
   String? _driverName;
+  List<dynamic>? _notes;
   String? _birthDate;
   String? _patientFullName;
   String? _pCompanyName;
@@ -272,6 +289,7 @@ class ResponseRoutes {
   String? _city;
   String? _state;
   String? _zipcode;
+  String? _cancelReason;
   String? _careGiverId;
   String? _careGiverName;
   String? _careGiverTitle;
@@ -279,8 +297,11 @@ class ResponseRoutes {
   String? _careGiverReasonSigned;
   List<Attachments>? _attachments;
   List<Signature>? _signature;
+  List<Items>? _items;
 
   num? get orderId => _orderId;
+
+  String? get cancelReason => _cancelReason;
 
   String? get dateAdded => _dateAdded;
 
@@ -316,6 +337,8 @@ class ResponseRoutes {
 
   String? get updatedOn => _updatedOn;
 
+  String? get phoneNumber => _phoneNumber;
+
   dynamic get legacyOrderId => _legacyOrderId;
 
   bool? get isClaimCrossedOverPending => _isClaimCrossedOverPending;
@@ -340,6 +363,8 @@ class ResponseRoutes {
 
   dynamic get comments => _comments;
 
+  List<dynamic>? get notes => _notes;
+
   String? get driverName => _driverName;
 
   String? get birthDate => _birthDate;
@@ -355,15 +380,22 @@ class ResponseRoutes {
   String? get state => _state;
 
   String? get zipcode => _zipcode;
+
   String? get careGiverId => _careGiverId;
+
   String? get careGiverName => _careGiverName;
+
   String? get careGiverTitle => _careGiverTitle;
+
   String? get careGiverReasonSigned => _careGiverReasonSigned;
+
   String? get careGiverSignedPhone => _careGiverSignedPhone;
 
   List<Attachments>? get attachments => _attachments;
 
   List<Signature>? get signature => _signature;
+
+  List<Items>? get items => _items;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -402,6 +434,7 @@ class ResponseRoutes {
     map['orderStateID'] = _orderStateID;
     map['claimDelayReasonCode'] = _claimDelayReasonCode;
     map['comments'] = _comments;
+    map['notes'] = _notes;
     map['driverName'] = _driverName;
     map['birthDate'] = _birthDate;
     map['patientFullName'] = _patientFullName;
@@ -482,4 +515,44 @@ class Attachments {
     map['url'] = _url;
     return map;
   }
+}
+
+class Items {
+  Items(
+    int id,
+    String hcpc,
+    String description,
+    int qty,
+    String model,
+  ) {
+    _id = id;
+    _hcpc = hcpc;
+    _description = description;
+    _qty = qty;
+    _model = model;
+  }
+
+  Items.fromJson(dynamic json) {
+    _id = json['id'];
+    _hcpc = json['hcpc'];
+    _description = json['description'];
+    _qty = json['qty'];
+    _model = json['model'];
+  }
+
+  int? _id;
+  String? _hcpc;
+  String? _description;
+  int? _qty;
+  String? _model;
+
+  int? get id => _id;
+
+  String? get hcpc => _hcpc;
+
+  String? get description => _description;
+
+  int? get qty => _qty;
+
+  String? get model => _model;
 }

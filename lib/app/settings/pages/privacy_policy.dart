@@ -1,12 +1,9 @@
 import 'package:bflow/app/common_widget/common_app_bar.dart';
-import 'package:bflow/app/common_widget/common_text_widget.dart';
-import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppStrings.dart';
-import 'package:bflow/utils/Dimens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   @override
@@ -14,38 +11,24 @@ class PrivacyPolicy extends StatefulWidget {
 }
 
 class _PrivacyPolicyState extends State<PrivacyPolicy> {
-  var url = "https://www.bflowdmebillingsoftware.com/privacy-policy/";
+  // var url = "https://www.bflowdmebillingsoftware.com/privacy-policy/";
+  var url = "assets/PDF/PrivacyPoliciesBFlow.pdf";
   bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
-        appBar: CommonAppBar(
-            text: AppStrings.privacy_policy,
-          ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-              color: AppColor.whiteColor,
-              child: WebView(
-                initialUrl: url,
-                javascriptMode: JavascriptMode.disabled,
-                onPageFinished: (finish) {
-                  isLoading = false;
-                  setState(() {});
-                },
-                onPageStarted: (urls) async {
-                 if(urls!=url){
-                   return;
-                 }
-                },
-              )),
-          isLoading
-              ? Center(child: CommmonProgressIndicator(isLoading))
-              : Center(),
-        ],
+      appBar: CommonAppBar(
+        color: AppColor.whiteColor,
+        text: AppStrings.privacy_policy,
       ),
+      body: Container(
+          color: AppColor.whiteColor,
+          child: SfPdfViewer.asset(
+            url,
+            enableDoubleTapZooming: false,
+          )),
     );
     // return Scaffold(
     //   appBar: CommonAppBar(

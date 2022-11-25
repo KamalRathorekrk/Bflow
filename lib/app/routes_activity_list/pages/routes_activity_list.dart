@@ -179,7 +179,7 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            data.signature!.length > 1
+                            data.signature!.length >= 1
                                 ? Container(
                                     // width: 166,
                                     height: 103,
@@ -189,10 +189,10 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
                                       errorBuilder:
                                           (context, exception, stackTrace) {
                                         return SvgPicture.asset(
-                                              AppImages.signaturePlaceHolder,
-                                              width: 50,
-                                              height: 50,
-                                            );
+                                          AppImages.signaturePlaceHolder,
+                                          width: 50,
+                                          height: 50,
+                                        );
                                       },
                                     ),
                                   )
@@ -325,7 +325,7 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
                 height: Dimens.twenty,
               ),
               CommonTextWidget(
-                text: data.comments ?? "",
+                text: "${data.cancelReason ?? ""}",
                 fontSize: Dimens.forteen,
                 fontColor: AppColor.blackColor,
                 fontWeight: FontWeight.w400,

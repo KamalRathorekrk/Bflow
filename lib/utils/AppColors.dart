@@ -18,7 +18,7 @@ class AppColor {
   static const offWhite3BColor = Color(0xFF3B3B3B);
   static const offWhiteC8Color = Color(0xFFC8C8C8);
 
-
   static const offWhite66Color = Color(0xFF666666);
   static const offWhiteF3Color = Color(0xFFF3F3F3);
+  static const offWhiteF34Color = Color(0x66F9F5F5);
 }

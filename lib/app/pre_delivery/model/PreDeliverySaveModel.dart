@@ -7,17 +7,18 @@ import 'package:bflow/app/pre_delivery/model/PreDeliveryIdModel.dart';
 
 class PreDeliverySave {
   PreDeliverySave({
-      num? claimId,
-      String? note,
+    num? claimId,
+    String? note,
     String? deliveryDate,
-      PreCheckListDetails? checkListDetails,
-      List<ServiceLines>? serviceLines,}){
+    PreCheckListDetails? checkListDetails,
+    List<ServiceLines>? serviceLines,
+  }) {
     _claimId = claimId;
     _note = note;
-    _deliveryDate=deliveryDate;
+    _deliveryDate = deliveryDate;
     _checkListDetails = checkListDetails;
     _serviceLines = serviceLines;
-}
+  }
 
   PreDeliverySave.fromJson(dynamic json) {
     _claimId = json['claimId'];
@@ -31,26 +32,36 @@ class PreDeliverySave {
       });
     }
   }
+
   num? _claimId;
   String? _note;
   String? _deliveryDate;
   PreCheckListDetails? _checkListDetails;
   List<ServiceLines>? _serviceLines;
-PreDeliverySave copyWith({  num? claimId,
-  String? note,
-  String? deliveryDate,
-  PreCheckListDetails? checkListDetails,
-  List<ServiceLines>? serviceLines,
-}) => PreDeliverySave(  claimId: claimId ?? _claimId,
-  note: note ?? _note,
-  deliveryDate: deliveryDate ?? _deliveryDate,
-  checkListDetails: checkListDetails ?? _checkListDetails,
-  serviceLines: serviceLines ?? _serviceLines,
-);
+
+  PreDeliverySave copyWith({
+    num? claimId,
+    String? note,
+    String? deliveryDate,
+    PreCheckListDetails? checkListDetails,
+    List<ServiceLines>? serviceLines,
+  }) =>
+      PreDeliverySave(
+        claimId: claimId ?? _claimId,
+        note: note ?? _note,
+        deliveryDate: deliveryDate ?? _deliveryDate,
+        checkListDetails: checkListDetails ?? _checkListDetails,
+        serviceLines: serviceLines ?? _serviceLines,
+      );
+
   num? get claimId => _claimId;
+
   String? get note => _note;
+
   String? get deliveryDate => _deliveryDate;
+
   PreCheckListDetails? get checkListDetails => _checkListDetails;
+
   List<ServiceLines>? get serviceLines => _serviceLines;
 
   Map<String, dynamic> toJson() {
@@ -64,7 +75,6 @@ PreDeliverySave copyWith({  num? claimId,
     }
     return map;
   }
-
 }
 
 /// id : 8503
@@ -72,24 +82,32 @@ PreDeliverySave copyWith({  num? claimId,
 
 class ServiceLines {
   ServiceLines({
-      num? id, 
-      num? inventoryId,}){
+    num? id,
+    num? inventoryId,
+  }) {
     _id = id;
     _inventoryId = inventoryId;
-}
+  }
 
   ServiceLines.fromJson(dynamic json) {
     _id = json['id'];
     _inventoryId = json['inventoryId'];
   }
+
   num? _id;
   num? _inventoryId;
-ServiceLines copyWith({  num? id,
-  num? inventoryId,
-}) => ServiceLines(  id: id ?? _id,
-  inventoryId: inventoryId ?? _inventoryId,
-);
+
+  ServiceLines copyWith({
+    num? id,
+    num? inventoryId,
+  }) =>
+      ServiceLines(
+        id: id ?? _id,
+        inventoryId: inventoryId ?? _inventoryId,
+      );
+
   num? get id => _id;
+
   num? get inventoryId => _inventoryId;
 
   Map<String, dynamic> toJson() {
@@ -98,7 +116,6 @@ ServiceLines copyWith({  num? id,
     map['inventoryId'] = _inventoryId;
     return map;
   }
-
 }
 
 /// header : "Claim check list."
@@ -148,31 +165,40 @@ ServiceLines copyWith({  num? id,
 
 class Options {
   Options({
-      num? id, 
-      String? name, 
-      bool? isSelected,}){
+    num? id,
+    String? name,
+    bool? isSelected,
+  }) {
     _id = id;
     _name = name;
     _isSelected = isSelected;
-}
+  }
 
   Options.fromJson(dynamic json) {
     _id = json['id'];
     _name = json['name'];
     _isSelected = json['isSelected'];
   }
+
   num? _id;
   String? _name;
   bool? _isSelected;
-Options copyWith({  num? id,
-  String? name,
-  bool? isSelected,
-}) => Options(  id: id ?? _id,
-  name: name ?? _name,
-  isSelected: isSelected ?? _isSelected,
-);
+
+  Options copyWith({
+    num? id,
+    String? name,
+    bool? isSelected,
+  }) =>
+      Options(
+        id: id ?? _id,
+        name: name ?? _name,
+        isSelected: isSelected ?? _isSelected,
+      );
+
   num? get id => _id;
+
   String? get name => _name;
+
   bool? get isSelected => _isSelected;
 
   Map<String, dynamic> toJson() {
@@ -182,5 +208,4 @@ Options copyWith({  num? id,
     map['isSelected'] = _isSelected;
     return map;
   }
-
 }

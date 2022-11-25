@@ -34,11 +34,17 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
   @override
   void initState() {
     _checkListBlock = CheckListBlock();
-    _whoReceviedController = TextEditingController(text: "${widget.responseRoutes.careGiverId??""}");
-    _nameController = TextEditingController(text: "${widget.responseRoutes.careGiverName??""}");
-    _phoneNumberController = TextEditingController(text: "${widget.responseRoutes.careGiverSignedPhone??""}");
-    _titleController = TextEditingController(text: "${widget.responseRoutes.careGiverTitle??""}");
-    _reasonSignedController = TextEditingController(text: "${widget.responseRoutes.careGiverReasonSigned??""}");
+    _whoReceviedController = TextEditingController(
+        text:
+            "${whorecived[int.parse(widget.responseRoutes.careGiverId ?? "3") - 1] ?? ""}");
+    _nameController = TextEditingController(
+        text: "${widget.responseRoutes.careGiverName ?? ""}");
+    _phoneNumberController = TextEditingController(
+        text: "${widget.responseRoutes.careGiverSignedPhone ?? ""}");
+    _titleController = TextEditingController(
+        text: "${widget.responseRoutes.careGiverTitle ?? ""}");
+    _reasonSignedController = TextEditingController(
+        text: "${widget.responseRoutes.careGiverReasonSigned ?? ""}");
     _checkListBlock!.getCheckList(widget.responseRoutes.orderId);
     super.initState();
   }
@@ -53,31 +59,26 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
       ),
       body: Stack(
         children: [
-          StreamBuilder<CheckList>(
-              stream: _checkListBlock!.checkListStream,
-              builder: (context, snapshot) {
-                return SingleChildScrollView(
-                  controller: ScrollController(),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Dimens.twenty, vertical: Dimens.ten),
-                    color: AppColor.offWhiteColor,
-                    child: Column(
-                      children: [
-                        CenterContainer(widget.responseRoutes),
-                        // snapshot.data != null
-                        //     ? reviewedServices(snapshot.data!)
-                        //     : Container(),
-                        SizedBox(
-                          height: Dimens.fifteen,
-                        ),
-                        ReciverDetailsConatiner(context),
-                        photoContainer(widget.responseRoutes)
-                      ],
-                    ),
-                  ),
-                );
-              }),
+          SingleChildScrollView(
+            controller: ScrollController(),
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: Dimens.twenty, vertical: Dimens.ten),
+              color: AppColor.offWhiteColor,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CenterContainer(widget.responseRoutes),
+                  reviewedServices(),
+                  // SizedBox(
+                  //   height: Dimens.fifteen,
+                  // ),
+                  ReciverDetailsConatiner(context, widget.responseRoutes),
+                  photoContainer(widget.responseRoutes)
+                ],
+              ),
+            ),
+          ),
           StreamBuilder<bool>(
             stream: _checkListBlock!.progressStream,
             builder: (context, snapshot) {
@@ -107,7 +108,12 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
           SizedBox(
             height: Dimens.fifteen,
           ),
-          RowElement(title: AppStrings.description, value: "", show: true),
+          RowElement(
+              title: AppStrings.description,
+              value: data.items!.isNotEmpty
+                  ? data.items![0].description ?? ""
+                  : "",
+              show: true),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -157,7 +163,8 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
           ),
           RowElement(
               title: AppStrings.phone_number,
-              value: "${data.careGiverSignedPhone??""}".replaceAllMapped(RegExp(r'(\d{3})(\d{3})(\d+)'),
+              value: "${data.phoneNumber ?? ""}".replaceAllMapped(
+                  RegExp(r'(\d{3})(\d{3})(\d+)'),
                   (Match m) => "(${m[1]}) ${m[2]}-${m[3]}")),
           SizedBox(
             height: Dimens.twenty,
@@ -183,27 +190,34 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Visibility(
-                    visible: icon ?? false,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: Dimens.four),
-                      child: SvgPicture.asset(AppImages.location),
-                    )),
-                CommonTextWidget(
-                  text: "${value}",
-                  fontSize: Dimens.forteen,
-                  fontColor: AppColor.blackColor,
-                  fontWeight: FontWeight.w500,
-                ),
-              ],
+            Expanded(
+              flex: 4,
+              child: Row(
+                children: [
+                  Visibility(
+                      visible: icon ?? false,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: Dimens.four),
+                        child: SvgPicture.asset(AppImages.location),
+                      )),
+                  Expanded(
+                    child: CommonTextWidget(
+                      text: "${value}",
+                      fontSize: Dimens.forteen,
+                      fontColor: AppColor.blackColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Visibility(
-              visible: show ?? false,
-              child: Padding(
-                padding: EdgeInsets.only(right: 8.0),
-                child: SvgPicture.asset(AppImages.tick),
+            Expanded(
+              child: Visibility(
+                visible: show ?? false,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: SvgPicture.asset(AppImages.tick),
+                ),
               ),
             ),
           ],
@@ -242,6 +256,7 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
     AppStrings.coinsurance,
     AppStrings.oop,
   ];
+  List whorecived = ["POA", "Relative", "Other"];
 
   Widget ListReviewed(data) {
     return ListView.builder(
@@ -254,28 +269,16 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
         });
   }
 
-  Widget ListClamedCheckList(data) {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemCount: data.length,
-        itemBuilder: (context, position) {
-          return CheckListWidget(valueString: data[position].name);
-        });
-  }
-
-  Widget ListInsuranceVerification() {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemCount: itemInsuranceVerification.length,
-        itemBuilder: (context, position) {
-          return CheckListWidget(
-              valueString: itemInsuranceVerification[position]);
-        });
-  }
+  // Widget ListClamedCheckList(data) {
+  //   return ListView.builder(
+  //       shrinkWrap: true,
+  //       physics: NeverScrollableScrollPhysics(),
+  //       padding: EdgeInsets.zero,
+  //       itemCount: data.length,
+  //       itemBuilder: (context, position) {
+  //         return CheckListWidget(valueString: data[position].name);
+  //       });
+  // }
 
   Widget CheckListWidget({String? valueString}) {
     return Row(
@@ -302,47 +305,56 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
     );
   }
 
-  Widget reviewedServices(CheckList data) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-          vertical: Dimens.twenty, horizontal: Dimens.fifteen),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              // scrollDirection: Axis.horizontal,
-              itemCount: data.claimAssessmentCheckListDetails!.length,
-              itemBuilder: (context, position) {
-                return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CommonTextWidget(
-                        text: data
-                            .claimAssessmentCheckListDetails![position].header
-                            .toString(),
-                        fontSize: Dimens.forteen,
-                        fontWeight: FontWeight.w600,
-                        fontColor: AppColor.blackColor,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: ListReviewed(data
-                            .claimAssessmentCheckListDetails![position]
-                            .options),
-                      ),
-                      SizedBox(
-                        height: Dimens.ten,
-                      ),
-                    ]);
-              }),
-        ],
-      ),
-    );
+  Widget reviewedServices() {
+    return StreamBuilder<CheckList>(
+        stream: _checkListBlock!.checkListStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            print(snapshot.data!.claimAssessmentCheckListDetails!.length);
+            if (snapshot.data!.claimAssessmentCheckListDetails != null) {
+              var data = snapshot.data!;
+              return Container(
+                padding: EdgeInsets.symmetric(
+                    vertical: Dimens.twenty, horizontal: Dimens.fifteen),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        // scrollDirection: Axis.horizontal,
+                        itemCount: data.claimAssessmentCheckListDetails!.length,
+                        itemBuilder: (context, position) {
+                          return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CommonTextWidget(
+                                  text: data
+                                      .claimAssessmentCheckListDetails![
+                                          position]
+                                      .header
+                                      .toString(),
+                                  fontSize: Dimens.forteen,
+                                  fontWeight: FontWeight.w600,
+                                  fontColor: AppColor.blackColor,
+                                ),
+                                ListReviewed(data
+                                    .claimAssessmentCheckListDetails![position]
+                                    .options),
+                              ]);
+                        }),
+                  ],
+                ),
+              );
+            } else
+              return Container();
+          } else {
+            return Container();
+          }
+        });
   }
 
-  Widget ReciverDetailsConatiner(BuildContext context) {
+  Widget ReciverDetailsConatiner(BuildContext context, ResponseRoutes data) {
     return Container(
       color: AppColor.offWhiteColor,
       child: Column(
@@ -438,7 +450,7 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
             height: Dimens.ten,
           ),
           CommonTextWidget(
-            text: "",
+            text: data.notes?[0] ?? "",
             fontSize: Dimens.forteen,
             fontWeight: FontWeight.w400,
             fontColor: AppColor.blackColor,
@@ -457,8 +469,11 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
           SizedBox(
             height: Dimens.ten,
           ),
-          imageContainer(data.signature),
-
+          signatureContainer(data.signature),
+          SizedBox(
+            height: Dimens.thirty,
+          ),
+          // Center(child: imageContainer(data.signature)),
         ],
       ),
     );
@@ -491,12 +506,35 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
                   child: Image.network(
                     imageList[position].url,
                     fit: BoxFit.fill,
-                    errorBuilder: (c,s,e){
+                    errorBuilder: (c, s, e) {
                       return SizedBox();
                     },
                   ),
                 ));
           }),
     );
+  }
+
+  Widget signatureContainer(imageList) {
+    if (imageList.length == 0)
+      return Container();
+    else
+      return Container(
+          color: Colors.white,
+          height: 200,
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.only(
+            left: Dimens.ten,
+          ),
+          padding: EdgeInsets.only(
+            left: Dimens.ten,
+          ),
+          child: Image.network(
+            imageList[0].url,
+            fit: BoxFit.contain,
+            errorBuilder: (c, s, e) {
+              return SizedBox();
+            },
+          ));
   }
 }

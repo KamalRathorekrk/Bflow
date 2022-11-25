@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:bflow/app/bottom_nav_bar/bottom_navigation_pages.dart';
 import 'package:bflow/app/common_widget/snackbar/utils.dart';
-import 'package:bflow/app/pre_delivery/model/CompletePreDelivery.dart';
 import 'package:bflow/app/pre_delivery/model/PreDeliveryIdModel.dart';
-import 'package:bflow/app/pre_delivery/model/PreDeliveryModel.dart';
+import 'package:bflow/app/pre_delivery/model/PreDeliveryListModel.dart';
 import 'package:bflow/app/pre_delivery/model/PreDeliverySaveModel.dart';
-import 'package:bflow/app/pre_delivery/model/pre_claims_model.dart';
 import 'package:bflow/network/api_repository.dart';
 import 'package:bflow/utils/AppStrings.dart';
 import 'package:bflow/utils/CommonCheckListModel.dart';
@@ -38,11 +36,11 @@ class PreDeliveryBloc {
   StreamSink<CheckListObject> get claimChecklistSink =>
       claimChecklistController.sink;
 
-  final claimsController = BehaviorSubject<List<ClaimDetails>>();
-
-  Stream<List<ClaimDetails>> get claimsStream => claimsController.stream;
-
-  StreamSink<List<ClaimDetails>> get claimsSink => claimsController.sink;
+  // final claimsController = BehaviorSubject<List<ClaimDetails>>();
+  //
+  // Stream<List<ClaimDetails>> get claimsStream => claimsController.stream;
+  //
+  // StreamSink<List<ClaimDetails>> get claimsSink => claimsController.sink;
 
   final claimsPreController = BehaviorSubject<List<PreDeliveryobject>>();
 
@@ -88,35 +86,35 @@ class PreDeliveryBloc {
     });
   }
 
-  void getClaims(
-      {required String userName,
-      required String fullName,
-      required String corporateId,
-      required String userId,
-      required String emailAddress,
-      required BuildContext context}) {
-    progressSink.add(true);
-    apiRepository
-        .claimPreApi(
-            userId: userId,
-            fullName: fullName,
-            userName: userName,
-            corporateId: corporateId,
-            emailAddress: emailAddress)
-        .then((onResponse) {
-      if (onResponse.responseType == "Ok") {
-        claimsSink.add(onResponse.responseObject!);
-      } else {
-        // Utils.showErrorSnackBar(
-        //     message: onResponse.message.toString(), context: context);
-      }
-      progressSink.add(false);
-    }).catchError((onError) {
-      progressSink.add(false);
-      print("On_Error" + onError.toString());
-      // Utils.showErrorSnackBar(message: onError.toString(), context: context);
-    });
-  }
+  // void getClaims(
+  //     {required String userName,
+  //     required String fullName,
+  //     required String corporateId,
+  //     required String userId,
+  //     required String emailAddress,
+  //     required BuildContext context}) {
+  //   progressSink.add(true);
+  //   apiRepository
+  //       .claimPreApi(
+  //           userId: userId,
+  //           fullName: fullName,
+  //           userName: userName,
+  //           corporateId: corporateId,
+  //           emailAddress: emailAddress)
+  //       .then((onResponse) {
+  //     if (onResponse.responseType == "Ok") {
+  //       claimsSink.add(onResponse.responseObject!);
+  //     } else {
+  //       // Utils.showErrorSnackBar(
+  //       //     message: onResponse.message.toString(), context: context);
+  //     }
+  //     progressSink.add(false);
+  //   }).catchError((onError) {
+  //     progressSink.add(false);
+  //     print("On_Error" + onError.toString());
+  //     // Utils.showErrorSnackBar(message: onError.toString(), context: context);
+  //   });
+  // }
 
   void getPreClaims() {
     progressSink.add(true);
@@ -135,8 +133,7 @@ class PreDeliveryBloc {
     });
   }
 
-  void completePreDelivery(
-      {PreDeliverySave? preDeliverySave, context}) {
+  void completePreDelivery({PreDeliverySave? preDeliverySave, context}) {
     progressSink.add(true);
     apiRepository
         .completePreDelivery(preDeliverySave: preDeliverySave)
@@ -145,9 +142,9 @@ class PreDeliveryBloc {
       if (onResponse.responseType == 'Ok') {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);
-        Navigator.pop(context);
-        // Navigator.pushReplacement(context,
-        //     CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
+        // Navigator.pop(context);
+        Navigator.pushReplacement(context,
+            CupertinoPageRoute(builder: (context) => BottomNavigationPage(selectedIndex: 1,)));
       } else {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);

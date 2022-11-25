@@ -27,7 +27,7 @@ class ClaimAssementsBloc {
 
   ApiRepository apiRepository = ApiRepository();
 
-  void       claimCancel({claimId, reason, context}) {
+  void claimCancel({claimId, reason, context}) {
     progressSink.add(true);
     apiRepository
         .claimsCancel(claimId: int.parse(claimId.toString()), reason: reason)
@@ -37,7 +37,7 @@ class ClaimAssementsBloc {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);
         Navigator.pushReplacement(context,
-            CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
+            CupertinoPageRoute(builder: (context) => BottomNavigationPage(selectedIndex: 0,)));
       } else {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);
@@ -70,7 +70,7 @@ class ClaimAssementsBloc {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);
         Navigator.pushReplacement(context,
-            CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
+            CupertinoPageRoute(builder: (context) => BottomNavigationPage(selectedIndex: 0,)));
       } else {
         SnackBarUtils.showSuccessSnackBar(
             onResponse.responseMessage ?? "", context);

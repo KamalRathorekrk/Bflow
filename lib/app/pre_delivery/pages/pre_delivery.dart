@@ -1,8 +1,7 @@
 import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/pre_delivery/bloc/pre_delivery_block.dart';
-import 'package:bflow/app/pre_delivery/model/PreDeliveryModel.dart';
-import 'package:bflow/app/pre_delivery/model/pre_claims_model.dart';
+import 'package:bflow/app/pre_delivery/model/PreDeliveryListModel.dart';
 import 'package:bflow/app/pre_delivery/pages/add_claim.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
@@ -53,13 +52,16 @@ class _PreDeliveryState extends State<PreDelivery> {
                     height: MediaQuery.of(context).size.height,
                     padding: EdgeInsets.symmetric(
                         // vertical: Dimens.thirty,
-                        horizontal: Dimens.twentyFive
-                    ),
+                        horizontal: Dimens.twentyFive),
                     child: SingleChildScrollView(
                       controller: ScrollController(),
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(
+                            height: Dimens.ten,
+                          ),
                           ListData(context: context, obj: snapshot.data!),
                         ],
                       ),

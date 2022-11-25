@@ -1,6 +1,5 @@
 import 'package:bflow/app/common_widget/common_text_widget.dart';
 import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
-import 'package:bflow/app/routes_activity_list/model/get_routes_list.dart';
 import 'package:bflow/app/today_route/bloc/todays_route_bloc.dart';
 import 'package:bflow/app/today_route/model/claims_model.dart';
 import 'package:bflow/app/today_route/pages/todays_route_details.dart';
@@ -34,7 +33,7 @@ class _TodaysRouteState extends State<TodaysRoute> {
     return Stack(
       children: [
         Scaffold(
-          backgroundColor: AppColor.offWhiteColor,
+          // backgroundColor: AppColor.offWhiteColor,
           appBar: AppBar(
             centerTitle: true,
             automaticallyImplyLeading: false,
@@ -131,14 +130,14 @@ class _TodaysRouteState extends State<TodaysRoute> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: Dimens.twentyFive),
       decoration: BoxDecoration(
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              // color: shadowColor ?? AppColor.offWhiteColor,
-              color: AppColor.offWhiteColor,
-              blurRadius: 10.0,
-              offset: Offset(0.0, 0.75))
-        ],
-        color: AppColor.offWhiteColor,
+        // boxShadow: <BoxShadow>[
+        //   BoxShadow(
+        //       // color: shadowColor ?? AppColor.offWhiteColor,
+        //       // color: AppColor.offWhiteColor,
+        //       blurRadius: 10.0,
+        //       offset: Offset(0.0, 0.75))
+        // ],
+        // color: AppColor.offWhiteColor,
         // color: color ?? AppColor.offWhiteColor,
       ),
       child: Row(
@@ -188,11 +187,13 @@ class _TodaysRouteState extends State<TodaysRoute> {
                         Icons.location_on_outlined,
                         size: 16,
                       ),
-                      CommonTextWidget(
-                        text: location!,
-                        fontSize: Dimens.forteen,
-                        fontWeight: FontWeight.w500,
-                        fontColor: AppColor.blackColor,
+                      Expanded(
+                        child: CommonTextWidget(
+                          text: location!,
+                          fontSize: Dimens.forteen,
+                          fontWeight: FontWeight.w500,
+                          fontColor: AppColor.blackColor,
+                        ),
                       ),
                     ],
                   ),
@@ -233,24 +234,23 @@ class _TodaysRouteState extends State<TodaysRoute> {
   }
 
   Widget ListData({context, List<ClaimList>? data}) {
-    ResponseRoutes responseRoutes = ResponseRoutes();
-
     return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         itemCount: data!.length,
         itemBuilder: (context, position) {
-          print("${data[position].claimId} deliveryStatus ${data[position].deliveryStatus}");
+          print(
+              "${data[position].claimId} deliveryStatus ${data[position].deliveryStatus}");
           return GestureDetector(
             onTap: () {
               // if (position == 1) {
-                // Navigator.push(
-                //     context,
-                //     CupertinoPageRoute(
-                //         builder: (context) => DetailsPageSucess(responseRoutes: responseRoutes,)));
+              // Navigator.push(
+              //     context,
+              //     CupertinoPageRoute(
+              //         builder: (context) => DetailsPageSucess(responseRoutes: responseRoutes,)));
               //}
-              if(data[position].deliveryStatus == 'InTransit') {
+              if (data[position].deliveryStatus == 'InTransit') {
                 Navigator.push(
                     context,
                     CupertinoPageRoute(
@@ -263,7 +263,7 @@ class _TodaysRouteState extends State<TodaysRoute> {
                 index: position + 1,
                 id: data[position].claimId.toString(),
                 location:
-                    "${data[position].deliveryAddress!.address??""}, ${data[position].deliveryAddress!.city??""}, ${data[position].deliveryAddress!.state??""}",
+                    "${data[position].deliveryAddress!.address ?? ""}, ${data[position].deliveryAddress!.city ?? ""}, ${data[position].deliveryAddress!.state ?? ""}",
                 name: data[position].patientFullName ?? "",
                 time: data[position].deliveryTime ?? "",
                 status:

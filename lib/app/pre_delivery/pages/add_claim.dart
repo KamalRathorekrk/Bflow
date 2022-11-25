@@ -19,7 +19,6 @@ import 'package:intl/intl.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-
 class AddClaim extends StatefulWidget {
   String claimId;
 
@@ -34,12 +33,14 @@ class _AddClaimState extends State<AddClaim> {
   PreDeliveryBloc? preDeliveryBloc;
   int serviceLineId = 0, serviceLineinventoryId = 0;
   DateTime? datetimeDelivery;
-  List<String> checkListItem = [
-    AppStrings.pick_equipment,
-    AppStrings.complete_equipment_inspection_log,
-    AppStrings.print_delivery_ticket_and_delivery_packet,
-    AppStrings.verify_delivery_address_and_time,
-  ];
+
+  // List<String> checkListItem = [
+  //   AppStrings.pick_equipment,
+  //   AppStrings.complete_equipment_inspection_log,
+  //   AppStrings.print_delivery_ticket_and_delivery_packet,
+  //   AppStrings.print_delivery_ticket_and_delivery_packet,
+  //   AppStrings.verify_delivery_address_and_time,
+  // ];
   List<bool> _isCheckedClaim = [];
   List<InventoryOptions> _inventoryOptions = [];
   String? _description = "";
@@ -47,7 +48,7 @@ class _AddClaimState extends State<AddClaim> {
   @override
   void initState() {
     preDeliveryBloc = PreDeliveryBloc();
-    _isCheckedClaim = List<bool>.filled(checkListItem.length, false);
+    // _isCheckedClaim = List<bool>.filled(checkListItem.length, false);
     callApi();
     super.initState();
   }
@@ -55,8 +56,8 @@ class _AddClaimState extends State<AddClaim> {
   callApi() async {
     preDeliveryBloc!
         .getPreClaimDetails(context: context, claimID: widget.claimId);
-    preDeliveryBloc!
-        .getClaimPreChecklist(context: context, claimID: widget.claimId);
+    preDeliveryBloc!.getClaimPreChecklist(context: context, claimID: "5950");
+    //widget.claimId
   }
 
   @override
@@ -71,9 +72,22 @@ class _AddClaimState extends State<AddClaim> {
             if (snapshot.hasData && snapshot.data != null) {
               PreDeliveryObject? preDeliveryClaimObject =
                   snapshot.data!.responseObject;
+              if (preDeliveryClaimObject!.items!.isNotEmpty) {
+                if (preDeliveryClaimObject.items!.length == 1) {
+                  serviceLineId = preDeliveryClaimObject.items![0].id ?? 0;
+                  _description = preDeliveryClaimObject.items![0].description;
+                  _inventoryOptions =
+                      preDeliveryClaimObject.items![0].inventoryOptions!;
+                }
+              } else if (preDeliveryClaimObject.items!.isEmpty) {
+                serviceLineId = 0;
+                _description = "No data found";
+                _inventoryOptions = [];
+              }
+
               return Scaffold(
                 appBar: CommonAppBar(
-                  text: "Claim: #${preDeliveryClaimObject!.claimId}",
+                  text: "Claim: #${preDeliveryClaimObject.claimId}",
                 ),
                 body: SingleChildScrollView(
                   controller: ScrollController(),
@@ -125,14 +139,31 @@ class _AddClaimState extends State<AddClaim> {
                               CommonActionButton(
                                 title: AppStrings.submit_and_schedule_delivery,
                                 onPressed: () {
-                                  if(serviceLineId==null||serviceLineId==0){
+                                  if (preDeliveryClaimObject.items!.isEmpty) {
+                                    PreDeliverySave _preDeliverySave =
+                                        PreDeliverySave(
+                                      claimId: snapshot
+                                          .data!.responseObject!.claimId,
+                                      checkListDetails: snapshot.data!
+                                          .responseObject!.checkListDetails![0],
+                                      note:
+                                          _addClaimNotesController.text.trim(),
+                                      deliveryDate: datetimeDelivery.toString(),
+                                      serviceLines: [],
+                                    );
+                                    preDeliveryBloc!.completePreDelivery(
+                                        preDeliverySave: _preDeliverySave,
+                                        context: context);
+                                  } else if (serviceLineId == null ||
+                                      serviceLineId == 0) {
                                     SnackBarUtils.showErrorSnackBar(
-                                        "Please Select Equipment",context);
-                                  }else if(datetimeDelivery==null||datetimeDelivery==""){
+                                        "Please Select Equipment", context);
+                                  } else if (datetimeDelivery == null ||
+                                      datetimeDelivery == "") {
                                     SnackBarUtils.showErrorSnackBar(
-                                        "Please Select Date and Time of Delivery",context);
-                                  }
-                                  else{
+                                        "Please Select Date and Time of Delivery",
+                                        context);
+                                  } else {
                                     PreDeliverySave _preDeliverySave =
                                         PreDeliverySave(
                                       claimId: snapshot
@@ -225,9 +256,9 @@ class _AddClaimState extends State<AddClaim> {
               Padding(
                 padding: EdgeInsets.only(right: Dimens.ten),
                 child: GestureDetector(
-                  onTap: (){
-                    UrlLauncher.launch("tel://$phone");
-                  },
+                    onTap: () {
+                      UrlLauncher.launch("tel://$phone");
+                    },
                     child: SvgPicture.asset(AppImages.call)),
               )
             ],
@@ -375,7 +406,49 @@ class _AddClaimState extends State<AddClaim> {
                             fontColor: AppColor.blackColor,
                             fontWeight: FontWeight.w400,
                           ),
-                          dropDownWidget(items),
+                          items.isNotEmpty
+                              ? items.length <= 1
+                                  ? Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: Dimens.eight,
+                                          ),
+                                          CommonTextWidget(
+                                            text: items[0].hcpc.toString(),
+                                            fontSize: Dimens.forteen,
+                                            fontColor: AppColor.blackColor,
+                                            fontWeight: FontWeight.w500,
+                                            overflow: TextOverflow.clip,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : dropDownWidget(items)
+                              : Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: Dimens.eight,
+                                      ),
+                                      CommonTextWidget(
+                                        text: "No equipment found",
+                                        fontSize: Dimens.forteen,
+                                        fontColor: AppColor.blackColor,
+                                        fontWeight: FontWeight.w500,
+                                        overflow: TextOverflow.clip,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                         ],
                       ),
                     ],
@@ -403,7 +476,8 @@ class _AddClaimState extends State<AddClaim> {
                       text: _description ?? "",
                       fontSize: Dimens.forteen,
                       fontColor: AppColor.blackColor,
-                      fontWeight: FontWeight.w500,overflow: TextOverflow.clip,
+                      fontWeight: FontWeight.w500,
+                      overflow: TextOverflow.clip,
                     ),
                   ),
                 ],
@@ -431,6 +505,49 @@ class _AddClaimState extends State<AddClaim> {
                     fontColor: AppColor.blackColor,
                     fontWeight: FontWeight.w400,
                   ),
+                  // items.isNotEmpty
+                  //     ? items.length <= 1
+                  //     ? Container(
+                  //   width: MediaQuery.of(context).size.width *
+                  //       0.8,
+                  //   child: Column(
+                  //     crossAxisAlignment:
+                  //     CrossAxisAlignment.start,
+                  //     children: [
+                  //       SizedBox(
+                  //         height: Dimens.eight,
+                  //       ),
+                  //       CommonTextWidget(
+                  //         text: _inventoryOptions[0].model.toString(),
+                  //         fontSize: Dimens.forteen,
+                  //         fontColor: AppColor.blackColor,
+                  //         fontWeight: FontWeight.w500,
+                  //         overflow: TextOverflow.clip,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // )
+                  //     : dropDownModelWidget(_inventoryOptions)
+                  //     : Container(
+                  //   width:
+                  //   MediaQuery.of(context).size.width * 0.8,
+                  //   child: Column(
+                  //     crossAxisAlignment:
+                  //     CrossAxisAlignment.start,
+                  //     children: [
+                  //       SizedBox(
+                  //         height: Dimens.eight,
+                  //       ),
+                  //       CommonTextWidget(
+                  //         text: "No model found",
+                  //         fontSize: Dimens.forteen,
+                  //         fontColor: AppColor.blackColor,
+                  //         fontWeight: FontWeight.w500,
+                  //         overflow: TextOverflow.clip,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   dropDownModelWidget(_inventoryOptions),
                 ],
               ),
@@ -716,7 +833,9 @@ class _AddClaimState extends State<AddClaim> {
                     height: MediaQuery.of(context).size.height * 0.24,
                     child: CupertinoDatePicker(
                       mode: CupertinoDatePickerMode.dateAndTime,
-                      initialDateTime: datetimeDelivery ?? DateTime.now(),
+                      initialDateTime: datetimeDelivery ??
+                          DateTime.now().add(Duration(hours: 1)),
+                      minimumDate: DateTime.now(),
                       onDateTimeChanged: (DateTime dateTime) {
                         setState(() {});
                         datetimeDelivery = dateTime;
@@ -815,7 +934,7 @@ class _AddClaimState extends State<AddClaim> {
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white))),
         hint: CommonTextWidget(
-          text: "",
+          text: "Select Equipment",
           fontSize: Dimens.forteen,
           fontWeight: FontWeight.w500,
           fontColor: AppColor.blackColor,
@@ -825,7 +944,7 @@ class _AddClaimState extends State<AddClaim> {
             child: Container(
               color: AppColor.whiteColor,
               child: CommonTextWidget(
-                text: label.id.toString(),
+                text: label.hcpc.toString(),
                 fontSize: Dimens.forteen,
                 fontColor: AppColor.blackColor,
                 fontWeight: FontWeight.w500,
@@ -838,8 +957,8 @@ class _AddClaimState extends State<AddClaim> {
         dropdownColor: AppColor.whiteColor,
         onChanged: (Items? value) {
           setState(() {
-            print(value!.description.toString());
-            serviceLineId = value.id ?? 0;
+            // print(value!.description.toString());
+            serviceLineId = value!.id ?? 0;
             _description = value.description;
             _inventoryOptions = value.inventoryOptions!;
           });
@@ -869,7 +988,7 @@ class _AddClaimState extends State<AddClaim> {
             child: Container(
               color: AppColor.whiteColor,
               child: CommonTextWidget(
-                text: label.displayText.toString(),
+                text: label.model.toString(),
                 fontSize: Dimens.forteen,
                 fontColor: AppColor.blackColor,
                 fontWeight: FontWeight.w500,

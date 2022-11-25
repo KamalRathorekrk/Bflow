@@ -52,9 +52,9 @@ class CheckList {
   }
 
   CheckList.fromJson(dynamic json) {
-    if (json['claimAssessmentCheckListDetails'] != null) {
+    if (json['checkListDetails'] != null) {
       _claimAssessmentCheckListDetails = [];
-      json['claimAssessmentCheckListDetails'].forEach((v) {
+      json['checkListDetails'].forEach((v) {
         _claimAssessmentCheckListDetails
             ?.add(ClaimAssessmentCheckListDetails.fromJson(v));
       });
@@ -69,7 +69,7 @@ class CheckList {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (_claimAssessmentCheckListDetails != null) {
-      map['claimAssessmentCheckListDetails'] =
+      map['checkListDetails'] =
           _claimAssessmentCheckListDetails?.map((v) => v.toJson()).toList();
     }
     return map;

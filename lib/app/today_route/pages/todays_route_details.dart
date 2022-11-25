@@ -52,11 +52,11 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data != null) {
                 _postCompleteDelivery = PostCompleteDelivery(
-                    claimId: snapshot.data!.orderId,
-                    address: snapshot.data!.deliveryDisplayAddress,
-                    patientFullName: snapshot.data!.patientName,
-                    );
-
+                  claimId: snapshot.data!.orderId,
+                  address: snapshot.data!.deliveryDisplayAddress,
+                  patientFullName: snapshot.data!.patientName,
+                );
+                print(snapshot.data!.phoneCall.toString());
                 return Scaffold(
                   // backgroundColor: AppColor.offWhiteColor,
                   appBar: CommonAppBar(
@@ -78,7 +78,8 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
                             phone: snapshot.data!.phoneCall.toString(),
                             deliveryAddress:
                                 "${snapshot.data!.deliveryDisplayAddress}",
-                            description: snapshot.data!.patientInsuranceName,
+                            description:
+                            snapshot.data!.serviceLines!.isEmpty?"":snapshot.data!.serviceLines![0].description??"",
                             patientName: snapshot.data!.patientName.toString(),
                           ),
                           SizedBox(
@@ -92,7 +93,9 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
                                   context,
                                   CupertinoPageRoute(
                                       builder: (context) =>
-                                          ReasonforCancellation(claimid:"${snapshot.data!.orderId}")));
+                                          ReasonforCancellation(
+                                              claimid:
+                                                  "${snapshot.data!.orderId}")));
                             },
                             borderRadius: Dimens.seven,
                             backgroundColor: AppColor.redColor,
@@ -161,7 +164,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           ),
           RowElement(
               title: AppStrings.description,
-              value: description??"",
+              value: description ?? "",
               show: true,
               address: deliveryAddress),
           SizedBox(
@@ -175,7 +178,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           SizedBox(
             height: Dimens.twenty,
           ),
-          RowElement(title: AppStrings.patient_name, value: patientName??""),
+          RowElement(title: AppStrings.patient_name, value: patientName ?? ""),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -188,7 +191,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           RowElement(
               icon: true,
               title: AppStrings.delivery_address,
-              value: deliveryAddress??""),
+              value: deliveryAddress ?? ""),
           SizedBox(height: Dimens.twenty),
           Divider(
             thickness: 1,
@@ -198,7 +201,7 @@ class _TodaysRouteDetailsState extends State<TodaysRouteDetails> {
           SizedBox(
             height: Dimens.twenty,
           ),
-          RowElement(title: AppStrings.zip_code, value: zipCode??""),
+          RowElement(title: AppStrings.zip_code, value: zipCode ?? ""),
           SizedBox(
             height: Dimens.twenty,
           ),

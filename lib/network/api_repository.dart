@@ -8,10 +8,9 @@ import 'package:bflow/app/claim_assessment/models/who_received_model.dart';
 import 'package:bflow/app/common/common_response.dart';
 import 'package:bflow/app/login/model/validate_response.dart';
 import 'package:bflow/app/pre_delivery/model/PreDeliveryIdModel.dart';
-import 'package:bflow/app/pre_delivery/model/PreDeliveryModel.dart';
+import 'package:bflow/app/pre_delivery/model/PreDeliveryListModel.dart';
 import 'package:bflow/app/pre_delivery/model/PreDeliverySaveModel.dart';
 import 'package:bflow/app/pre_delivery/model/claim_id_response.dart';
-import 'package:bflow/app/pre_delivery/model/pre_claims_model.dart';
 import 'package:bflow/app/routes_activity_list/model/get_routes_list.dart';
 import 'package:bflow/app/settings/model/change_profile_pic_model.dart';
 import 'package:bflow/app/settings/model/get_profile_pic_model.dart';
@@ -32,8 +31,8 @@ class ApiRepository {
 
   ApiRepository() {
     options = BaseOptions(
-      connectTimeout: 20000,
-      receiveTimeout: 20000,
+      connectTimeout: 400000,
+      receiveTimeout: 400000,
     );
     _dio = Dio(options);
     _dio!.options.headers['Content-Type'] = 'application/json';
@@ -169,27 +168,27 @@ class ApiRepository {
   }
 
 /*................... claim pre delivery api ..........*/
-  Future<PreClaimsModel> claimPreApi(
-      {required String userName,
-      required String fullName,
-      required String corporateId,
-      required String userId,
-      required String emailAddress}) async {
-    await getDioOptions(_dio);
-    var response = await _dio!.post(
-      ApiEndPoints.base_url + ApiEndPoints.claimDelivery,
-      data: {
-        "userName": userName,
-        "fullName": fullName,
-        "corporateId": corporateId,
-        "userId": userId,
-        "emailAddress": emailAddress
-      },
-    );
-    print("ClaimsResponse" + response.toString());
-    Map<String, dynamic> data = jsonDecode(response.toString());
-    return PreClaimsModel.fromJson(data);
-  }
+  // Future<PreClaimsModel> claimPreApi(
+  //     {required String userName,
+  //     required String fullName,
+  //     required String corporateId,
+  //     required String userId,
+  //     required String emailAddress}) async {
+  //   await getDioOptions(_dio);
+  //   var response = await _dio!.post(
+  //     ApiEndPoints.base_url + ApiEndPoints.claimDelivery,
+  //     data: {
+  //       "userName": userName,
+  //       "fullName": fullName,
+  //       "corporateId": corporateId,
+  //       "userId": userId,
+  //       "emailAddress": emailAddress
+  //     },
+  //   );
+  //   print("ClaimsResponse" + response.toString());
+  //   Map<String, dynamic> data = jsonDecode(response.toString());
+  //   return PreClaimsModel.fromJson(data);
+  // }
 
 // /*................... claim api ..........*/
 //   Future<ClaimsModel> claimsApi() async {
@@ -283,9 +282,9 @@ class ApiRepository {
 /*................... claim cancel ..........*/
   Future<ClaimIdResponse> claimsCancel({claimId, reason}) async {
     await getDioOptions(_dio);
-    var response = await _dio!.post(
+    var response = await _dio!.put(
       ApiEndPoints.base_url + ApiEndPoints.claimsCancel,
-      data: {'reason': reason, 'claimId': claimId},
+      data: {'ClaimId': claimId, 'Reason': reason},
     );
     print("ClaimsResponse" + response.toString());
     Map<String, dynamic> data = jsonDecode(response.toString());
@@ -333,15 +332,17 @@ class ApiRepository {
         completeClaimAssessment.signature!.path,
       ),
       "ClaimDetails":
-          jsonEncode(completeClaimAssessment.postCompleteDelivery!.toJson()).toString(),
-          // "{\"claimId\":${completeClaimAssessment.postCompleteDelivery!.claimId},\"checkListDetails\":[{\"header\":\"Claimchecklist.\",\"options\":[{\"id\":220,\"name\":\"Equipment delivered\",\"isSelected\":true},{\"id\":221,\"name\":\"Patient trainingandhomeevaluationcompleted\",\"isSelected\":true},{\"id\":222,\"name\":\"Vehicleinspectioncompletedfordeliverydate\",\"isSelected\":true},{\"id\":223,\"name\":\"ClaimreviewedandDOSfieldupdatedandconsistentwithDateonthesigneddeliveryticket\",\"isSelected\":true},{\"id\":224,\"name\":\"Claimmeetsallrequiredcomplianceandbillingguidelinesandisreadyforsubmission\",\"isSelected\":true}]}],"
-          //     "\"whoReceived\":{\"id\":1,\"name\":\"POA\"},"
-          //     "\"careGiverName\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverName}\",\"careGiverTitle\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverTitle}\","
-          //     "\"careGiverReasonSigned\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverReasonSigned}\","
-          //     "\"careGiverSignedPhone\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverSignedPhone}\",\"notes\":\"${completeClaimAssessment.postCompleteDelivery!.notes}\","
-          //     "\"paymentDetails\":{\"cardHolderName\":\"Developer\",\"cardNumber\":\"1234567812345678\",\"cvc\":\"123\",\"exp\":\"25/12\"}}",
+          jsonEncode(completeClaimAssessment.postCompleteDelivery!.toJson())
+              .toString(),
+      // "{\"claimId\":${completeClaimAssessment.postCompleteDelivery!.claimId},\"checkListDetails\":[{\"header\":\"Claimchecklist.\",\"options\":[{\"id\":220,\"name\":\"Equipment delivered\",\"isSelected\":true},{\"id\":221,\"name\":\"Patient trainingandhomeevaluationcompleted\",\"isSelected\":true},{\"id\":222,\"name\":\"Vehicleinspectioncompletedfordeliverydate\",\"isSelected\":true},{\"id\":223,\"name\":\"ClaimreviewedandDOSfieldupdatedandconsistentwithDateonthesigneddeliveryticket\",\"isSelected\":true},{\"id\":224,\"name\":\"Claimmeetsallrequiredcomplianceandbillingguidelinesandisreadyforsubmission\",\"isSelected\":true}]}],"
+      //     "\"whoReceived\":{\"id\":1,\"name\":\"POA\"},"
+      //     "\"careGiverName\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverName}\",\"careGiverTitle\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverTitle}\","
+      //     "\"careGiverReasonSigned\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverReasonSigned}\","
+      //     "\"careGiverSignedPhone\":\"${completeClaimAssessment.postCompleteDelivery!.careGiverSignedPhone}\",\"notes\":\"${completeClaimAssessment.postCompleteDelivery!.notes}\","
+      //     "\"paymentDetails\":{\"cardHolderName\":\"Developer\",\"cardNumber\":\"1234567812345678\",\"cvc\":\"123\",\"exp\":\"25/12\"}}",
     });
     await getDioOptions(_dio);
+
     var response = await _dio!.post(
       ApiEndPoints.base_url + ApiEndPoints.todaysroute + ApiEndPoints.save,
       data: formData,
@@ -352,10 +353,10 @@ class ApiRepository {
   }
 
   /*................... complete pre delivery ..........*/
-  Future<CommonResponse> completePreDelivery({PreDeliverySave? preDeliverySave}) async {
-
+  Future<CommonResponse> completePreDelivery(
+      {PreDeliverySave? preDeliverySave}) async {
     await getDioOptions(_dio);
-print(jsonEncode(preDeliverySave!.toJson()));
+    print(jsonEncode(preDeliverySave!.toJson()));
     var response = await _dio!.post(
         ApiEndPoints.base_url + ApiEndPoints.predelivery + ApiEndPoints.save,
         data: jsonEncode(preDeliverySave.toJson()));
@@ -383,25 +384,25 @@ print(jsonEncode(preDeliverySave!.toJson()));
     print("get CheckList" + response.toString());
   }
 
-  Future<void> saveAssessments() async {
-    await getDioOptions(_dio);
-    var formData = FormData.fromMap({
-      "image": await MultipartFile.fromFile(
-        " file.path",
-      ),
-      "ClaimId": "5655",
-      "WhoReceived": "",
-      "Name": "",
-      "Title": "",
-      "ReasonSigned": "",
-      "SignedPhone": "",
-      "ClaimNotes": "",
-    });
-
-    var response = await _dio!
-        .post(ApiEndPoints.base_url + ApiEndPoints.assessment, data: formData);
-    print("Save assessments CheckList" + response.toString());
-  }
+  // Future<void> saveAssessments() async {
+  //   await getDioOptions(_dio);
+  //   var formData = FormData.fromMap({
+  //     "image": await MultipartFile.fromFile(
+  //       " file.path",
+  //     ),
+  //     "ClaimId": "5655",
+  //     "WhoReceived": "",
+  //     "Name": "",
+  //     "Title": "",
+  //     "ReasonSigned": "",
+  //     "SignedPhone": "",
+  //     "ClaimNotes": "",
+  //   });
+  //
+  //   var response = await _dio!
+  //       .post(ApiEndPoints.base_url + ApiEndPoints.assessment, data: formData);
+  //   print("Save assessments CheckList" + response.toString());
+  // }
 
   Future<CommonResponse> saveClaimAssessments(
       {required List<XFile> file, userId}) async {
@@ -430,7 +431,7 @@ print(jsonEncode(preDeliverySave!.toJson()));
     String authTOKEN;
     SharedPreferenceData.gettoken().then((value) {
       authTOKEN = value;
-
+      print("authTOKEN $authTOKEN");
       if (authTOKEN != null) {
         _dio.interceptors.add(InterceptorsWrapper(
           onRequest: (request, requestInterceptorHandler) {

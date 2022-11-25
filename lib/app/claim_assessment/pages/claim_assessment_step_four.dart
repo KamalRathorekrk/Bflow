@@ -16,6 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 class ClaimAssementStepFour extends StatefulWidget {
   CompleteClaimAssessment? completeClaimAssessment;
@@ -43,6 +44,68 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
     claimAssementsBloc = ClaimAssementsBloc();
     super.initState();
   }
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Colors.grey[200],
+      nextFocus: true,
+      actions: [
+        KeyboardActionsItem(
+          focusNode: _cardHolderFocusNode,
+            toolbarButtons: [
+                  (node) {
+                return GestureDetector(
+                  onTap: () => node.unfocus(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(Icons.close),
+                  ),
+                );
+              }
+            ]
+        ),
+        KeyboardActionsItem(focusNode: _cardNumberFocusNode, toolbarButtons: [
+              (node) {
+            return GestureDetector(
+              onTap: () => node.unfocus(),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.close),
+              ),
+            );
+          }
+        ]),
+        KeyboardActionsItem(
+          focusNode: _cvcFocusNode,
+          toolbarButtons: [
+                (node) {
+              return GestureDetector(
+                onTap: () => node.unfocus(),
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.close),
+                ),
+              );
+            }
+          ],
+        ),
+        KeyboardActionsItem(
+          focusNode: _expFocusNode,
+            toolbarButtons: [
+                  (node) {
+                return GestureDetector(
+                  onTap: () => node.unfocus(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('Done'),
+                  ),
+                );
+              }
+            ]
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,97 +119,100 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
           Container(
             child: Stack(
               children: [
-                Container(
-                  child: Column(
-                    children: [
-                      CommonHeader(
-                        step: 4,
-                        postCompleteDelivery: widget
-                            .completeClaimAssessment!.postCompleteDelivery,
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Dimens.thirtyFive,
-                            vertical: Dimens.twentyEight),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CommonTextWidget(
-                              text: AppStrings.add_payment_card,
-                              fontSize: Dimens.sixteen,
-                              fontWeight: FontWeight.w600,
-                              fontColor: AppColor.blackColor,
-                            ),
-                            SizedBox(
-                              height: Dimens.twentyFive,
-                            ),
-                            CommonTextFieldSimple(
-                              keyboardType: TextInputType.text,
-                              textEditingController: _cardHolderNameController,
-                              borderColor: AppColor.offWhite97Color,
-                              labelText: AppStrings.cardholder_name,
-                              color: AppColor.hintTextColor,
-                              focusNode: _cardHolderFocusNode,
-                              onSubmit: (val) => FocusScope.of(context)
-                                  .requestFocus(_cardNumberFocusNode),
-                            ),
-                            CommonTextFieldSimple(
-                              keyboardType: TextInputType.number,
-                              textEditingController: _cardNumberController,
-                              borderColor: AppColor.offWhite97Color,
-                              labelText: AppStrings.card_number,
-                              color: AppColor.hintTextColor,
-                              focusNode: _cardNumberFocusNode,
-                              onSubmit: (val) => FocusScope.of(context)
-                                  .requestFocus(_cvcFocusNode),
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(16),
-                                CardNumberInputFormatter()
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: CommonTextFieldSimple(
-                                    keyboardType: TextInputType.number,
-                                    textEditingController: _cvcController,
-                                    borderColor: AppColor.offWhite97Color,
-                                    labelText: AppStrings.cvc,
-                                    color: AppColor.hintTextColor,
-                                    focusNode: _cvcFocusNode,
-                                    onSubmit: (val) => FocusScope.of(context)
-                                        .requestFocus(_expFocusNode),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(3),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: Dimens.ten,
-                                ),
-                                Expanded(
-                                  child: CommonTextFieldSimple(
-                                    keyboardType: TextInputType.number,
-                                    textEditingController: _expController,
-                                    borderColor: AppColor.offWhite97Color,
-                                    labelText: AppStrings.exp,
-                                    color: AppColor.hintTextColor,
-                                    focusNode: _expFocusNode,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(4),
-                                      CardNumberExpInputFormatter()
-                                    ],
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
+                KeyboardActions(
+                  config: _buildConfig(context),
+                  child: Container(
+                    child: Column(
+                      children: [
+                        CommonHeader(
+                          step: 4,
+                          postCompleteDelivery: widget
+                              .completeClaimAssessment!.postCompleteDelivery,
                         ),
-                      ),
-                    ],
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Dimens.thirtyFive,
+                              vertical: Dimens.twentyEight),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CommonTextWidget(
+                                text: AppStrings.add_payment_card,
+                                fontSize: Dimens.sixteen,
+                                fontWeight: FontWeight.w600,
+                                fontColor: AppColor.blackColor,
+                              ),
+                              SizedBox(
+                                height: Dimens.twentyFive,
+                              ),
+                              CommonTextFieldSimple(
+                                keyboardType: TextInputType.text,
+                                textEditingController: _cardHolderNameController,
+                                borderColor: AppColor.offWhite97Color,
+                                labelText: AppStrings.cardholder_name,
+                                color: AppColor.hintTextColor,
+                                focusNode: _cardHolderFocusNode,
+                                onSubmit: (val) => FocusScope.of(context)
+                                    .requestFocus(_cardNumberFocusNode),
+                              ),
+                              CommonTextFieldSimple(
+                                keyboardType: TextInputType.number,
+                                textEditingController: _cardNumberController,
+                                borderColor: AppColor.offWhite97Color,
+                                labelText: AppStrings.card_number,
+                                color: AppColor.hintTextColor,
+                                focusNode: _cardNumberFocusNode,
+                                onSubmit: (val) => FocusScope.of(context)
+                                    .requestFocus(_cvcFocusNode),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(16),
+                                  CardNumberInputFormatter()
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: CommonTextFieldSimple(
+                                      keyboardType: TextInputType.number,
+                                      textEditingController: _cvcController,
+                                      borderColor: AppColor.offWhite97Color,
+                                      labelText: AppStrings.cvc,
+                                      color: AppColor.hintTextColor,
+                                      focusNode: _cvcFocusNode,
+                                      onSubmit: (val) => FocusScope.of(context)
+                                          .requestFocus(_expFocusNode),
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        LengthLimitingTextInputFormatter(3),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: Dimens.ten,
+                                  ),
+                                  Expanded(
+                                    child: CommonTextFieldSimple(
+                                      keyboardType: TextInputType.number,
+                                      textEditingController: _expController,
+                                      borderColor: AppColor.offWhite97Color,
+                                      labelText: AppStrings.exp,
+                                      color: AppColor.hintTextColor,
+                                      focusNode: _expFocusNode,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        LengthLimitingTextInputFormatter(4),
+                                        CardNumberExpInputFormatter()
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(
@@ -315,7 +381,7 @@ class _ClaimAssementStepFourState extends State<ClaimAssementStepFour> {
 
       if (!hasDateExpired(month!, year!)) {
         // Utils.showErrorSnackBar(context: context, message: 'Card has expired');
-        // _expFocusNode!.requestFocus();
+        _expFocusNode.requestFocus();
         return false;
         // return "Card has expired";
       }
@@ -415,3 +481,4 @@ class CardNumberExpInputFormatter extends TextInputFormatter {
         selection: TextSelection.collapsed(offset: string.length));
   }
 }
+

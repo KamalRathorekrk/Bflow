@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (value == "true") {
           getLocalData();
           Navigator.pushReplacement(context,
-              CupertinoPageRoute(builder: (context) => BottomNavigationPage()));
+              CupertinoPageRoute(builder: (context) => BottomNavigationPage(selectedIndex: 0,)));
         } else {
           Navigator.pushReplacement(
               context, CupertinoPageRoute(builder: (context) => LoginPage()));

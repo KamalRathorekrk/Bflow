@@ -4,31 +4,42 @@
 
 class PreDeliveryIdModel {
   PreDeliveryIdModel({
-      String? responseType, 
-      PreDeliveryObject? responseObject,
-      String? responseMessage,}){
+    String? responseType,
+    PreDeliveryObject? responseObject,
+    String? responseMessage,
+  }) {
     _responseType = responseType;
     _responseObject = responseObject;
     _responseMessage = responseMessage;
-}
+  }
 
   PreDeliveryIdModel.fromJson(dynamic json) {
     _responseType = json['responseType'];
-    _responseObject = json['responseObject'] != null ? PreDeliveryObject.fromJson(json['responseObject']) : null;
+    _responseObject = json['responseObject'] != null
+        ? PreDeliveryObject.fromJson(json['responseObject'])
+        : null;
     _responseMessage = json['responseMessage'];
   }
+
   String? _responseType;
   PreDeliveryObject? _responseObject;
   String? _responseMessage;
-PreDeliveryIdModel copyWith({  String? responseType,
-  PreDeliveryObject? responseObject,
-  String? responseMessage,
-}) => PreDeliveryIdModel(  responseType: responseType ?? _responseType,
-  responseObject: responseObject ?? _responseObject,
-  responseMessage: responseMessage ?? _responseMessage,
-);
+
+  PreDeliveryIdModel copyWith({
+    String? responseType,
+    PreDeliveryObject? responseObject,
+    String? responseMessage,
+  }) =>
+      PreDeliveryIdModel(
+        responseType: responseType ?? _responseType,
+        responseObject: responseObject ?? _responseObject,
+        responseMessage: responseMessage ?? _responseMessage,
+      );
+
   String? get responseType => _responseType;
+
   PreDeliveryObject? get responseObject => _responseObject;
+
   String? get responseMessage => _responseMessage;
 
   Map<String, dynamic> toJson() {
@@ -40,7 +51,6 @@ PreDeliveryIdModel copyWith({  String? responseType,
     map['responseMessage'] = _responseMessage;
     return map;
   }
-
 }
 
 /// claimId : 5648
@@ -52,19 +62,20 @@ PreDeliveryIdModel copyWith({  String? responseType,
 
 class PreDeliveryObject {
   PreDeliveryObject({
-      int? claimId, 
-      List<Items>? items, 
-      String? patientName, 
-      DeliveryAddress? deliveryAddress, 
-      String? phoneNumber, 
-      List<PreCheckListDetails>? checkListDetails,}){
+    int? claimId,
+    List<Items>? items,
+    String? patientName,
+    DeliveryAddress? deliveryAddress,
+    String? phoneNumber,
+    List<PreCheckListDetails>? checkListDetails,
+  }) {
     _claimId = claimId;
     _items = items;
     _patientName = patientName;
     _deliveryAddress = deliveryAddress;
     _phoneNumber = phoneNumber;
     _checkListDetails = checkListDetails;
-}
+  }
 
   PreDeliveryObject.fromJson(dynamic json) {
     _claimId = json['claimId'];
@@ -75,7 +86,9 @@ class PreDeliveryObject {
       });
     }
     _patientName = json['patientName'];
-    _deliveryAddress = json['deliveryAddress'] != null ? DeliveryAddress.fromJson(json['deliveryAddress']) : null;
+    _deliveryAddress = json['deliveryAddress'] != null
+        ? DeliveryAddress.fromJson(json['deliveryAddress'])
+        : null;
     _phoneNumber = json['phoneNumber'];
     if (json['checkListDetails'] != null) {
       _checkListDetails = [];
@@ -84,30 +97,41 @@ class PreDeliveryObject {
       });
     }
   }
+
   int? _claimId;
   List<Items>? _items;
   String? _patientName;
   DeliveryAddress? _deliveryAddress;
   String? _phoneNumber;
   List<PreCheckListDetails>? _checkListDetails;
-PreDeliveryObject copyWith({  int? claimId,
-  List<Items>? items,
-  String? patientName,
-  DeliveryAddress? deliveryAddress,
-  String? phoneNumber,
-  List<PreCheckListDetails>? checkListDetails,
-}) => PreDeliveryObject(  claimId: claimId ?? _claimId,
-  items: items ?? _items,
-  patientName: patientName ?? _patientName,
-  deliveryAddress: deliveryAddress ?? _deliveryAddress,
-  phoneNumber: phoneNumber ?? _phoneNumber,
-  checkListDetails: checkListDetails ?? _checkListDetails,
-);
+
+  PreDeliveryObject copyWith({
+    int? claimId,
+    List<Items>? items,
+    String? patientName,
+    DeliveryAddress? deliveryAddress,
+    String? phoneNumber,
+    List<PreCheckListDetails>? checkListDetails,
+  }) =>
+      PreDeliveryObject(
+        claimId: claimId ?? _claimId,
+        items: items ?? _items,
+        patientName: patientName ?? _patientName,
+        deliveryAddress: deliveryAddress ?? _deliveryAddress,
+        phoneNumber: phoneNumber ?? _phoneNumber,
+        checkListDetails: checkListDetails ?? _checkListDetails,
+      );
+
   int? get claimId => _claimId;
+
   List<Items>? get items => _items;
+
   String? get patientName => _patientName;
+
   DeliveryAddress? get deliveryAddress => _deliveryAddress;
+
   String? get phoneNumber => _phoneNumber;
+
   List<PreCheckListDetails>? get checkListDetails => _checkListDetails;
 
   Map<String, dynamic> toJson() {
@@ -122,11 +146,11 @@ PreDeliveryObject copyWith({  int? claimId,
     }
     map['phoneNumber'] = _phoneNumber;
     if (_checkListDetails != null) {
-      map['checkListDetails'] = _checkListDetails?.map((v) => v.toJson()).toList();
+      map['checkListDetails'] =
+          _checkListDetails?.map((v) => v.toJson()).toList();
     }
     return map;
   }
-
 }
 
 /// header : "Claim check list."
@@ -134,11 +158,12 @@ PreDeliveryObject copyWith({  int? claimId,
 
 class PreCheckListDetails {
   PreCheckListDetails({
-      String? header, 
-      List<Options>? options,}){
+    String? header,
+    List<Options>? options,
+  }) {
     _header = header;
     _options = options;
-}
+  }
 
   PreCheckListDetails.fromJson(dynamic json) {
     _header = json['header'];
@@ -149,14 +174,21 @@ class PreCheckListDetails {
       });
     }
   }
+
   String? _header;
   List<Options>? _options;
-PreCheckListDetails copyWith({  String? header,
-  List<Options>? options,
-}) => PreCheckListDetails(  header: header ?? _header,
-  options: options ?? _options,
-);
+
+  PreCheckListDetails copyWith({
+    String? header,
+    List<Options>? options,
+  }) =>
+      PreCheckListDetails(
+        header: header ?? _header,
+        options: options ?? _options,
+      );
+
   String? get header => _header;
+
   List<Options>? get options => _options;
 
   Map<String, dynamic> toJson() {
@@ -167,7 +199,6 @@ PreCheckListDetails copyWith({  String? header,
     }
     return map;
   }
-
 }
 
 /// id : 216
@@ -176,14 +207,14 @@ PreCheckListDetails copyWith({  String? header,
 
 class Options {
   Options({
-      int? id, 
-      String? name, 
-      bool? isSelected,}){
+    int? id,
+    String? name,
+    bool? isSelected,
+  }) {
     _id = id;
     _name = name;
     _isSelected = isSelected;
-}
-
+  }
 
   set isSelectedSet(bool value) {
     _isSelected = value;
@@ -194,18 +225,26 @@ class Options {
     _name = json['name'];
     _isSelected = json['isSelected'];
   }
+
   int? _id;
   String? _name;
   bool? _isSelected;
-Options copyWith({  int? id,
-  String? name,
-  bool? isSelected,
-}) => Options(  id: id ?? _id,
-  name: name ?? _name,
-  isSelected: isSelected ?? _isSelected,
-);
+
+  Options copyWith({
+    int? id,
+    String? name,
+    bool? isSelected,
+  }) =>
+      Options(
+        id: id ?? _id,
+        name: name ?? _name,
+        isSelected: isSelected ?? _isSelected,
+      );
+
   int? get id => _id;
+
   String? get name => _name;
+
   bool? get isSelected => _isSelected;
 
   Map<String, dynamic> toJson() {
@@ -215,7 +254,6 @@ Options copyWith({  int? id,
     map['isSelected'] = _isSelected;
     return map;
   }
-
 }
 
 /// address : "10 Sie Ave"
@@ -225,15 +263,16 @@ Options copyWith({  int? id,
 
 class DeliveryAddress {
   DeliveryAddress({
-      String? address, 
-      String? city, 
-      String? state, 
-      String? zipCode,}){
+    String? address,
+    String? city,
+    String? state,
+    String? zipCode,
+  }) {
     _address = address;
     _city = city;
     _state = state;
     _zipCode = zipCode;
-}
+  }
 
   DeliveryAddress.fromJson(dynamic json) {
     _address = json['address'];
@@ -241,22 +280,31 @@ class DeliveryAddress {
     _state = json['state'];
     _zipCode = json['zipCode'];
   }
+
   String? _address;
   String? _city;
   String? _state;
   String? _zipCode;
-DeliveryAddress copyWith({  String? address,
-  String? city,
-  String? state,
-  String? zipCode,
-}) => DeliveryAddress(  address: address ?? _address,
-  city: city ?? _city,
-  state: state ?? _state,
-  zipCode: zipCode ?? _zipCode,
-);
+
+  DeliveryAddress copyWith({
+    String? address,
+    String? city,
+    String? state,
+    String? zipCode,
+  }) =>
+      DeliveryAddress(
+        address: address ?? _address,
+        city: city ?? _city,
+        state: state ?? _state,
+        zipCode: zipCode ?? _zipCode,
+      );
+
   String? get address => _address;
+
   String? get city => _city;
+
   String? get state => _state;
+
   String? get zipCode => _zipCode;
 
   Map<String, dynamic> toJson() {
@@ -267,7 +315,6 @@ DeliveryAddress copyWith({  String? address,
     map['zipCode'] = _zipCode;
     return map;
   }
-
 }
 
 /// id : 8772
@@ -281,14 +328,15 @@ DeliveryAddress copyWith({  String? address,
 
 class Items {
   Items({
-      int? id, 
-      String? hcpc, 
-      String? description, 
-      dynamic serial, 
-      int? qty, 
-      dynamic model, 
-      dynamic manufacturer, 
-      List<InventoryOptions>? inventoryOptions,}){
+    int? id,
+    String? hcpc,
+    String? description,
+    dynamic serial,
+    int? qty,
+    dynamic model,
+    dynamic manufacturer,
+    List<InventoryOptions>? inventoryOptions,
+  }) {
     _id = id;
     _hcpc = hcpc;
     _description = description;
@@ -297,7 +345,7 @@ class Items {
     _model = model;
     _manufacturer = manufacturer;
     _inventoryOptions = inventoryOptions;
-}
+  }
 
   Items.fromJson(dynamic json) {
     _id = json['id'];
@@ -314,6 +362,7 @@ class Items {
       });
     }
   }
+
   int? _id;
   String? _hcpc;
   String? _description;
@@ -322,30 +371,42 @@ class Items {
   dynamic _model;
   dynamic _manufacturer;
   List<InventoryOptions>? _inventoryOptions;
-Items copyWith({  int? id,
-  String? hcpc,
-  String? description,
-  dynamic serial,
-  int? qty,
-  dynamic model,
-  dynamic manufacturer,
-  List<InventoryOptions>? inventoryOptions,
-}) => Items(  id: id ?? _id,
-  hcpc: hcpc ?? _hcpc,
-  description: description ?? _description,
-  serial: serial ?? _serial,
-  qty: qty ?? _qty,
-  model: model ?? _model,
-  manufacturer: manufacturer ?? _manufacturer,
-  inventoryOptions: inventoryOptions ?? _inventoryOptions,
-);
+
+  Items copyWith({
+    int? id,
+    String? hcpc,
+    String? description,
+    dynamic serial,
+    int? qty,
+    dynamic model,
+    dynamic manufacturer,
+    List<InventoryOptions>? inventoryOptions,
+  }) =>
+      Items(
+        id: id ?? _id,
+        hcpc: hcpc ?? _hcpc,
+        description: description ?? _description,
+        serial: serial ?? _serial,
+        qty: qty ?? _qty,
+        model: model ?? _model,
+        manufacturer: manufacturer ?? _manufacturer,
+        inventoryOptions: inventoryOptions ?? _inventoryOptions,
+      );
+
   int? get id => _id;
+
   String? get hcpc => _hcpc;
+
   String? get description => _description;
+
   dynamic get serial => _serial;
+
   int? get qty => _qty;
+
   dynamic get model => _model;
+
   dynamic get manufacturer => _manufacturer;
+
   List<InventoryOptions>? get inventoryOptions => _inventoryOptions;
 
   Map<String, dynamic> toJson() {
@@ -358,11 +419,11 @@ Items copyWith({  int? id,
     map['model'] = _model;
     map['manufacturer'] = _manufacturer;
     if (_inventoryOptions != null) {
-      map['inventoryOptions'] = _inventoryOptions?.map((v) => v.toJson()).toList();
+      map['inventoryOptions'] =
+          _inventoryOptions?.map((v) => v.toJson()).toList();
     }
     return map;
   }
-
 }
 
 /// id : 19
@@ -373,17 +434,18 @@ Items copyWith({  int? id,
 
 class InventoryOptions {
   InventoryOptions({
-      int? id, 
-      dynamic serialNo, 
-      String? model, 
-      String? manufacturer, 
-      String? displayText,}){
+    int? id,
+    dynamic serialNo,
+    String? model,
+    String? manufacturer,
+    String? displayText,
+  }) {
     _id = id;
     _serialNo = serialNo;
     _model = model;
     _manufacturer = manufacturer;
     _displayText = displayText;
-}
+  }
 
   InventoryOptions.fromJson(dynamic json) {
     _id = json['id'];
@@ -392,26 +454,36 @@ class InventoryOptions {
     _manufacturer = json['manufacturer'];
     _displayText = json['displayText'];
   }
+
   int? _id;
   dynamic _serialNo;
   String? _model;
   String? _manufacturer;
   String? _displayText;
-InventoryOptions copyWith({  int? id,
-  dynamic serialNo,
-  String? model,
-  String? manufacturer,
-  String? displayText,
-}) => InventoryOptions(  id: id ?? _id,
-  serialNo: serialNo ?? _serialNo,
-  model: model ?? _model,
-  manufacturer: manufacturer ?? _manufacturer,
-  displayText: displayText ?? _displayText,
-);
+
+  InventoryOptions copyWith({
+    int? id,
+    dynamic serialNo,
+    String? model,
+    String? manufacturer,
+    String? displayText,
+  }) =>
+      InventoryOptions(
+        id: id ?? _id,
+        serialNo: serialNo ?? _serialNo,
+        model: model ?? _model,
+        manufacturer: manufacturer ?? _manufacturer,
+        displayText: displayText ?? _displayText,
+      );
+
   int? get id => _id;
+
   dynamic get serialNo => _serialNo;
+
   String? get model => _model;
+
   String? get manufacturer => _manufacturer;
+
   String? get displayText => _displayText;
 
   Map<String, dynamic> toJson() {
@@ -423,5 +495,4 @@ InventoryOptions copyWith({  int? id,
     map['displayText'] = _displayText;
     return map;
   }
-
 }

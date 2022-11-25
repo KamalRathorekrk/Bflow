@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bflow/utils/CommonCheckListModel.dart';
+import 'package:image_picker/image_picker.dart';
 
 /// claimId : 5655
 /// item : "Amazon Product"
@@ -11,7 +12,7 @@ import 'package:bflow/utils/CommonCheckListModel.dart';
 /// orderReceiverOptions : [{"whoReceived":"1","name":"test","title":"test-title","reasonSigned":"No Reason","signedPhone":"7329832","claimNotes":"test notes"}]
 class CompleteClaimAssessment {
   File? _signature;
-  List<File>? _attachments;
+  List<XFile>? _attachments;
 
   CompleteClaimAssessment(
       {PostCompleteDelivery? postCompleteDelivery, attachments, signature}) {
@@ -20,7 +21,7 @@ class CompleteClaimAssessment {
     _signature = signature;
   }
 
-  List<File>? get attachments => _attachments;
+  List<XFile>? get attachments => _attachments;
 
   File? get signature => _signature;
   PostCompleteDelivery? _postCompleteDelivery;

@@ -1,6 +1,5 @@
 import 'package:bflow/app/common_widget/common_app_bar.dart';
 import 'package:bflow/app/common_widget/common_text_widget.dart';
-import 'package:bflow/app/common_widget/custom_progress_indicator.dart';
 import 'package:bflow/app/routes_activity_list/model/get_routes_list.dart';
 import 'package:bflow/utils/AppColors.dart';
 import 'package:bflow/utils/AppImages.dart';
@@ -26,46 +25,46 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: AppColor.offWhiteColor));
     return Scaffold(
-            appBar: CommonAppBar(
-              text: "Claim: #${widget.responseRoutes!.orderId}",
-            ),
-            body: SingleChildScrollView(
-              controller: ScrollController(),
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                padding: EdgeInsets.symmetric(
-                    horizontal: Dimens.twenty, vertical: Dimens.ten),
-                color: AppColor.offWhiteColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CenterContainer(widget.responseRoutes!),
-                    SizedBox(
-                      height: Dimens.twentyFive,
-                    ),
-                    CommonTextWidget(
-                      text: AppStrings.reason_for_cancellation,
-                      fontSize: Dimens.forteen,
-                      fontColor: AppColor.blackColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    SizedBox(
-                      height: Dimens.twenty,
-                    ),
-                    Expanded(
-                      child: CommonTextWidget(
-                        text: "${widget.responseRoutes!.comments??""}",
-                        fontSize: Dimens.forteen,
-                        fontColor: AppColor.blackColor,
-                        fontWeight: FontWeight.w400,
-                        height: 1.6,
-                      ),
-                    ),
-                  ],
+      appBar: CommonAppBar(
+        text: "Claim: #${widget.responseRoutes!.orderId}",
+      ),
+      body: SingleChildScrollView(
+        controller: ScrollController(),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          padding: EdgeInsets.symmetric(
+              horizontal: Dimens.twenty, vertical: Dimens.ten),
+          color: AppColor.offWhiteColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CenterContainer(widget.responseRoutes!),
+              SizedBox(
+                height: Dimens.twentyFive,
+              ),
+              CommonTextWidget(
+                text: AppStrings.reason_for_cancellation,
+                fontSize: Dimens.forteen,
+                fontColor: AppColor.blackColor,
+                fontWeight: FontWeight.w600,
+              ),
+              SizedBox(
+                height: Dimens.twenty,
+              ),
+              Expanded(
+                child: CommonTextWidget(
+                  text: "${widget.responseRoutes!.cancelReason ?? ""}",
+                  fontSize: Dimens.forteen,
+                  fontColor: AppColor.blackColor,
+                  fontWeight: FontWeight.w400,
+                  height: 1.6,
                 ),
               ),
-            ),
-          );
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget CenterContainer(ResponseRoutes responseRoutes) {
@@ -84,7 +83,12 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
           SizedBox(
             height: Dimens.fifteen,
           ),
-          RowElement(title: AppStrings.description, value: "", show: true),
+          RowElement(
+              title: AppStrings.description,
+              value: responseRoutes.items!.isEmpty
+                  ? ""
+                  : responseRoutes.items?[0].description,
+              show: true),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -98,7 +102,7 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
           ),
           RowElement(
               title: AppStrings.patient_name,
-              value: responseRoutes.patientFullName),
+              value: responseRoutes.patientFullName ?? ""),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -134,7 +138,11 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
           SizedBox(
             height: Dimens.twenty,
           ),
-          RowElement(title: AppStrings.phone_number, value: ""),
+          RowElement(
+              title: AppStrings.phone_number,
+              value: "${responseRoutes.phoneNumber ?? ""}".replaceAllMapped(
+                  RegExp(r'(\d{3})(\d{3})(\d+)'),
+                  (Match m) => "(${m[1]}) ${m[2]}-${m[3]}")),
           SizedBox(
             height: Dimens.twenty,
           ),
@@ -159,39 +167,46 @@ class _DetailsCancelationState extends State<DetailsCancelation> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Visibility(
-                    visible: icon ?? false,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: Dimens.four),
-                      child: SvgPicture.asset(AppImages.location),
-                    )),
-                CommonTextWidget(
-                  text: "${value}",
-                  fontSize: Dimens.forteen,
-                  fontColor: AppColor.blackColor,
-                  fontWeight: FontWeight.w500,
-                ),
-              ],
-            ),
-            Visibility(
-                visible: show ?? false,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: AppColor.redColor,
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  padding: EdgeInsets.symmetric(
-                      vertical: Dimens.five, horizontal: Dimens.eight),
-                  child: Center(
+            Expanded(
+              flex: 3,
+              child: Row(
+                children: [
+                  Visibility(
+                      visible: icon ?? false,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: Dimens.four),
+                        child: SvgPicture.asset(AppImages.location),
+                      )),
+                  Expanded(
                     child: CommonTextWidget(
-                      text: AppStrings.cancelled,
-                      fontColor: AppColor.whiteColor,
+                      text: "${value}",
+                      fontSize: Dimens.forteen,
+                      fontColor: AppColor.blackColor,
                       fontWeight: FontWeight.w500,
-                      fontSize: Dimens.eleven,
                     ),
                   ),
-                )),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Visibility(
+                  visible: show ?? false,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: AppColor.redColor,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    padding: EdgeInsets.symmetric(
+                        vertical: Dimens.five, horizontal: Dimens.eight),
+                    child: Center(
+                      child: CommonTextWidget(
+                        text: AppStrings.cancelled,
+                        fontColor: AppColor.whiteColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: Dimens.eleven,
+                      ),
+                    ),
+                  )),
+            ),
           ],
         ),
       ],

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:bflow/app/claim_assessment/bloc/claims_assessment_bloc.dart';
@@ -36,7 +35,7 @@ class ClaimAssementStepTwo extends StatefulWidget {
 
 class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
   final ImagePicker _picker = ImagePicker();
-  List<File> imageList = [];
+  List<XFile> imageList = [];
   ReceiverData? whoRecived;
   String whoRecivedString = "";
   final _nameController = TextEditingController();
@@ -169,13 +168,14 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
             color: AppColor.hintTextColor,
             focusNode: _signedPhoneFocusNode,
             keyboardType: TextInputType.phone,
-            // inputFormatters: [
-            //   // MaskedInputFormatter('+# (###) ### ####')
-            //   PhoneInputFormatter(
-            //     allowEndlessPhone: true,
-            //     onCountrySelected: _onCountrySelected,
-            //   )
-            // ],
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(10),
+              // MaskedInputFormatter('+# (###) ### ####')
+              // PhoneInputFormatter(
+              //   allowEndlessPhone: false,
+              //   onCountrySelected: _onCountrySelected
+              // )
+            ],
           ),
           SizedBox(
             height: Dimens.ten,
@@ -360,19 +360,19 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
   }
 
   _openGallery(BuildContext context) async {
-    XFile? image = await _picker.pickImage(
-      source: ImageSource.gallery,
+    List<XFile>? image = await _picker.pickMultiImage(
+      // source: ImageSource.gallery,
       maxHeight: 480,
       maxWidth: 640,
     );
 
     setState(() {
       if (image != null) {
-        imageList.add(File(image.path));
+        imageList += image;
       }
     });
     setState(() {});
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
   }
 
   _openCamera(BuildContext context) async {
@@ -381,10 +381,10 @@ class _ClaimAssementStepTwoState extends State<ClaimAssementStepTwo> {
     print(image!.path);
     setState(() {
       if (image != null) {
-        imageList.add(File(image.path));
+        imageList.add(image);
       }
     });
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
   }
 
   Widget imageContainer() {

@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 class ReasonforCancellation extends StatefulWidget {
   final String? claimid;
 
-
   ReasonforCancellation({this.claimid});
 
   @override

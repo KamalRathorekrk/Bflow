@@ -85,6 +85,8 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
     );
   }
 
+  String signature = '';
+
   listData({List<ResponseRoutes>? data}) {
     return ListView.builder(
         shrinkWrap: true,
@@ -93,6 +95,14 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
         itemCount: data!.length,
         itemBuilder: (context, position) {
           if (data[position].isCancelled == false) {
+            data[position].signature?.forEach((element) {
+              if (element.name!.contains("${data[position].orderId}")) {
+                print(element.url);
+                signature = element.url.toString();
+                // setState(() {});
+              }
+            });
+
             return detailCardSucessWidget(data[position]);
           } else {
             return detailCardCancelWidget(data[position]);
@@ -179,12 +189,12 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            data.signature!.length >= 1
+                            data.signature!.isNotEmpty
                                 ? Container(
                                     // width: 166,
                                     height: 103,
                                     child: Image.network(
-                                      data.signature![0].url!,
+                                      signature,
                                       fit: BoxFit.cover,
                                       errorBuilder:
                                           (context, exception, stackTrace) {

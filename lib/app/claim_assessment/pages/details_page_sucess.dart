@@ -30,6 +30,7 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
   var _phoneNumberController = TextEditingController(text: '');
   var _whoReceviedController = TextEditingController(text: '');
   CheckListBlock? _checkListBlock;
+  String signature = "";
 
   @override
   void initState() {
@@ -46,6 +47,13 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
     _reasonSignedController = TextEditingController(
         text: "${widget.responseRoutes.careGiverReasonSigned ?? ""}");
     _checkListBlock!.getCheckList(widget.responseRoutes.orderId);
+    widget.responseRoutes.signature?.forEach((element) {
+      if (element.name!.contains("${widget.responseRoutes.orderId}")) {
+        print(element.url);
+        signature = element.url.toString();
+        // setState(() {});
+      }
+    });
     super.initState();
   }
 
@@ -450,7 +458,7 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
             height: Dimens.ten,
           ),
           CommonTextWidget(
-            text: data.notes?[0] ?? "",
+            text: data.notes?[1] ?? "",
             fontSize: Dimens.forteen,
             fontWeight: FontWeight.w400,
             fontColor: AppColor.blackColor,
@@ -516,10 +524,10 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
   }
 
   Widget signatureContainer(imageList) {
-    if (imageList.length == 0)
-      return Container();
-    else
-      return Container(
+    // if (imageList.length == 0)
+    //   return Container();
+    // else
+    return Container(
           color: Colors.white,
           height: 200,
           width: MediaQuery.of(context).size.width,
@@ -530,7 +538,7 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
             left: Dimens.ten,
           ),
           child: Image.network(
-            imageList[0].url,
+            signature,
             fit: BoxFit.contain,
             errorBuilder: (c, s, e) {
               return SizedBox();

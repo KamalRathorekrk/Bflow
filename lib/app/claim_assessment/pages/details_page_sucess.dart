@@ -458,7 +458,7 @@ class _DetailsPageSucessState extends State<DetailsPageSucess> {
             height: Dimens.ten,
           ),
           CommonTextWidget(
-            text: data.notes?[1] ?? "",
+            text: data.notes?[0] ?? "",
             fontSize: Dimens.forteen,
             fontWeight: FontWeight.w400,
             fontColor: AppColor.blackColor,

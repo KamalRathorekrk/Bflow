@@ -31,8 +31,8 @@ class ApiRepository {
 
   ApiRepository() {
     options = BaseOptions(
-      connectTimeout: 400000,
-      receiveTimeout: 400000,
+      connectTimeout: 600000,
+      receiveTimeout: 600000,
     );
     _dio = Dio(options);
     _dio!.options.headers['Content-Type'] = 'application/json';
@@ -303,10 +303,10 @@ class ApiRepository {
   }
 
 /*................... routes activity list ..........*/
-  Future<GetRoutesList> routeAcivityList() async {
+  Future<GetRoutesList> routeAcivityList({pageNumber, pageSize}) async {
     await getDioOptions(_dio);
     var response = await _dio!.get(
-      ApiEndPoints.base_url + ApiEndPoints.routeActivityList,
+      ApiEndPoints.base_url + ApiEndPoints.routeActivityList+"?PageNumber=$pageNumber&PageSize=$pageSize",
     );
     print(" Routes" + response.toString());
     Map<String, dynamic> data = jsonDecode(response.toString());

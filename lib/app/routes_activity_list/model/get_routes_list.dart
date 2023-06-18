@@ -5,44 +5,75 @@
 class GetRoutesList {
   GetRoutesList({
     String? responseType,
-    List<ResponseRoutes>? responseRoutes,
+    ResponseObject? responseObject,
     dynamic responseMessage,
   }) {
     _responseType = responseType;
-    _responseRoutes = responseRoutes;
+    _responseObject = responseObject;
     _responseMessage = responseMessage;
   }
 
   GetRoutesList.fromJson(dynamic json) {
     _responseType = json['responseType'];
-    if (json['responseObject'] != null) {
-      _responseRoutes = [];
-      json['responseObject'].forEach((v) {
-        _responseRoutes?.add(ResponseRoutes.fromJson(v));
-      });
-    }
+    _responseObject = json['responseObject'] != null
+        ? new ResponseObject.fromJson(json['responseObject'])
+        : null;
     _responseMessage = json['responseMessage'];
   }
 
   String? _responseType;
-  List<ResponseRoutes>? _responseRoutes;
+  ResponseObject? _responseObject;
   dynamic _responseMessage;
 
   String? get responseType => _responseType;
 
-  List<ResponseRoutes>? get responseRoutes => _responseRoutes;
+  ResponseObject? get responseObject => _responseObject;
 
   dynamic get responseMessage => _responseMessage;
+}
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['responseType'] = _responseType;
-    if (_responseRoutes != null) {
-      map['responseObject'] = _responseRoutes?.map((v) => v.toJson()).toList();
-    }
-    map['responseMessage'] = _responseMessage;
-    return map;
+class ResponseObject {
+  int? _currentPageSize;
+  int? _currentPageNumber;
+  int? _defaultPageSize;
+  String? _nextPageUrl;
+  List<ResponseRoutes>? _responseRoutes;
+
+  ResponseObject(
+      {int? currentPageSize,
+      int? currentPageNumber,
+      int? defaultPageSize,
+      String? nextPageUrl,
+      List<ResponseRoutes>? responseRoutes}) {
+    _currentPageSize = currentPageSize;
+    _currentPageNumber = currentPageNumber;
+    _defaultPageSize = defaultPageSize;
+    _nextPageUrl = nextPageUrl;
+    _responseRoutes = responseRoutes;
   }
+
+  ResponseObject.fromJson(Map<String, dynamic> json) {
+    _currentPageSize = json['currentPageSize'];
+    _currentPageNumber = json['currentPageNumber'];
+    _defaultPageSize = json['defaultPageSize'];
+    _nextPageUrl = json['nextPageUrl'];
+    if (json['data'] != null) {
+      _responseRoutes = <ResponseRoutes>[];
+      json['data'].forEach((v) {
+        _responseRoutes!.add(new ResponseRoutes.fromJson(v));
+      });
+    }
+  }
+
+  List<ResponseRoutes>? get responseRoutes => _responseRoutes;
+
+  String? get nextPageUrl => _nextPageUrl;
+
+  int? get defaultPageSize => _defaultPageSize;
+
+  int? get currentPageNumber => _currentPageNumber;
+
+  int? get currentPageSize => _currentPageSize;
 }
 
 /// orderId : 5655

@@ -13,6 +13,11 @@ class RoutesBloc {
   Stream<bool> get progressStream => progressController.stream;
 
   StreamSink<bool> get progressSink => progressController.sink;
+  final loadingController = BehaviorSubject<bool>();
+
+  Stream<bool> get loadingStream => loadingController.stream;
+
+  StreamSink<bool> get loadingSink => loadingController.sink;
 
   final routesListController = BehaviorSubject<List<ResponseRoutes>>();
 
@@ -22,16 +27,22 @@ class RoutesBloc {
   StreamSink<List<ResponseRoutes>> get routesListSink =>
       routesListController.sink;
 
-  getCompletedRoutes({context}) {
-
-    progressSink.add(true);
+  getCompletedRoutes({context, pageNumber}) {
+    if (pageNumber > 1)
+      loadingSink.add(true);
+    else
+      progressSink.add(true);
 
     _apiRepository
-        .routeAcivityList()
+        .routeAcivityList(pageNumber: pageNumber, pageSize: 20)
         .then((onResponse) {
-      progressSink.add(false);
+      if (pageNumber > 1)
+        loadingSink.add(false);
+      else
+        progressSink.add(false);
+      // progressSink.add(false);
       if (onResponse.responseType == "Ok") {
-        routesListSink.add(onResponse.responseRoutes!);
+        routesListSink.add(onResponse.responseObject!.responseRoutes!);
       } else {
         SnackBarUtils.showErrorSnackBar(
             onResponse.responseMessage.toString(), context);

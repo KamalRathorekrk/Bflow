@@ -12,7 +12,7 @@ class TermsAndConditions extends StatefulWidget {
 
 class _TermsAndConditionsState extends State<TermsAndConditions> {
   // var url = "https://www.bflowdmebillingsoftware.com/bsi-subscription-terms-of-service/";
-  var url = "assets/PDF/TermsAndConditionsBFlow.pdf";
+  var url = "assets/PDF/TermsAndConditionsBFlow4jan23.pdf";
 
   bool isLoading = true;
 

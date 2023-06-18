@@ -10,6 +10,7 @@ import 'package:bflow/utils/AppStrings.dart';
 import 'package:bflow/utils/Dimens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
@@ -20,12 +21,25 @@ class RoutesActivityList extends StatefulWidget {
 
 class _RoutesActivityListState extends State<RoutesActivityList> {
   RoutesBloc? _routesBloc;
+  ScrollController? listController;
+  int _pagenoforApi = 1;
+  var uploadProgress = false;
+  List<ResponseRoutes>? routesdata = [];
 
   @override
   void initState() {
     _routesBloc = RoutesBloc();
-    _routesBloc!.getCompletedRoutes(context: context);
+    _routesBloc!.getCompletedRoutes(context: context, pageNumber: _pagenoforApi);
+    listController = ScrollController()..addListener(_scrollListener);
     super.initState();
+  }
+
+  void _scrollListener() {
+    if (listController!.position.maxScrollExtent == listController!.offset) {
+      _pagenoforApi = _pagenoforApi + 1;
+      _routesBloc!
+          .getCompletedRoutes(context: context, pageNumber: _pagenoforApi);
+    }
   }
 
   @override
@@ -47,25 +61,23 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
           StreamBuilder<List<ResponseRoutes>>(
               stream: _routesBloc!.routesListStream,
               builder: (context, snapshot) {
-                if (snapshot.hasData &&
-                    snapshot.data != null &&
-                    snapshot.data!.length > 0) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(
-                        // vertical: Dimens.twentyFive,
-                        horizontal: Dimens.twentyFive),
-                    child: listData(data: snapshot.data),
-                    // child: Column(
-                    //   crossAxisAlignment: CrossAxisAlignment.start,
-                    //   children: [
-                    //     detailCardSucessWidget(),
-                    //     SizedBox(
-                    //       height: Dimens.fifteen,
-                    //     ),
-                    //     DetailCardCancelWidget(),
-                    //   ],
-                    // ),
-                  );
+                if (snapshot.hasData && snapshot.data != null) {
+                  if (snapshot.data!.length > 0) {
+                    snapshot.data!.forEach((element) {
+                      routesdata!.add(element);
+                    });
+                  }
+                  if (routesdata!.length > 0) {
+                    return Container(
+                      padding: EdgeInsets.symmetric(
+                          // vertical: Dimens.twentyFive,
+                          horizontal: Dimens.twentyFive),
+                      child: listData(data: routesdata),
+                    );
+                  } else
+                    return Container(
+                      child: Center(child: SvgPicture.asset(AppImages.list)),
+                    );
                 } else {
                   return Container(
                     child: Center(child: SvgPicture.asset(AppImages.list)),
@@ -88,26 +100,54 @@ class _RoutesActivityListState extends State<RoutesActivityList> {
   String signature = '';
 
   listData({List<ResponseRoutes>? data}) {
-    return ListView.builder(
-        shrinkWrap: true,
-        // physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemCount: data!.length,
-        itemBuilder: (context, position) {
-          if (data[position].isCancelled == false) {
-            data[position].signature?.forEach((element) {
-              if (element.name!.contains("${data[position].orderId}")) {
-                print(element.url);
-                signature = element.url.toString();
-                // setState(() {});
-              }
-            });
+    return SingleChildScrollView(
+      controller: listController,
+      child: Column(
+        children: [
+          ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              // controller: listController,
+              padding: EdgeInsets.zero,
+              itemCount: data!.length,
+              itemBuilder: (context, position) {
+                if (data[position].isCancelled == false) {
+                  data[position].signature?.forEach((element) {
+                    if (element.name!.contains("${data[position].orderId}")) {
+                      print(element.url);
+                      signature = element.url.toString();
+                      // setState(() {});
+                    }
+                  });
 
-            return detailCardSucessWidget(data[position]);
-          } else {
-            return detailCardCancelWidget(data[position]);
-          }
-        });
+                  return detailCardSucessWidget(data[position]);
+                } else {
+                  return detailCardCancelWidget(data[position]);
+                }
+              }),
+          SizedBox(
+            height: 10,
+          ),
+          StreamBuilder<bool>(
+              stream: _routesBloc!.loadingStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data == true)
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SpinKitCircle(
+                      color: AppColor.primaryColor,
+                      size: Dimens.forty,
+                    ),
+                  );
+                else
+                  return SizedBox();
+              }),
+          SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
+    );
   }
 
   Widget detailCardSucessWidget(ResponseRoutes data) {
